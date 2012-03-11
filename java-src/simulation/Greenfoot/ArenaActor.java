@@ -3,7 +3,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
  * Common elements of actors that act in the Arena.
  * 
- * @author Brendan Redmond 
+ * @author Brendan Redmond and Haley B-E
  * @version 0.0.1
  */
 abstract public class ArenaActor extends Actor
@@ -27,4 +27,11 @@ abstract public class ArenaActor extends Actor
     {
         // Add your action code here.
     }    
+    
+    //public getter methods
+    
+    public int getVelocity()
+    {
+        return this.velocity;
+    }
 }
