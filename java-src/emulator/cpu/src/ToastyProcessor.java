@@ -15,12 +15,15 @@ public class ToastyProcessor extends Processor
     // I/O Space
     public char[] io;
     
+    // Peripherals
+    private Peripheral[] peripherals;
+    
     // Program space
     public int[] flash;
     
     private int programCounter = 0;
     
-    public ToastyProcessor(int regNum, int sramNum, int ioNum, int flashNum, int clockSpeed)
+    public ToastyProcessor(int regNum, int sramNum, int ioNum, int flashNum, int clockSpeed, Peripheral... peripherals)
     {
         super(clockSpeed);
         
@@ -28,6 +31,7 @@ public class ToastyProcessor extends Processor
         this.sram = new char[sramNum];
         this.io = new char[ioNum];
         this.flash = new int[flashNum];
+        this.peripherals = peripherals;
     }
     
     public ToastyProcessor()
@@ -50,7 +54,7 @@ public class ToastyProcessor extends Processor
         // execute
         switch (opCode)
         {
-            case TC.ADD: // Add
+            case Opcodes.ADD: // Add
             {
                 char Rb = (char)(instr & 0xFF);
                 char Ra = (char)((instr = instr >> 8) & 0xFF);
@@ -70,8 +74,79 @@ public class ToastyProcessor extends Processor
                 
                 break;
             }
-                
-            case TC.LDI: // LDI
+            case Opcodes.ADDI:
+            {
+            }
+            case Opcodes.SUB:
+            {
+            }
+            case Opcodes.SUBI:
+            {
+            }
+            case Opcodes.MUL:
+            {
+            }
+            case Opcodes.MULI:
+            {
+            }
+            case Opcodes.INC:
+            {
+            }
+            case Opcodes.DEC:
+            {
+            }
+            case Opcodes.NEG:
+            {
+            }
+            case Opcodes.ASL:
+            {
+            }
+            case Opcodes.ASR:
+            {
+            }
+            case Opcodes.AND:
+            {
+            }
+            case Opcodes.ANDI:
+            {
+            }
+            case Opcodes.OR:
+            {
+            }
+            case Opcodes.ORI:
+            {
+            }
+            case Opcodes.XOR:
+            {
+            }
+            case Opcodes.XORI:
+            {
+            }
+            case Opcodes.NOT:
+            {
+            }
+            case Opcodes.NOTI:
+            {
+            }
+            case Opcodes.CBIO:
+            {
+            }
+            case Opcodes.SBIO:
+            {
+            }
+            case Opcodes.LSL:
+            {
+            }
+            case Opcodes.LSR:
+            {
+            }
+            case Opcodes.OUT:
+            {
+            }
+            case Opcodes.IN:
+            {
+            }
+            case Opcodes.LDI:
             {
                 int K = instr & 0xFFFF;
                 char Rd = (char)((instr = instr >> 16) & 0xFF);
@@ -82,15 +157,48 @@ public class ToastyProcessor extends Processor
                 
                 break;
             }
-            
-            case TC.EOF:
+            case Opcodes.LD:
+            {
+            }
+            case Opcodes.STS:
+            {
+            }
+            case Opcodes.ST:
+            {
+            }
+            case Opcodes.MOV:
+            {
+            }
+            case Opcodes.CP:
+            {
+            }
+            case Opcodes.CPI:
+            {
+            }
+            case Opcodes.JMP:
+            {
+            }
+            case Opcodes.RJMP:
+            {
+            }
+            case Opcodes.IJMP:
+            {
+            }
+            case Opcodes.BRBS:
+            {
+            }
+            case Opcodes.BRBC:
+            {
+            }
+            case Opcodes.NOP:
+            {
+            }
+            case Opcodes.EOF:
             {
                 this.programCounter = 0;
                 
                 break;
-            }
-           
-            
+            }           
             default:
             {
                 System.out.println(opCode);
@@ -99,8 +207,10 @@ public class ToastyProcessor extends Processor
             }
         }
 
-        
-
+        for (Peripheral p : this.peripherals)
+        {
+            p.clock();
+        }
         
         return 1;   
     }

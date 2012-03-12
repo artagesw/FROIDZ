@@ -5,7 +5,7 @@
  * @author (your name here)
  * @version (version number or date here)
  */
-public abstract class CommunicationSlave implements CommunicationInterface
+public abstract class CommunicationSlave extends Communication
 {
     private byte[] registers;
 }

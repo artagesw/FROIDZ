@@ -6,9 +6,9 @@ import java.util.ArrayList;
  * @author (your name here)
  * @version (version number or date here)
  */
-public abstract class CommunicationMaster implements CommunicationInterface
+public abstract class CommunicationMaster extends Communication
 {
     private byte[] registers;
     
-    private ArrayList<CommunicationSlave> devices = new ArrayList(255);
+    private ArrayList<CommunicationSlave> devices = new ArrayList(256);
 }
