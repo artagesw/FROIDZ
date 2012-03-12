@@ -2,7 +2,7 @@
 java_class_name = 'Opcodes'
 
 spec_path = './TOASTY Asm.wp'
-out_path = './' + java_class_name + '.java'
+out_path = '../cpu/src/' + java_class_name + '.java'
 
 java_beginning = '''
 public class {NAME}
