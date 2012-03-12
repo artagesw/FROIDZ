@@ -1,0 +1,20 @@
+# Toasty Assembly
+# |  OPCODE |         OPERANDS            |
+#  0000 0000 0000 0000 0000 0000 0000 0000
+
+ADD   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0000 0001 abcd efgh ijkl mnop qrst uvwx
+SUB   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0000 0010 abcd efgh ijkl mnop qrst uvwx
+AND   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0000 0011 abcd efgh ijkl mnop qrst uvwx
+OUT   | A=abcdefghijklmnop : Rr=qrstuvwx        | [0,65535]:[0,255]       | 0000 0100 abcd efgh ijkl mnop qrst uvwx
+IN    | Rd=abcdefgh : A=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 0000 0101 abcd efgh ijkl mnop qrst uvwx
+INC   | Rd=abcdefgh                             | [0,255]                 | 0000 0110 abcd efgh 0000 0000 0000 0000
+DEC   | Rd=abcdefgh                             | [0,255]                 | 0000 0111 abcd efgh 0000 0000 0000 0000
+LDI   | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 0000 1000 abcd efgh ijkl mnop qrst uvwx
+LD    | Rd=abcdefgh : I=ijklmnop                | [0,255]:[0,255]         | 0000 1001 abcd efgh ijkl mnop 0000 0000
+STS   | k=abcdefghijklmnop : Rr=qrstuvwx        | [0,65535]:[0,255]       | 0000 1010 abcd efgh ijkl mnop qrst uvwx
+ST    | I=abcefgh : Rr=ijklmnop                 | [0,255]:[0,255]         | 0000 1011 abcd efgh ijkl mnop 0000 0000
+MOV   | Rd=abcdefgh : Rr=ijklmnop               | [0,255]:[0,255]         | 0000 1100 abcd efgh ijkl mnop 0000 0000
+CBI   | A=abcdefghijklmnop : b=qrst             | [0,65535]:[0,15]        | 0000 1101 abcd efgh ijkl mnop qrst 0000
+SBI   | A=abcdefghijklmnop : b=qrst             | [0,65535]:[0,15]        | 0000 1110 abcd efgh ijkl mnop qrst 0000
+NOP   |                                         |                         | 0000 0000 0000 0000 0000 0000 0000 0000
+EOF   |                                         |                         | 1111 1111 1111 1111 1111 1111 1111 1111

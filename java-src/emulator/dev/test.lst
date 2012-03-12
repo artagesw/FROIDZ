@@ -1,0 +1,23 @@
+gavrasm Gerd's AVR assembler version 3.1 (C)2011 by DG4FAC
+----------------------------------------------------------
+Source file: /Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/froidz-cpu/test.asm
+Hex file:    /Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/froidz-cpu/test.hex
+Eeprom file: /Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/froidz-cpu/test.eep
+Compiled:    04.03.2012, 16:16:42
+Pass:        2
+     1: 000000   EF0F  ldi R16,0xFF
+     2: 000001   B907  out 0x07,R16
+     3: 000002   E000  ldi R16,0x00
+     4: 000003   B908  out 0x08,R16
+     5: 
+     6: 000004   2301  and R16,R17
+ -> Warning 006: No device defined, no syntax checking!
+ -> Warning 010: Instruction set unclear, no documentation!
+
+Program             :        5 words.
+Constants           :        0 words.
+Total program memory:        5 words.
+Eeprom space        :        0 bytes.
+Data segment        :        0 bytes.
+Compilation completed, no errors.
+Compilation endet 04.03.2012, 16:16:42

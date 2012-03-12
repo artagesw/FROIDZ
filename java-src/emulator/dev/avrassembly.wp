@@ -1,0 +1,149 @@
+# Format of AVR Assembly Code
+#
+# {syntax}|{colon-separated, pattern-matched operands}|{colon-separated operand range}x{number of operands}|{16 bit opcode}|{Clock Cycles}
+#
+# Jacob Weiss
+
+ADD   | Rd=mnopq : Rr=abcde              | [0,31]:[0,31]        | 0000 11am nopq bcde
+ADC   | Rd=mnopq : Rr=abcde              | [0,31]:[0,31]        | 0001 11am nopq bcde
+ADIW  | Rd=mn    : K=abcdef              | {2n,12,15}:[0,63]    | 1001 0110 abmn cdef
+SUB   | Rd=mnopq : Rr=abcde              | [0,31]:[0,31]        | 0001 10am nopq bcde
+SUBI  | Rd=mnop  : K=abcdefgh            | [16,31]:[0,255]      | 0101 abcd mnop efgh                  
+SBC   | Rd=mnopq : Rr=abcde              | [0,31]:[0,31]        | 0000 10am nopq bcde
+SBCI  | Rd=mnop  : K=abcdefgh            | [16,31]:[0,255]      | 0100 abcd mnop efgh
+SBIW  | Rd=mn    : k=abcdef              | {2n,12,15}:[0,63]    | 1001 0111 abmn cdef
+AND   | Rd=mnopq : Rr=abcde              | [0,31]:[0,31]        | 0010 00am nopq bcde
+ANDI  | Rd=mnop  : K=abcdefgh            | [16,31]:[0,255]      | 0111 abcd mnop efgh
+OR    | Rd=mnopq : Rr=abcde              | [0,31]:[0,31]        | 0010 10am nopq bcde
+ORI   | Rd=mnop  : K=abcdefgh            | [16,31]:[0,255]      | 0110 abcd mnop efgh
+EOR   | Rd=mnopq : Rr=abcde              | [0,31]:[0,31]        | 0010 01am nopq bcde
+COM   | Rd=mnopq                         | [0,31]               | 1001 010m nopq 0000
+NEG   | Rd=mnopq                         | [0,31]               | 1001 010m nopq 0001
+SBR   | Rd=mnop  : K=abcdefgh            | [16,31]:[0,255]      | 0110 abcd mnop efgh
+CBR   | Rd=mnop  : K=abcdefgh            | [16,31]:[0,255]      | 0111 abcd mnop efgh
+INC   | Rd=mnopq                         | [0,31]               | 1001 010m nopq 0011
+DEC   | Rd=mnopq                         | [0,31]               | 1001 010m nopq 1010
+TST   | Rd=mnopq                         | [0,31]               | 0010 00mm nopq nopq
+CLR   | Rd=mnopqrstuv                    | [0,31]               | 0010 01mn opqr stuv
+SER   | Rd=mnop                          | [16,31]              | 1110 1111 mnop 1111 
+MUL   | Rd=mnopq : Rr=abcde              | [0,31]:[0,31]        | 1001 11am nopq bcde
+MULS  | Rd=mnop  : Rr=abcd               | [16,31]:[16,31]      | 0000 0010 mnop abcd
+MULSU | Rd=mno   : Rr=abc                | [16,23]:[16,23]      | 0000 0011 0mno 0abc
+FMUL  | Rd=mno   : Rr=abc                | [16,23]:[16,23]      | 0000 0011 0mno 1abc
+FMULS | Rd=mno   : Rr=abc                | [16,23]:[16,23]      | 0000 0011 1mno 0abc
+FMULSU| Rd=mno   : Rr=abc                | [16,23]:[16,23]      | 0000 0011 1mno 1abc
+DES   | K=mnop                           | [0,15]               | 1001 0100 mnop 1011
+RJMP  | k=abcdefghijkl                   | [-2k,2k]             | 1100 abcd efgh ijkl
+IJMP  |                                  |                      | 1001 0100 0000 1001
+EIJMP |                                  |                      | 1001 0100 0001 1001
+JMP   | k=abcdefghijklmnopqrstuv         | [0,4M]               | 1001 010a bcde 110f ghij klmn opqr stuv
+RCALL | k=abcdefghijkl                   | [-2k,2k]             | 1101 abcd efgh ijkl
+ICALL |                                  |                      | 1001 0101 0000 1001
+EICALL|                                  |                      | 1001 0101 0001 1001
+CALL  | k=abcdefghijklmnopqrstuv         | [0,64K/4M]           | 1001 010a bcde 111f ghij klmn opqr stuv
+RET   |                                  |                      | 1001 0101 0000 1000
+RETI  |                                  |                      | 1001 0101 0001 1000
+CPSE  | Rd=mnopq : Rr=abcde              | [0,31]:[0,31]        | 0001 00am nopq bcde
+CP    | Rd=mnopq : Rr=abcde              | [0,31]:[0,31]        | 0001 01am nopq bcde
+CPC   | Rd=mnopq : Rr=abcde              | [0,31]:[0,31]        | 0000 01am nopq bcde
+CPI   | Rd=mnop  : K=abcdefgh            | [0,31]:[0,255]       | 0011 abcd mnop efgh
+SBRC  | Rr=mnopq : b=abc                 | [0,31]:[0,7]         | 1111 110m nopq 0abc
+SBRS  | Rr=mnopq : b=abc                 | [0,31]:[0,7]         | 1111 111m nopq 0abc
+SBIC  | A=mnopq  : b=abc                 | [0,31]:[0,7]         | 1001 1001 mnop qabc
+SBIS  | A=mnopq  : b=abc                 | [0,31]:[0,7]         | 1001 1011 mnop qabc
+BRBS  | s=mno    : k=abcdefg             | [0,7]:[-64,63]       | 1111 00ab cdef gmno
+BRBC  | s=mno    : k=abcdefg             | [0,7]:[-64,63]       | 1111 01ab cdef gmno
+BREQ  | k=mnopqrs                        | [-64,63]             | 1111 00mn opqr s001
+BRNE  | k=mnopqrs                        | [-64,63]             | 1111 01mn opqr s001 
+BRCS  | k=mnopqrs                        | [-64,63]             | 1111 00mn opqr s000
+BRCC  | k=mnopqrs                        | [-64,63]             | 1111 01mn opqr s000
+BRSH  | k=mnopqrs                        | [-64,63]             | 1111 01mn opqr s000 
+BRLO  | k=mnopqrs                        | [-64,63]             | 1111 00mn opqr s000 
+BRMI  | k=mnopqrs                        | [-64,63]             | 1111 00mn opqr s010 
+BRPL  | k=mnopqrs                        | [-64,63]             | 1111 01mn opqr s010
+BRGE  | k=mnopqrs                        | [-64,63]             | 1111 01mn opqr s100 
+BRLT  | k=mnopqrs                        | [-64,63]             | 1111 00mn opqr s100 
+BRHS  | k=mnopqrs                        | [-64,63]             | 1111 00mn opqr s101
+BRHC  | k=mnopqrs                        | [-64,63]             | 1111 01mn opqr s101
+BRTS  | k=mnopqrs                        | [-64,63]             | 1111 00mn opqr s110
+BRTC  | k=mnopqrs                        | [-64,63]             | 1111 01mn opqr s110
+BRVS  | k=mnopqrs                        | [-64,63]             | 1111 00mn opqr s011
+BRVC  | k=mnopqrs                        | [-64,63]             | 1111 01mn opqr s011
+BRIE  | k=mnopqrs                        | [-64,63]             | 1111 00mn opqr s111 
+BRID  | k=mnopqrs                        | [-64,63]             | 1111 01mn opqr s111
+MOV   | Rd=mnopq    : Rr=abcde           | [0,31]:[0,31]        | 0010 11am nopq bcde
+MOVW  | Rd=mnop     : Rr=abcd            | {2n,0,15}:{2n,0,15}  | 0000 0001 mnop abcd
+LDI   | Rd=mnopqrst : K=abcd             | [16,31]:[0,255]      | 1110 mnop abcd qrst
+LDS   | Rd=qrstu    : K=abcdefghijklmnop | [0,31]:[0,65535]     | 1001 000q rstu 0000 abcd efgh ijkl mnop
+LDS   | Rd=mnop     : K=abcdefg          | [16,31]:[0,127]      | 1010 0abc mnop defg
+LD    | Rd=mnopq    : X                  | [0,31]               | 1101 000m nopq 1100
+LD    | Rd=mnopq    : X+                 | [0,31]               | 1101 000m nopq 1101
+LD    | Rd=mnopq    : -X                 | [0,31]               | 1101 000m nopq 1110
+LD    | Rd=mnopq    : Y                  | [0,31]               | 1000 000m nopq 1000
+LD    | Rd=mnopq    : Y+                 | [0,31]               | 1001 000m nopq 1001
+LD    | Rd=mnopq    : -Y                 | [0,31]               | 1001 000m nopq 1010
+LDD   | Rd=mnopq    : Y+q=abcdef         | [0,31]:[0,63]        | 10a0 bc0m nopq 1def
+LD    | Rd=mnopq    : Z                  | [0,31]               | 1000 000m nopq 0000
+LD    | Rd=mnopq    : Z+                 | [0,31]               | 1001 000m nopq 0001
+LD    | Rd=mnopq    : -Z                 | [0,31]               | 1001 000m nopq 0010
+LDD   | Rd=mnopq    : Z+q=abcdef         | [0,31]:[0,63]        | 10a0 bc0m nopq 0def
+STS   | k=abcdefghijklmnop : Rr=qrstu    | [0,65535]:[0,31]     | 1001 001q rstu 0000 abcd efgh ijkl mnop
+STS   | k=abcdefg   : Rr=mnop            | [0,127]:[16,31]      | 1010 1abc mnop defg
+ST    | X           : Rr=mnopq           | [0,31]               | 1001 001m nopq 1100
+ST    | X+          : Rr=mnopq           | [0,31]               | 1001 001m nopq 1101
+ST    | -X          : Rr=mnopq           | [0,31]               | 1001 001m nopq 1110
+ST    | Y           : Rr=mnopq           | [0,31]               | 1000 001m nopq 1000
+ST    | Y+          : Rr=mnopq           | [0,31]               | 1001 001m nopq 1001
+ST    | -Y          : Rr=mnopq           | [0,31]               | 1001 001m nopq 1010
+STD   | Y+q=abcdef  : Rr=mnopq           | [0,31]:[0,63]        | 10a0 bc1m nopq 1def
+ST    | Z           : Rr=mnopq           | [0,31]               | 1000 001m nopq 0000
+ST    | Z+          : Rr=mnopq           | [0,31]               | 1001 001m nopq 0001
+ST    | -Z          : Rr=mnopq           | [0,31]               | 1001 001m nopq 0010
+STD   | Z+q=abcdef  : Rr=mnopq           | [0,31]:[0,63]        | 10a0 bc1m nopq 0def
+LPM   |                                  |                      | 1001 0101 1100 1000
+LPM   | Rd=mnopq    : Z                  | [0,31]               | 1001 000m nopq 0100
+LPM   | Rd=mnopq    : Z+                 | [0,31]               | 1001 000m nopq 0101
+ELPM  |                                  |                      | 1001 0101 1100 1000
+ELPM  | Rd=mnopq    : Z                  | [0,31]               | 1001 000m nopq 0110
+ELPM  | Rd=mnopq    : Z+                 | [0,31]               | 1001 000m nopq 0111
+SPM   | Z+                               |                      | 1001 0101 1110 1000
+IN    | Rd=mnopq    : A=abcdef           | [0,31]:[0,63]        | 1011 0abm nopq cdef
+OUT   | A=mnopqr    : Rr=abcde           | [0,63]:[0,31]        | 1011 1mna bcde opqr           
+PUSH  | Rr=mnopq                         | [0,31]               | 1001 001m nopq 1111
+POP   | Rd=mnopq                         | [0,31]               | 1001 000m nopq 1111
+XCH   | Z           : Rd=mnopq           | [0,31]               | 1001 001m nopq 0100
+LAS   | Rd=mnopq                         | [0,31]               | 1001 001m nopq 0101
+LAC   | Rd=mnopq                         | [0,31]               | 1001 001m nopq 0110
+LAT   | Rd=mnopq                         | [0,31]               | 1001 001m nopq 0111
+LSL   | Rd=mnopq                         | [0,31]               | 0000 11mm nopq nopq
+LSR   | Rd=mnopq                         | [0,31]               | 1001 010m nopq 0110
+ROL   | Rd=mnopq                         | [0,31]               | 0001 11mm nopq nopq
+ROR   | Rd=mnopq                         | [0,31]               | 1001 010m nopq 0111
+ASR   | Rd=mnopq                         | [0,31]               | 1001 010m nopq 0101
+SWAP  | Rd=mnopq                         | [0,31]               | 1001 010m nopq 0010
+BSET  | s=mno                            | [0,7]                | 1001 0100 0mno 1000
+BCLR  | s=mno                            | [0,7]                | 1001 0100 1mno 1000
+SBI   | A=mnopq     : b=abc              | [0,31]:[0,7]         | 1001 1010 mnop qabc
+CBI   | A=mnopq     : b=abc              | [0,31]:[0,7]         | 1001 1000 mnop qabc
+BST   | Rd=mnopq    : b=abc              | [0,31]:[0,7]         | 1111 100m nopq 0abc
+BLD   | Rd=mnopq    : b=abc              | [0,31]:[0,7]         | 1111 100m nopq 0abc
+SEC   |                                  |                      | 1001 0100 0000 1000
+CLC   |                                  |                      | 1001 0100 1000 1000
+SEN   |                                  |                      | 1001 0100 0010 1000
+CLN   |                                  |                      | 1001 0100 1010 1000
+SEZ   |                                  |                      | 1001 0100 0001 1000
+CLZ   |                                  |                      | 1001 0100 1001 1000
+SEI   |                                  |                      | 1001 0100 0111 1000
+CLI   |                                  |                      | 1001 0100 1111 1000
+SES   |                                  |                      | 1001 0100 0100 1000
+CLS   |                                  |                      | 1001 0100 1100 1000
+SEV   |                                  |                      | 1001 0100 0011 1000
+CLV   |                                  |                      | 1001 0100 1011 1000
+SET   |                                  |                      | 1001 0100 0110 1000
+CLT   |                                  |                      | 1001 0100 1110 1000
+SEH   |                                  |                      | 1001 0100 0101 1000
+CLH   |                                  |                      | 1001 0100 1101 1000
+BREAK |                                  |                      | 1001 0101 1001 1000
+NOP   |                                  |                      | 0000 0000 0000 0000
+SLEEP |                                  |                      | 1001 0101 1000 1000
+WDR   |                                  |                      | 1001 0101 1010 1000    
