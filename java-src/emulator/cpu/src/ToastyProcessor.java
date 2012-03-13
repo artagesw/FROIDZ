@@ -77,16 +77,67 @@ public class ToastyProcessor extends Processor
             case Opcodes.ADDI:
             {
             }
+            case Opcodes.ADDb:
+            {
+            }
+            case Opcodes.ADC:
+            {
+            }
+            case Opcodes.ADCI:
+            {
+            }
+            case Opcodes.ADCb:
+            {
+            }
             case Opcodes.SUB:
             {
             }
             case Opcodes.SUBI:
             {
             }
+            case Opcodes.SUBb:
+            {
+            }
+            case Opcodes.SBC:
+            {
+            }
+            case Opcodes.SBCI:
+            {
+            }
+            case Opcodes.SBCb:
+            {
+            }            
             case Opcodes.MUL:
             {
             }
             case Opcodes.MULI:
+            {
+            }
+            case Opcodes.MULb:
+            {
+            }
+            case Opcodes.MULS:
+            {
+            }
+            case Opcodes.MULSI:
+            {
+            }
+            case Opcodes.MULSb:
+            {
+            }
+            case Opcodes.MULSU:
+            {
+            }
+            case Opcodes.MULSUI:
+            {
+            }
+            case Opcodes.MULSUb:
+            {
+            }
+            case Opcodes.MULUS:
+            {
+            }
+            case Opcodes.MULUSI:
             {
             }
             case Opcodes.INC:
@@ -98,10 +149,10 @@ public class ToastyProcessor extends Processor
             case Opcodes.NEG:
             {
             }
-            case Opcodes.ASL:
+            case Opcodes.ASR:
             {
             }
-            case Opcodes.ASR:
+            case Opcodes.ASRb:
             {
             }
             case Opcodes.AND:
@@ -137,7 +188,13 @@ public class ToastyProcessor extends Processor
             case Opcodes.LSL:
             {
             }
+            case Opcodes.LSLb:
+            {
+            }
             case Opcodes.LSR:
+            {
+            }
+            case Opcodes.LSRb:
             {
             }
             case Opcodes.OUT:
