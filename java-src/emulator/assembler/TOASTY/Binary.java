@@ -305,6 +305,14 @@ public class Binary
         return new Binary("0b" + String.valueOf(c));
     }
     
+    public void setMinLength(int newLength)
+    {
+        if (newLength > this.value.length())
+        {
+            this.value = pad(this.value, newLength);
+        }
+    }
+    
     /**
      * toString()
      * 
