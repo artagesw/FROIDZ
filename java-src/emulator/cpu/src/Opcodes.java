@@ -11,8 +11,8 @@ public class Opcodes
     public static final int INC = 7;
     public static final int DEC = 8;
     public static final int NEG = 9;
-    public static final int ASL = 9;
-    public static final int ASR = 9;
+    public static final int ASL = 10;
+    public static final int ASR = 11;
     public static final int AND = 17;
     public static final int ANDI = 18;
     public static final int OR = 19;
