@@ -2,14 +2,14 @@ from __future__ import with_statement
 import os
 import sys
 
+# The name of the Java class to create
+java_class_name = 'Opcodes'
+
 # Path to the WP File that specifies the opcodes
 spec_path = './TOASTY Asm.wp'
 
 # Path to the java file that this program generates
 out_path = '../cpu/src/' + java_class_name + '.java'
-
-# The name of the Java class to create
-java_class_name = 'Opcodes'
 
 # The top of the java file
 java_beginning = '''

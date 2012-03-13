@@ -157,6 +157,11 @@ public class ToastyProcessor extends Processor
             }
             case Opcodes.AND:
             {
+                char Rb = (char)(instr & 0xFF);
+                char Ra = (char)((instr = instr >> 8) & 0xFF);
+                char Rd = (char)((instr = instr >> 8) & 0xFF);
+                
+                this.registers[Rd] = this.registers[Ra] & this.registers[Rb];
             }
             case Opcodes.ANDI:
             {
