@@ -3,8 +3,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedList;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.BufferedWriter;
 import java.util.ArrayList;
-import java.util.Arrays;  
+import java.util.Arrays; 
+
 
 /**
  * Write a description of class ASMParser here.
@@ -12,22 +16,28 @@ import java.util.Arrays;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class ASMParser 
+public class Assembler
 {
-    private WPParser parser;
+    // The delimiter used to separate instructions in the final code
+    public static String SEP = "\n";
 
-    public ASMParser() throws InvalidInputException
-    {
-        this("./test.asm");
-    }
+    private WPParser parser;
+    
+    // Assembled binary code(output)
+    private List<String> binary;
+
+    // Unassembled assembly code(input)
+    private List<String> lines;
+
+    private boolean assembled;
     
     /**
      * Create an assembly parser given a path to an assembly file
      * @param path The path to the file
      */
-    public ASMParser(String path) throws InvalidInputException
+    public Assembler(String path)
     {
-        LinkedList<String> lines = new LinkedList();
+        this.lines = new LinkedList();
         
         try
         {
@@ -40,44 +50,69 @@ public class ASMParser
         }
         catch (Throwable e)
         {
-            System.out.println("404 File Not Found");
+            System.out.println("404 File Not Found: " + path);
         }
-        
+    }
+
+    /**
+     * Do the assembling
+     * The assembled program will be printed, and stored in the internal storage of this object
+     * Any preprocessor directives will be kept track of past assembling this file
+     */
+    public boolean assemble()
+    {   
         this.parser = new WPParser();
-        
-        List<Binary> insts = new ArrayList();
-        List<List<String>> parsed = new ArrayList();
-        
-        System.out.println("FORMATTING ASSEMBLY FILE");
+
+        // Format the file
         this.format(lines);
-        
-        System.out.println("PREPROCESSING");
+
+        // Handle preprocessor directives
+        List<List<String>> parsed = new ArrayList();
         parsed = this.preprocess(lines);
 
-        for (Object o : lines)
-        {
-            System.out.print(o + " ");
+        // Do the assembling
+        List<Binary> insts = new ArrayList();
+        
+        try
+        {       
+            insts = this.generateInstructions(parsed);
         }
-        System.out.println();
-        
-        System.out.println("GENERATING INSTRUCTIONS");
-        insts = this.generateInstructions(parsed);
-        
-        for (Object o : insts)
+        catch (Throwable e)
         {
-            System.out.print(o);
+            return false;
         }
-        System.out.println();
         
+        // Format the final output
+        this.binary = new ArrayList();
+        this.binary = finalize(insts);
+        
+        for (String s : this.binary)
+        {
+            System.out.print(s);
+        }
       
         System.out.println();
-        System.out.println("ASSEMBLY DONE");
+        System.out.println("ASSEMBLY COMPLETE");
         
-        
-        
-        //this.generateInstructions(this.preprocess(this.format(lines)));
+        this.assembled = true;
+        return true;
     }
     
+    public void write(String path) throws IOException
+    {
+        assert this.assembled;
+        
+        FileWriter fstream = new FileWriter(path);
+        BufferedWriter out = new BufferedWriter(fstream);
+        
+        for (String line : this.binary)
+        {
+            out.write(line);
+        }
+        
+        out.close();
+    }
+        
     /**
      * Remove all newlines
      */
@@ -134,11 +169,24 @@ public class ASMParser
      * Add the preceding colons to every line of Intel Hex and convert the binary objects to Strings
      * @param 
      */
-    private List<String> finalize(List<String> lines)
+    private List<String> finalize(List<Binary> insts)
     {
         List<String> l = new ArrayList();
         
-        // Do stuff that might be necessary to finalize the binary
+        // Split into 4 bit chunks for prettyness
+        // Convert to strings for writing to a file
+        
+        for (Binary b : insts)
+        {
+            // Split into chunks of 4 with spaces
+            // These are removed by the loader, but are put here for easy reading by humans
+            String line = b.toBinaryString();
+            for(int i = 4; i < line.length(); i += 5)
+            {
+                line = new StringBuffer(line).insert(i, " ").toString();
+            }
+            l.add(line + Assembler.SEP);
+        }
         
         return l;
     }
@@ -169,5 +217,13 @@ public class ASMParser
         }
         
         return bins;
+    }
+    
+    public static void test() throws IOException
+    {
+        Assembler test = new Assembler("./test.asm");
+        
+        test.assemble();
+        test.write("./test.bin");
     }
 }

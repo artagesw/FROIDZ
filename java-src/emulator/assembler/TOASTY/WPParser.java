@@ -21,7 +21,7 @@ public class WPParser
 
     public WPParser()
     {
-        this("../../../dev/TOASTY Asm.wp");
+        this("../../dev/TOASTY Asm.wp");
     }
     
     public WPParser(String path)
@@ -38,23 +38,6 @@ public class WPParser
         System.out.println(num + " Instructions Supported.");
     }
     
-    /**
-     * Take an opcode including data and return the WPChunk representing the operation
-     * @param s
-     */
-    public WPChunk search(String code)
-    {
-        for (WPChunk c : this.chunkBag.values())
-        {
-            if (c.match(code))
-            {
-                return c;
-            }
-        }
-        
-        return null;
-    }
-    
     public List<String> getLines(String path)
     {
         LinkedList<String> lines = new LinkedList();
@@ -69,7 +52,7 @@ public class WPParser
         }
         catch (Throwable e)
         {
-            System.out.println("File not found.");
+            System.out.println("404 File not found: " + path);
         }
         return lines;
     }

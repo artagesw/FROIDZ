@@ -17,28 +17,32 @@ public class WPChunk
     private String[] ranges; // The ranges eg. {"0-Rd-31", "0-Rr-31"}
     private String opCode; // The template eg. "0010 00am nopq bcde"
     
-    private Pattern opCodePattern;
-    
     public WPChunk(String line)
     {
         line = line.replace(" ", "");
+        
         String[] parts = line.split("\\|");
         this.opName = parts[0];
-        this.operands = parts[1].split(":");
-        this.ranges = parts[2].split(":");
-        this.opCode = parts[3];
         
-        this.opCodePattern = Pattern.compile(this.formatRegex(this.opCode));
-    }
-    
-    /**
-     * Takes an opCode including data directly from an assembled program, and determines if it matches this operation
-     * @param opCode The opCode including data
-     * @return true -> It matched
-     */
-    public boolean match(String opCode)
-    {
-        return this.opCodePattern.matcher(opCode).matches();
+        if (!parts[1].equals(""))
+        {
+            this.operands = parts[1].split(":");
+        }
+        else
+        {
+            this.operands = new String[0];
+        }
+        
+        if (!parts[1].equals(""))
+        {
+            this.ranges = parts[2].split(":");
+        }
+        else
+        {
+            this.ranges = new String[0];
+        }
+        
+        this.opCode = parts[3];
     }
     
     /**
@@ -53,22 +57,14 @@ public class WPChunk
         // Check to make sure that the number of arguments to this method equals
         // the number of operands that this operation takes.
         
-        for (Binary e : asm)
-        {
-            System.out.print(e + " ");
-        }
-        System.out.println();
-        
         if (asm.size() != operands.length)
         {
+            System.out.println(asm.size() + " " + operands.length);
             throw new InvalidInputException();
         }
         for (int i = 0; i < asm.size(); i++)
         {
-            if (asm.get(i).getNumBits() < this.operands[i].split("=")[1].length())
-            {
-                throw new InvalidInputException();
-            }
+            asm.get(i).setMinLength(this.operands[i].split("=")[1].length());
         }
         
         String instruction = this.opCode;
@@ -84,23 +80,12 @@ public class WPChunk
                                                             asmInput.substring(asmInputLength - i - 1, asmInputLength - i));
             }
         }
-        
         return new Binary("0b" + instruction);
     }
     public Binary generateInstruction(Binary... args)
     {
         return this.generateInstruction(args);
     }
-    
-    /**
-     * Takes an opcode and replaces all ascii characters with . to match a single character
-     * @param opCode An opCode String
-     * @return A string representing a regex to match only the static parts of the opcode
-     */
-    private String formatRegex(String opCode)
-    {
-        return opCode.replaceAll("[a-z]", ".");
-    } 
     
     // Public Getter Methods
     public String getOpName()
