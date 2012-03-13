@@ -1,21 +1,29 @@
+from __future__ import with_statement
+import os
+import sys
 
-java_class_name = 'Opcodes'
-
+# Path to the WP File that specifies the opcodes
 spec_path = './TOASTY Asm.wp'
+
+# Path to the java file that this program generates
 out_path = '../cpu/src/' + java_class_name + '.java'
 
+# The name of the Java class to create
+java_class_name = 'Opcodes'
+
+# The top of the java file
 java_beginning = '''
 public class {NAME}
 {
 
 '''
 
+# The end of the java file
 java_end = '\n}'
 
+# Template for what each java opcode definition looks like. 
+# {0} is opcode name, {1] is number
 java_line = '    public static final int {0} = {1};\n'
-
-# Load the specification file
-out_f = open(out_path, 'w')
 
 def get_opcode(line):
     '''
@@ -28,6 +36,15 @@ def get_opcode(line):
     return line[0], int(line[3][:8], 2)
     
 if __name__ == '__main__':
+
+    try:
+        # Open the file we are going to create for writing
+        out_f = open(out_path, 'w')
+
+    except IOError:
+        print "Could not find the output location."
+        print "THIS SCRIPT MUST BE RUN IN THE DIRECTOR THAT IT LIVES"
+
     out_f.write(java_beginning.replace('{NAME}', java_class_name))
 
     num = 0
