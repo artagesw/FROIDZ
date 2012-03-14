@@ -1,3 +1,5 @@
+package wp;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.List;
@@ -23,7 +25,6 @@ public class WPChunk
         
         String[] parts = line.split("\\|");
         this.opName = parts[0];
-        
         if (!parts[1].equals(""))
         {
             this.operands = parts[1].split(":");
@@ -37,7 +38,7 @@ public class WPChunk
         {
             this.ranges = parts[2].split(":");
         }
-        else
+        else 
         {
             this.ranges = new String[0];
         }

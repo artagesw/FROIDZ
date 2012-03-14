@@ -1,3 +1,5 @@
+package wp;
+
 import java.util.HashMap;
 import java.io.File;
 import java.util.List;
@@ -21,33 +23,28 @@ public class WPParser
 
     public WPParser()
     {
-        this("../dev/avrassembly.wp");
+        this("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/dev/TOASTY Asm.wp");
     }
     
     public WPParser(String path)
     {
+        int num = 0;
+        String postfix = "";
         for (String line : this.removeComments(this.getLines(path)))
         {
-            WPChunk chunk = new WPChunk(line);
-            chunkBag.put(chunk.getOpName(), chunk);
-        }
-    }
-    
-    /**
-     * Take an opcode including data and return the WPChunk representing the operation
-     * @param s
-     */
-    public WPChunk search(String code)
-    {
-        for (WPChunk c : this.chunkBag.values())
-        {
-            if (c.match(code))
+            if (line.indexOf(".postfix") >= 0)
             {
-                return c;
+                postfix = line.substring(8);
+            }
+            else
+            {
+                WPChunk chunk = new WPChunk(line + postfix);
+                chunkBag.put(chunk.getOpName(), chunk);
+                num++;
             }
         }
         
-        return null;
+        System.out.println(num + " Instructions Supported.");
     }
     
     public List<String> getLines(String path)
@@ -59,12 +56,12 @@ public class WPParser
             scanner = new Scanner(new File(path));
             while (scanner.hasNextLine())
             {
-                lines.add(scanner.nextLine());
+                lines.add(scanner.nextLine().trim());
             }
         }
         catch (Throwable e)
         {
-            System.out.println("File not found.");
+            System.out.println("404 File not found: " + path);
         }
         return lines;
     }
@@ -74,7 +71,8 @@ public class WPParser
         Iterator<String> iterator = lines.iterator();
         while (iterator.hasNext())
         {
-            if (iterator.next().indexOf("#") == 0)
+            String n = iterator.next();
+            if (n.indexOf("#") == 0 || n.equals(""))
             {
                 iterator.remove();
             }

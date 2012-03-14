@@ -1,4 +1,4 @@
-
+package wp;
 /**
  * Write a description of class InvalidInputException here.
  * 

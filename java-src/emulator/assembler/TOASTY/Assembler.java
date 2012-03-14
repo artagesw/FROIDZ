@@ -8,7 +8,10 @@ import java.io.IOException;
 import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.Arrays; 
-
+import wp.WPChunk;
+import wp.Binary;
+import wp.WPParser;
+import wp.InvalidInputException;
 
 /**
  * Write a description of class ASMParser here.
