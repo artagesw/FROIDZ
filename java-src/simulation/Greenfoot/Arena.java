@@ -1,4 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.ArrayList;
 
 /**
  * A battle arena.
@@ -22,15 +23,94 @@ public class Arena extends World
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(WIDTH, HEIGHT, 1);
         
-        //Builder builder = new Builder();
+        Builder builder = new Builder();
         
-        //for (Robot robot : builder.getRobots())
+        for (Robot robot : builder.getRobots())
         {
-            //this.add(robot);
+            this.add(robot);
         }
     }
     
-    //Methods for adding/removing
+    /**
+     * 
+     */
+    public void act()
+    {
+    }
+    
+    /**
+     * The main game loop
+     */
+    public void play()
+    {
+        ArrayList<ArenaActor> actQueue = this.orderActors(this.getArenaActors());
+        for (int i = 0; i < actQueue.size(); i++)
+        {
+            actQueue.get(i).act();
+            this.resolveCollisions();
+        }
+    }
+    
+    
+    /**
+     * Places actors in an arraylist in order of speed - greatest speed first, least speed last
+     * @param toOrder       ArrayList of actors to be ordered by speed
+     * @return              ArrayList of given actors, ordered by speed
+     */
+    private ArrayList<ArenaActor> orderActors(ArrayList<ArenaActor> toOrder)
+    {
+        ArrayList<ArenaActor> ordered = new ArrayList<ArenaActor>();
+        for (ArenaActor actor : actors)
+        {
+            ordered.add(actor, findInsert(actor, ordered));
+        }
+        return ordered;
+    }
+    
+    /**
+     * NOTE: THIS CAN PROBABLY BE IMPROVED IN TERMS OF EFFICIENCY
+     * Helper method for orderActors --> finds the correct location for the actor in the arraylist based on its speed
+     *          (list sorted from greatest speed to least)
+     * @param actor             the actor to find a place for
+     * @param toPlaceIn         the list to find a place to put the actor into
+     * @return                  the index at which the actor should be placed
+     */
+    private int findInsert(ArenaActor actor, ArrayList<ArenaActor> toPlaceIn)
+    {
+        int i = actor.getSpeed();
+        int j = 0;
+        while ((toPlaceIn.get(j).getSpeed() > i) && (j < toPlaceIn.getSize() - 1))
+        {
+            j++;
+        }
+        return j;
+    }
+    
+    private void resolveCollisions()
+    {
+        for (Robot robot : this.getRobots())
+        {
+            ArrayList<ArenaActor> collisions = robot.getIntersectingObjects(ArenaActor);
+            if (collisions != null)
+            {
+                for (ArenaActor actor : collisions)
+                {
+                    robot.takeDamage(actor.doDamage);
+                    //include a way to get rid of things like bullets that disappear upon impact
+                }
+            }
+        }
+        for (Projectile projectile : this.getProjectiles())
+        {
+            if ((projectile.getIntersectingObjects(Boundary) != null) && (projectile.getIntersectingObjects(Obstacle) != null))
+            {
+                projectile.removeSelfFromGrid(); //include a way to make it explode instead at some point
+            }
+        }
+    }
+    
+    
+    //Methods for adding/removing things to the arena
     
     /**
      * Adds a robot to a random empty location.
@@ -128,5 +208,10 @@ public class Arena extends World
     public ArrayList<Robot> getRobots()
     {
         return null;
+    }
+    
+    public ArrayList<ArenaActor> getArenaActors()
+    {
+        return this.getObjects(ArenaActor);
     }
 }

@@ -9,15 +9,35 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 abstract public class ArenaActor extends Actor
 {
     //the current velocity of this ArenaActor
-    private int velocity;
+    private Velocity velocity;
+    
+    //how much damage is done by this ArenaActor when it collides with another actor - currently constant
+    private int damage;
 
     /**
-     * Constructor: set velocity to 0
+     * Constructor: set velocity to null
      */
     public ArenaActor()
     {
-        this.velocity = 0;
+        this.velocity = null;
     }
+    
+    /**
+     * Constructor: set velocity to a given velocity
+     */
+    public ArenaActor(Velocity velocity)
+    {
+        this.velocity = velocity;
+    }
+    
+    /**
+     * Constructor: set velocity based on given speed and direction
+     */
+    public ArenaActor(int speed, int direction)
+    {
+        this.velocity = new Velocity(speed, direction);
+    }
+    
     
     /**
      * Act - do whatever the ArenaActor wants to do. This method is called whenever
@@ -30,8 +50,23 @@ abstract public class ArenaActor extends Actor
     
     //public getter methods
     
-    public int getVelocity()
+    public Velocity getVelocity()
     {
         return this.velocity;
+    }
+    
+    public int getSpeed()
+    {
+        return this.velocity.getSpeed();
+    }
+    
+    public int getDirection()
+    {
+        return this.velocity.getDirection();
+    }
+    
+    public int getDamageDone()
+    {
+        return this.damage;
     }
 }
