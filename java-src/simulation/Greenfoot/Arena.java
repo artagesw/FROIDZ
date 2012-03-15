@@ -127,6 +127,8 @@ public class Arena extends World
         {    
             robot.setLocation((int) Math.random() * WIDTH, (int) Math.random() * HEIGHT);
         }
+        
+        //deal with ArenaActor's floating point location property here
     }
     
     /**

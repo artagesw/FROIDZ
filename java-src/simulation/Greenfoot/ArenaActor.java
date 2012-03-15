@@ -10,6 +10,9 @@ abstract public class ArenaActor extends Actor
 {
     //the current speed of this ArenaActor in cells per unit time
     private double speed;
+    //the current location of the ArenaActor as a double as to prevent truncation in the 
+    //ArenaActor's actual location in Arena
+    private Location location;
 
     /**
      * Constructor: set speed to 0
@@ -17,6 +20,7 @@ abstract public class ArenaActor extends Actor
     public ArenaActor()
     {
         this.speed = 0;
+        this.location = new Location();
     }
     
     /**
