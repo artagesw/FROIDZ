@@ -3,13 +3,13 @@ import os
 import sys
 
 # The name of the Java class to create
-java_class_name = 'Opcodes'
+java_class_name = 'OPCODES'
 
 # Path to the WP File that specifies the opcodes
 spec_path = './TOASTY Asm.wp'
 
 # Path to the java file that this program generates
-out_path = '../cpu/src/' + java_class_name + '.java'
+out_path = '../cpu/' + java_class_name + '.java'
 
 # The top of the java file
 java_beginning = '''
@@ -33,6 +33,7 @@ def get_opcode(line):
     { 'OPNAME' : 
     '''
     line = line.replace(' ', '').split('|')
+    line[0] = line[0].replace('.', "_")
     return line[0], int(line[3][:8], 2)
     
 if __name__ == '__main__':

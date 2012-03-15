@@ -54,7 +54,389 @@ public class ToastyProcessor extends Processor
         // execute
         switch (opCode)
         {
-            case OPCODES.ADD: // Add
+            case OPCODES.ADD_b:
+            {
+                char Rb = (char)(instr & 0xFF);
+                char Ra = (char)((instr = instr >> 8) & 0xFF);
+                char Rd = (char)((instr >> 8) & 0xFF);                
+                
+                char Vb = (char)(this.registers[Rb] & 0xFF);
+                char Va = (char)(this.registers[Ra] & 0xFF);
+                
+                char result = (char)(Va + Vb);
+                
+                char sreg = this.io[IO.SREG];
+                if (result > 255) // Set the carry bit
+                {
+                    sreg |= SREG.C;
+                }
+                else
+                {
+                    sreg &= ~SREG.C;
+                }
+                if (result == 0) // Set the 0 bit
+                {
+                    sreg |= SREG.Z;
+                }
+                else
+                {
+                    sreg &= ~SREG.Z;
+                }
+                if ((result & 0x7F) != 0) // Set the two's complement bit
+                {
+                    sreg |= SREG.N;
+                }
+                else
+                {
+                    sreg &= ~SREG.N;
+                }
+                if (((Vb & Va & ~result | ~Vb & ~Va & result) & 0x80) != 0) // Set the two's complement overflow bit
+                {
+                    sreg |= SREG.V;
+                }
+                else
+                {
+                    sreg &= ~SREG.V;
+                }
+                if (((Vb & Va | Va & ~Vb | ~result & Vb) & 0x01) != 0) // Set the half-carry bit
+                {
+                    sreg |= SREG.H;
+                }
+                else
+                {
+                    sreg &= ~SREG.H;
+                }
+                if (((sreg & SREG.N) != 0) ^ ((sreg & SREG.V) != 0))
+                {
+                    sreg |= SREG.S;
+                }
+                else
+                {
+                    sreg &= ~SREG.S;
+                }
+                
+                this.registers[IO.SREG] = sreg;                
+                this.registers[Rd] = (char)(result & 0xFF);
+                
+                this.programCounter++;
+                
+                break;
+            }
+            case OPCODES.ADDI_b:
+            {
+                break;
+            }
+            case OPCODES.ADC_b:
+            {
+                break;
+            }
+            case OPCODES.ADCI_b:
+            {
+                break;
+            }
+            case OPCODES.SUB_b:
+            {
+                break;
+            }
+            case OPCODES.SUBI_b:
+            {
+                break;
+            }
+            case OPCODES.SBC_b:
+            {
+                break;
+            }
+            case OPCODES.SBCI_b:
+            {
+                break;
+            }
+            case OPCODES.MUL_b:
+            {
+                break;
+            }
+            case OPCODES.MULI_b:
+            {
+                break;
+            }
+            case OPCODES.MULS_b:
+            {
+                break;
+            }
+            case OPCODES.MULSI_b:
+            {
+                break;
+            }
+            case OPCODES.MULSU_b:
+            {
+                break;
+            }
+            case OPCODES.MULSUI_b:
+            {
+                break;
+            }
+            case OPCODES.MULUS_b:
+            {
+                break;
+            }
+            case OPCODES.MULUSI_b:
+            {
+                break;
+            }
+            case OPCODES.INC_b:
+            {
+                break;
+            }
+            case OPCODES.DEC_b:
+            {
+                break;
+            }
+            case OPCODES.NEG_b:
+            {
+                break;
+            }
+            case OPCODES.ASR_b:
+            {
+                break;
+            }
+            case OPCODES.AND_b:
+            {
+                byte Rb = (byte)(instr & 0xFF);
+                byte Ra = (byte)((instr = instr >> 8) & 0xFF);
+                byte Rd = (byte)((instr >> 8) & 0xFF);
+                
+                byte Vb = (byte)(this.registers[Rb] & 0xFF);
+                byte Va = (byte)(this.registers[Ra] & 0xFF);
+                
+                byte result = (byte)((Va & Vb) & 0xFF);
+                
+                char sreg = this.io[IO.SREG];
+                sreg &= ~SREG.V;
+                if (result == 0)
+                {
+                    sreg |= SREG.Z;
+                }
+                else
+                {
+                    sreg &= ~SREG.Z;
+                }
+                if ((result & 0x7F) != 0)
+                {
+                    sreg |= SREG.N;
+                }
+                else
+                {
+                    sreg &= ~SREG.N;
+                }
+                if (((sreg & SREG.N) != 0) ^ ((sreg & SREG.V) != 0))
+                {
+                    sreg |= SREG.S;
+                }
+                else
+                {
+                    sreg &= ~SREG.S;
+                }
+                
+                this.io[IO.SREG] = sreg;
+                this.registers[Rd] = (char)result;
+                
+                this.programCounter++;
+                
+                break;
+            }
+            case OPCODES.ANDI_b:
+            {
+                break;
+            }
+            case OPCODES.OR_b:
+            {
+                byte Rb = (byte)(instr & 0xFF);
+                byte Ra = (byte)((instr = instr >> 8) & 0xFF);
+                byte Rd = (byte)((instr >> 8) & 0xFF);
+                
+                byte Vb = (byte)(this.registers[Rb] & 0xFF);
+                byte Va = (byte)(this.registers[Ra] & 0xFF);
+                
+                byte result = (byte)((Va | Vb) & 0xFF);
+                
+                char sreg = this.io[IO.SREG];
+                sreg &= ~SREG.V;
+                if (result == 0)
+                {
+                    sreg |= SREG.Z;
+                }
+                else
+                {
+                    sreg &= ~SREG.Z;
+                }
+                if ((result & 0x7F) != 0)
+                {
+                    sreg |= SREG.N;
+                }
+                else
+                {
+                    sreg &= ~SREG.N;
+                }
+                if (((sreg & SREG.N) != 0) ^ ((sreg & SREG.V) != 0))
+                {
+                    sreg |= SREG.S;
+                }
+                else
+                {
+                    sreg &= ~SREG.S;
+                }
+                
+                this.io[IO.SREG] = sreg;
+                this.registers[Rd] = (char)result;
+                
+                this.programCounter++;
+                
+                break;
+            }
+            case OPCODES.ORI_b:
+            {
+                break;
+            }
+            case OPCODES.XOR_b:
+            {
+                byte Rb = (byte)(instr & 0xFF);
+                byte Ra = (byte)((instr = instr >> 8) & 0xFF);
+                byte Rd = (byte)((instr >> 8) & 0xFF);
+                
+                byte Vb = (byte)(this.registers[Rb] & 0xFF);
+                byte Va = (byte)(this.registers[Ra] & 0xFF);
+                
+                byte result = (byte)((Va ^ Vb) & 0xFF);
+                
+                char sreg = this.io[IO.SREG];
+                sreg &= ~SREG.V;
+                if (result == 0)
+                {
+                    sreg |= SREG.Z;
+                }
+                else
+                {
+                    sreg &= ~SREG.Z;
+                }
+                if ((result & 0x7F) != 0)
+                {
+                    sreg |= SREG.N;
+                }
+                else
+                {
+                    sreg &= ~SREG.N;
+                }
+                if (((sreg & SREG.N) != 0) ^ ((sreg & SREG.V) != 0))
+                {
+                    sreg |= SREG.S;
+                }
+                else
+                {
+                    sreg &= ~SREG.S;
+                }
+                
+                this.io[IO.SREG] = sreg;
+                this.registers[Rd] = (char)result;
+                
+                this.programCounter++;
+                
+                break;
+            }
+            case OPCODES.XORI_b:
+            {
+                break;
+            }
+            case OPCODES.NOT_b:
+            {
+                break;
+            }
+            case OPCODES.NOTI_b:
+            {
+                break;
+            }
+            case OPCODES.CBIO_b:
+            {
+                break;
+            }
+            case OPCODES.SBIO_b:
+            {
+                break;
+            }
+            case OPCODES.LSL_b:
+            {
+                break;
+            }
+            case OPCODES.LSR_b:
+            {
+                break;
+            }
+            case OPCODES.OUT_b:
+            {
+                break;
+            }
+            case OPCODES.IN_b:
+            {
+                break;
+            }
+            case OPCODES.LDI_b:
+            {
+                break;
+            }
+            case OPCODES.LD_b:
+            {
+                break;
+            }
+            case OPCODES.STS_b:
+            {
+                break;
+            }
+            case OPCODES.ST_b:
+            {
+                break;
+            }
+            case OPCODES.MOV_b:
+            {
+                break;
+            }
+            case OPCODES.CP_b:
+            {
+                break;
+            }
+            case OPCODES.CPI_b:
+            {
+                break;
+            }
+            case OPCODES.JMP_b:
+            {
+                break;
+            }
+            case OPCODES.RJMP_b:
+            {
+                break;
+            }
+            case OPCODES.IJMP_b:
+            {
+                break;
+            }
+            case OPCODES.BRBS_b:
+            {
+                break;
+            }
+            case OPCODES.BRBC_b:
+            {
+                break;
+            }
+            case OPCODES.NOP:
+            {
+                this.programCounter += 1;
+            }
+            case OPCODES.EOF:
+            {
+                this.programCounter = 0;
+                
+                break;
+            }  
+            
+            case OPCODES.ADD_w:
             {
                 char Rb = (char)(instr & 0xFF);
                 char Ra = (char)((instr = instr >> 8) & 0xFF);
@@ -74,88 +456,7 @@ public class ToastyProcessor extends Processor
                 
                 break;
             }
-            case OPCODES.ADDI:
-            {
-            }
-            case OPCODES.ADDb:
-            {
-            }
-            case OPCODES.ADC:
-            {
-            }
-            case OPCODES.ADCI:
-            {
-            }
-            case OPCODES.ADCb:
-            {
-            }
-            case OPCODES.SUB:
-            {
-            }
-            case OPCODES.SUBI:
-            {
-            }
-            case OPCODES.SUBb:
-            {
-            }
-            case OPCODES.SBC:
-            {
-            }
-            case OPCODES.SBCI:
-            {
-            }
-            case OPCODES.SBCb:
-            {
-            }            
-            case OPCODES.MUL:
-            {
-            }
-            case OPCODES.MULI:
-            {
-            }
-            case OPCODES.MULb:
-            {
-            }
-            case OPCODES.MULS:
-            {
-            }
-            case OPCODES.MULSI:
-            {
-            }
-            case OPCODES.MULSb:
-            {
-            }
-            case OPCODES.MULSU:
-            {
-            }
-            case OPCODES.MULSUI:
-            {
-            }
-            case OPCODES.MULSUb:
-            {
-            }
-            case OPCODES.MULUS:
-            {
-            }
-            case OPCODES.MULUSI:
-            {
-            }
-            case OPCODES.INC:
-            {
-            }
-            case OPCODES.DEC:
-            {
-            }
-            case OPCODES.NEG:
-            {
-            }
-            case OPCODES.ASR:
-            {
-            }
-            case OPCODES.ASRb:
-            {
-            }
-            case OPCODES.AND:
+            case OPCODES.AND_w:
             {
                 char Rb = (char)(instr & 0xFF);
                 char Ra = (char)((instr = instr >> 8) & 0xFF);
@@ -170,52 +471,7 @@ public class ToastyProcessor extends Processor
                 //this.io[IO.SREG] =;
                 //(Rd >> 7)
             }
-            case OPCODES.ANDI:
-            {
-            }
-            case OPCODES.OR:
-            {
-            }
-            case OPCODES.ORI:
-            {
-            }
-            case OPCODES.XOR:
-            {
-            }
-            case OPCODES.XORI:
-            {
-            }
-            case OPCODES.NOT:
-            {
-            }
-            case OPCODES.NOTI:
-            {
-            }
-            case OPCODES.CBIO:
-            {
-            }
-            case OPCODES.SBIO:
-            {
-            }
-            case OPCODES.LSL:
-            {
-            }
-            case OPCODES.LSLb:
-            {
-            }
-            case OPCODES.LSR:
-            {
-            }
-            case OPCODES.LSRb:
-            {
-            }
-            case OPCODES.OUT:
-            {
-            }
-            case OPCODES.IN:
-            {
-            }
-            case OPCODES.LDI:
+            case OPCODES.LDI_w:
             {
                 int K = instr & 0xFFFF;
                 char Rd = (char)((instr = instr >> 16) & 0xFF);
@@ -226,48 +482,8 @@ public class ToastyProcessor extends Processor
                 
                 break;
             }
-            case OPCODES.LD:
-            {
-            }
-            case OPCODES.STS:
-            {
-            }
-            case OPCODES.ST:
-            {
-            }
-            case OPCODES.MOV:
-            {
-            }
-            case OPCODES.CP:
-            {
-            }
-            case OPCODES.CPI:
-            {
-            }
-            case OPCODES.JMP:
-            {
-            }
-            case OPCODES.RJMP:
-            {
-            }
-            case OPCODES.IJMP:
-            {
-            }
-            case OPCODES.BRBS:
-            {
-            }
-            case OPCODES.BRBC:
-            {
-            }
-            case OPCODES.NOP:
-            {
-            }
-            case OPCODES.EOF:
-            {
-                this.programCounter = 0;
-                
-                break;
-            }           
+            
+            
             default:
             {
                 System.out.println(opCode);

@@ -4,136 +4,121 @@
 #  0000 0000 0000 0000 0000 0000 0000 0000
 
 # 16 BIT ARITHMETIC 0000 - 0001  **************************************************************************************
-.postfix .w                                                                                                
-	ADD   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1000 0001 abcd efgh ijkl mnop qrst uvwx
-	ADDI  | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1000 0010 abcd efgh ijkl mnop qrst uvwx
-	ADC   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1000 0011 abcd efgh ijkl mnop qrst uvwx
-	ADCI  | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1000 0100 abcd efgh ijkl mnop qrst uvwx
+	ADD.w   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1000 0001 abcd efgh ijkl mnop qrst uvwx
+	ADDI.w  | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1000 0010 abcd efgh ijkl mnop qrst uvwx
+	ADC.w   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1000 0011 abcd efgh ijkl mnop qrst uvwx
+	ADCI.w  | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1000 0100 abcd efgh ijkl mnop qrst uvwx
 
-	SUB   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1000 0101 abcd efgh ijkl mnop qrst uvwx
-	SUBI  | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1000 0110 abcd efgh ijkl mnop qrst uvwx
-	SBC   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1000 0111 abcd efgh ijkl mnop qrst uvwx
-	SBCI  | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,255]         | 1000 1000 abcd efgh ijkl mnop qrst uvwx 
+	SUB.w   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1000 0101 abcd efgh ijkl mnop qrst uvwx
+	SUBI.w  | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1000 0110 abcd efgh ijkl mnop qrst uvwx
+	SBC.w   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1000 0111 abcd efgh ijkl mnop qrst uvwx
+	SBCI.w  | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,255]         | 1000 1000 abcd efgh ijkl mnop qrst uvwx 
                                                                                                                     
-	MUL    | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1000 1001 abcd efgh ijkl mnop qrst uvwx
-	MULI   | Rdl=abcdefgh: K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1000 1010 abcd efgh ijkl mnop qrst uvwx
-	MULS   | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1001 1011 abcd efgh ijkl mnop qrst uvwx
-	MULSI  | Rdl=abcdefgh: K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1001 1100 abcd efgh ijkl mnop qrst uvwx
-	MULSU  | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1001 1101 abcd efgh ijkl mnop qrst uvwx
-	MULSUI | Rdl=abcdefgh: K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1001 1110 abcd efgh ijkl mnop qrst uvwx
-	MULUS  | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1001 1111 abcd efgh ijkl mnop qrst uvwx
-	MULUSI | Rdl=abcdefgh: K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1001 0000 abcd efgh ijkl mnop qrst uvwx      
+	MUL.w    | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1000 1001 abcd efgh ijkl mnop qrst uvwx
+	MULI.w   | Rdl=abcdefgh: K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1000 1010 abcd efgh ijkl mnop qrst uvwx
+	MULS.w   | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1001 1011 abcd efgh ijkl mnop qrst uvwx
+	MULSI.w  | Rdl=abcdefgh: K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1001 1100 abcd efgh ijkl mnop qrst uvwx
+	MULSU.w  | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1001 1101 abcd efgh ijkl mnop qrst uvwx
+	MULSUI.w | Rdl=abcdefgh: K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1001 1110 abcd efgh ijkl mnop qrst uvwx
+	MULUS.w  | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1001 1111 abcd efgh ijkl mnop qrst uvwx
+	MULUSI.w | Rdl=abcdefgh: K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1001 0000 abcd efgh ijkl mnop qrst uvwx      
                                                                         
-	INC   | Rd=abcdefgh                             | [0,255]                 | 1001 0001 0000 0000 0000 0000 abcd efgh 
-	DEC   | Rd=abcdefgh                             | [0,255]                 | 1001 0010 0000 0000 0000 0000 abcd efgh
-	NEG   | Rd=abcdefgh : Rr=ijklmnop               | [0,255]:[0,255]         | 1001 0011 0000 0000 abcd efgh ijkl mnop 
-	ASR   | Rd=abcdefgh : Rr=ijklmnop               | [0,255]:[0,255]         | 1001 0100 0000 0000 abcd efgh ijkl mnop 
+	INC.w   | Rd=abcdefgh                             | [0,255]                 | 1001 0001 0000 0000 0000 0000 abcd efgh 
+	DEC.w   | Rd=abcdefgh                             | [0,255]                 | 1001 0010 0000 0000 0000 0000 abcd efgh
+	NEG.w   | Rd=abcdefgh : Rr=ijklmnop               | [0,255]:[0,255]         | 1001 0011 0000 0000 abcd efgh ijkl mnop 
+	ASR.w   | Rd=abcdefgh : Rr=ijklmnop               | [0,255]:[0,255]         | 1001 0100 0000 0000 abcd efgh ijkl mnop 
 # 8 BIT ARITHMETIC 0000 - 0001  *************************************************************************************** 
-.postfix .b                                                                                                
-	ADD   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0000 0001 abcd efgh ijkl mnop qrst uvwx
-	ADDI  | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0000 0010 0000 0000 abcd efgh ijkl mnop
-	ADC   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0000 0011 abcd efgh ijkl mnop qrst uvwx
-	ADCI  | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0000 0100 0000 0000 abcd efgh ijkl mnop
+	ADD.b   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0000 0001 abcd efgh ijkl mnop qrst uvwx
+	ADDI.b  | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0000 0010 0000 0000 abcd efgh ijkl mnop
+	ADC.b   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0000 0011 abcd efgh ijkl mnop qrst uvwx
+	ADCI.b  | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0000 0100 0000 0000 abcd efgh ijkl mnop
  
-	SUB   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0000 0101 abcd efgh ijkl mnop qrst uvwx
-	SUBI  | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0000 0110 0000 0000 abcd efgh ijkl mnop 
-	SBC   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0000 0111 abcd efgh ijkl mnop qrst uvwx 
-	SBCI  | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0000 1000 0000 0000 abcd efgh ijkl mnop 
+	SUB.b   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0000 0101 abcd efgh ijkl mnop qrst uvwx
+	SUBI.b  | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0000 0110 0000 0000 abcd efgh ijkl mnop 
+	SBC.b   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0000 0111 abcd efgh ijkl mnop qrst uvwx 
+	SBCI.b  | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0000 1000 0000 0000 abcd efgh ijkl mnop 
 
-	MUL    | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0000 1001 abcd efgh ijkl mnop qrst uvwx
-	MULI   | Rdl=abcdefgh: K=ijklmnop                | [0,255]:[0,255]         | 0000 1010 0000 0000 abcd efgh ijkl mnop 
-	MULS   | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0001 1011 abcd efgh ijkl mnop qrst uvwx 
-	MULSI  | Rdl=abcdefgh: K=ijklmnop                | [0,255]:[0,255]         | 0001 1100 0000 0000 abcd efgh ijkl mnop 
-	MULSU  | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0001 1101 abcd efgh ijkl mnop qrst uvwx 
-	MULSUI | Rdl=abcdefgh: K=ijklmnop                | [0,255]:[0,255]         | 0001 1110 0000 0000 abcd efgh ijkl mnop 
-	MULUS  | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0001 1111 abcd efgh ijkl mnop qrst uvwx 
-	MULUSI | Rdl=abcdefgh: K=ijklmnop                | [0,255]:[0,255]         | 0001 0000 0000 0000 abcd efgh ijkl mnop
+	MUL.b    | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0000 1001 abcd efgh ijkl mnop qrst uvwx
+	MULI.b   | Rdl=abcdefgh: K=ijklmnop                | [0,255]:[0,255]         | 0000 1010 0000 0000 abcd efgh ijkl mnop 
+	MULS.b  | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255]  | 0001 1011 abcd efgh ijkl mnop qrst uvwx 
+	MULSI.b  | Rdl=abcdefgh: K=ijklmnop                | [0,255]:[0,255]         | 0001 1100 0000 0000 abcd efgh ijkl mnop 
+	MULSU.b  | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0001 1101 abcd efgh ijkl mnop qrst uvwx 
+	MULSUI.b | Rdl=abcdefgh: K=ijklmnop                | [0,255]:[0,255]         | 0001 1110 0000 0000 abcd efgh ijkl mnop 
+	MULUS.b  | Rdl=abcdefgh: Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0001 1111 abcd efgh ijkl mnop qrst uvwx 
+	MULUSI.b | Rdl=abcdefgh: K=ijklmnop                | [0,255]:[0,255]         | 0001 0000 0000 0000 abcd efgh ijkl mnop
 
-	INC   | Rd=abcdefgh                             | [0,255]                 | 0001 0001 0000 0000 0000 0000 abcd efgh 
-	DEC   | Rd=abcdefgh                             | [0,255]                 | 0001 0010 0000 0000 0000 0000 abcd efgh
-	NEG   | Rd=abcdefgh : Rr=ijklmnop               | [0,255]:[0,255]         | 0001 0011 0000 0000 abcd efgh ijkl mnop 
-	ASR   | Rd=abcdefgh : Rr=ijklmnop               | [0,255]:[0,255]         | 0001 0101 0000 0000 abcd efgh ijkl mnop
+	INC.b   | Rd=abcdefgh                             | [0,255]                 | 0001 0001 0000 0000 0000 0000 abcd efgh 
+	DEC.b   | Rd=abcdefgh                             | [0,255]                 | 0001 0010 0000 0000 0000 0000 abcd efgh
+	NEG.b   | Rd=abcdefgh : Rr=ijklmnop               | [0,255]:[0,255]         | 0001 0011 0000 0000 abcd efgh ijkl mnop 
+	ASR.b   | Rd=abcdefgh : Rr=ijklmnop               | [0,255]:[0,255]         | 0001 0101 0000 0000 abcd efgh ijkl mnop
       
                                                                                                      
 # 16 BIT LOGIC 1010 ***************************************************************************************************
-.postfix .w                                                                                                                                                                                                      
-	AND   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1010 0001 abcd efgh ijkl mnop qrst uvwx 
-	ANDI  | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1010 0010 abcd efgh ijkl mnop qrst uvwx 
-	OR    | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1010 0011 abcd efgh ijkl mnop qrst uvwx 
-	ORI   | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1010 0100 abcd efgh ijkl mnop qrst uvwx 
-	XOR   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1010 0101 abcd efgh ijkl mnop qrst uvwx 
-	XORI  | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1010 0110 abcd efgh ijkl mnop qrst uvwx 
-	NOT   | Rd=abcdefgh : Ra=ijklmnop               | [0,255]:[0,255]:[0,255] | 1010 0111 abcd efgh ijkl mnop qrst uvwx 
-	NOTI  | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1010 1000 abcd efgh ijkl mnop qrst uvwx 
+	AND.w   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1010 0001 abcd efgh ijkl mnop qrst uvwx 
+	ANDI.w  | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1010 0010 abcd efgh ijkl mnop qrst uvwx 
+	OR.w    | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1010 0011 abcd efgh ijkl mnop qrst uvwx 
+	ORI.w   | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1010 0100 abcd efgh ijkl mnop qrst uvwx 
+	XOR.w   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 1010 0101 abcd efgh ijkl mnop qrst uvwx 
+	XORI.w  | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1010 0110 abcd efgh ijkl mnop qrst uvwx 
+	NOT.w   | Rd=abcdefgh : Ra=ijklmnop               | [0,255]:[0,255]:[0,255] | 1010 0111 abcd efgh ijkl mnop qrst uvwx 
+	NOTI.w  | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1010 1000 abcd efgh ijkl mnop qrst uvwx 
 # 8 BIT LOGIC 0010 **************************************************************************************************** 
-.postfix .b                                                                                                   
-	AND   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0010 0001 abcd efgh ijkl mnop qrst uvwx 
-	ANDI  | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0010 0010 0000 0000 abcd efgh ijkl mnop 
-	OR    | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0010 0011 abcd efgh ijkl mnop qrst uvwx 
-	ORI   | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0010 0100 0000 0000 abcd efgh ijkl mnop 
-	XOR   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0010 0101 abcd efgh ijkl mnop qrst uvwx 
-	XORI  | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0010 0110 0000 0000 abcd efgh ijkl mnop
-	NOT   | Rd=abcdefgh : Ra=ijklmnop               | [0,255]:[0,255]:[0,255] | 0010 0111 0000 0000 abcd efgh ijkl mnop
-	NOTI  | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0010 1000 0000 0000 abcd efgh ijkl mnop  
+	AND.b   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0010 0001 abcd efgh ijkl mnop qrst uvwx 
+	ANDI.b  | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0010 0010 0000 0000 abcd efgh ijkl mnop 
+	OR.b    | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0010 0011 abcd efgh ijkl mnop qrst uvwx 
+	ORI.b   | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0010 0100 0000 0000 abcd efgh ijkl mnop 
+	XOR.b   | Rd=abcdefgh : Ra=ijklmnop : Rb=qrstuvwx | [0,255]:[0,255]:[0,255] | 0010 0101 abcd efgh ijkl mnop qrst uvwx 
+	XORI.b  | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0010 0110 0000 0000 abcd efgh ijkl mnop
+	NOT.b   | Rd=abcdefgh : Ra=ijklmnop               | [0,255]:[0,255]:[0,255] | 0010 0111 0000 0000 abcd efgh ijkl mnop
+	NOTI.b  | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0010 1000 0000 0000 abcd efgh ijkl mnop  
                                                                                                                 
 # 16 BIT BITWISE 1011 *************************************************************************************************   
-.postfix .w                                                                                                 
-	CBIO  | A=abcdefghijklmnop : b=qrst             | [0,65535]:[0,15]        | 1011 0001 0000 abcd efgh ijkl mnop qrst 
-	SBIO  | A=abcdefghijklmnop : b=qrst             | [0,65535]:[0,15]        | 1011 0010 0000 abcd efgh ijkl mnop qrst 
-	LSL   | Rd=abcdefgh                             | [0,255]                 | 1011 0011 0000 0000 0000 0000 abcd efgh
-	LSLb  | Rd=abcdefgh                             | [0,255]                 | 1011 0100 0000 0000 0000 0000 abcd efgh
-	LSR   | Rd=abcdefgh                             | [0,255]                 | 1011 0101 0000 0000 0000 0000 abcd efgh 
-	LSRb  | Rd=abcdefgh                             | [0,255]                 | 1011 0110 0000 0000 0000 0000 abcd efgh
+	CBIO.w  | A=abcdefghijklmnop : b=qrst             | [0,65535]:[0,15]        | 1011 0001 0000 abcd efgh ijkl mnop qrst 
+	SBIO.w  | A=abcdefghijklmnop : b=qrst             | [0,65535]:[0,15]        | 1011 0010 0000 abcd efgh ijkl mnop qrst 
+	LSL.w   | Rd=abcdefgh                             | [0,255]                 | 1011 0011 0000 0000 0000 0000 abcd efgh
+	LSR.w   | Rd=abcdefgh                             | [0,255]                 | 1011 0101 0000 0000 0000 0000 abcd efgh 
 # 8 BIT BITWISE 0011 **************************************************************************************************  
-.postfix .b                                                                                                  
-	CBIO  | A=abcdefgh : b=qrs                      | [0,255]:[0,7]           | 0011 0001 0000 0000 0000 abcd efgh 0qrs 
-	SBIO  | A=abcdefgh : b=qrs                      | [0,255]:[0,7]           | 0011 0010 0000 0000 0000 abcd efgh 0qrs 
-	LSL   | Rd=abcdefgh                             | [0,255]                 | 0011 0011 0000 0000 0000 0000 abcd efgh
-	LSLb  | Rd=abcdefgh                             | [0,255]                 | 0011 0100 0000 0000 0000 0000 abcd efgh
-	LSR   | Rd=abcdefgh                             | [0,255]                 | 0011 0101 0000 0000 0000 0000 abcd efgh 
-	LSRb  | Rd=abcdefgh                             | [0,255]                 | 0011 0110 0000 0000 0000 0000 abcd efgh
+	CBIO.b  | A=abcdefgh : b=qrs                      | [0,255]:[0,7]           | 0011 0001 0000 0000 0000 abcd efgh 0qrs 
+	SBIO.b  | A=abcdefgh : b=qrs                      | [0,255]:[0,7]           | 0011 0010 0000 0000 0000 abcd efgh 0qrs 
+	LSL.b   | Rd=abcdefgh                             | [0,255]                 | 0011 0100 0000 0000 0000 0000 abcd efgh
+	LSR.b   | Rd=abcdefgh                             | [0,255]                 | 0011 0101 0000 0000 0000 0000 abcd efgh 
                                                                                                                    
 # 16 BIT DATA 1100 ****************************************************************************************************   
-.postfix .w                                                                                                     
-	OUT   | A=abcdefghijklmnop : Rr=qrstuvwx        | [0,65535]:[0,255]       | 1100 0001 abcd efgh ijkl mnop qrst uvwx 
-	IN    | Rd=abcdefgh : A=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1100 0010 abcd efgh ijkl mnop qrst uvwx 
-	LDI   | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1100 0011 abcd efgh ijkl mnop qrst uvwx 
-	LD    | Rd=abcdefgh : I=ijklmnop                | [0,255]:[0,255]         | 1100 0100 0000 0000 abcd efgh ijkl mnop 
-	STS   | k=abcdefghijklmnop : Rr=qrstuvwx        | [0,65535]:[0,255]       | 1100 0101 abcd efgh ijkl mnop qrst uvwx 
-	ST    | I=abcefgh : Rr=ijklmnop                 | [0,255]:[0,255]         | 1100 0110 0000 0000 abcd efgh ijkl mnop 
-	MOV   | Rd=abcdefgh : Rr=ijklmnop               | [0,255]:[0,255]         | 1100 0111 0000 0000 abcd efgh ijkl mnop 
+	OUT.w   | A=abcdefghijklmnop : Rr=qrstuvwx        | [0,65535]:[0,255]       | 1100 0001 abcd efgh ijkl mnop qrst uvwx 
+	IN.w    | Rd=abcdefgh : A=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1100 0010 abcd efgh ijkl mnop qrst uvwx 
+	LDI.w   | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1100 0011 abcd efgh ijkl mnop qrst uvwx 
+	LD.w    | Rd=abcdefgh : I=ijklmnop                | [0,255]:[0,255]         | 1100 0100 0000 0000 abcd efgh ijkl mnop 
+	STS.w   | k=abcdefghijklmnop : Rr=qrstuvwx        | [0,65535]:[0,255]       | 1100 0101 abcd efgh ijkl mnop qrst uvwx 
+	ST.w    | I=abcefgh : Rr=ijklmnop                 | [0,255]:[0,255]         | 1100 0110 0000 0000 abcd efgh ijkl mnop 
+	MOV.w   | Rd=abcdefgh : Rr=ijklmnop               | [0,255]:[0,255]         | 1100 0111 0000 0000 abcd efgh ijkl mnop 
 # 8 BIT DATA 0100 *****************************************************************************************************  
-.postfix .b                                                                                                      
-	OUT   | A=abcdefgh : Rr=qrstuvwx                | [0,255]:[0,255]         | 0100 0001 0000 0000 abcd efgh qrst uvwx 
-	IN    | Rd=abcdefgh : A=ijklmnop                | [0,255]:[0,255]         | 0100 0010 0000 0000 abcd efgh ijkl mnop 
-	LDI   | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0100 0011 0000 0000 abcd efgh ijkl mnop 
-	LD    | Rd=abcdefgh : I=ijklmnop                | [0,255]:[0,255]         | 0100 0100 0000 0000 abcd efgh ijkl mnop 
-	STS   | k=abcdefgh : Rr=qrstuvwx                | [0,255]:[0,255]         | 0100 0101 0000 0000 abcd efgh qrst uvwx 
-	ST    | I=abcefgh : Rr=ijklmnop                 | [0,255]:[0,255]         | 0100 0110 0000 0000 abcd efgh ijkl mnop 
-	MOV   | Rd=abcdefgh : Rr=ijklmnop               | [0,255]:[0,255]         | 0100 0111 0000 0000 abcd efgh ijkl mnop
+	OUT.b   | A=abcdefgh : Rr=qrstuvwx                | [0,255]:[0,255]         | 0100 0001 0000 0000 abcd efgh qrst uvwx 
+	IN.b    | Rd=abcdefgh : A=ijklmnop                | [0,255]:[0,255]         | 0100 0010 0000 0000 abcd efgh ijkl mnop 
+	LDI.b   | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0100 0011 0000 0000 abcd efgh ijkl mnop 
+	LD.b    | Rd=abcdefgh : I=ijklmnop                | [0,255]:[0,255]         | 0100 0100 0000 0000 abcd efgh ijkl mnop 
+	STS.b   | k=abcdefgh : Rr=qrstuvwx                | [0,255]:[0,255]         | 0100 0101 0000 0000 abcd efgh qrst uvwx 
+	ST.b    | I=abcefgh : Rr=ijklmnop                 | [0,255]:[0,255]         | 0100 0110 0000 0000 abcd efgh ijkl mnop 
+	MOV.b   | Rd=abcdefgh : Rr=ijklmnop               | [0,255]:[0,255]         | 0100 0111 0000 0000 abcd efgh ijkl mnop
 	                                                                                                                  
 # 16 BIT BRANCH 1101 **************************************************************************************************     
-.postfix .w                                                                                                 
-	CP    | Ra=abcdefgh : Rb=ijklmnop               | [0,255]:[0,255]         | 1101 0001 0000 0000 abcd efgh ijkl mnop 
-	CPI   | Ra=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1101 0010 abcd efgh ijkl mnop qrst uvwx 
-	JMP   | k=abcdefghijklmnop                      | [0,65535]               | 1101 0011 0000 0000 abcd efgh ijkl mnop 
-	RJMP  | k=abcdefghijklmnopq                     | [-65536,65535]          | 1101 0100 0000 000a bcde fghi jklm nopq
-	IJMP  | Ra=abcdefgh                             | [0,255]                 | 1101 0101 0000 0000 0000 0000 abcd efgh 
-	BRBS  | b=abcd : k=efghijklmnopqrstuvwx         | [0,15]:[-524288, 524288]| 1101 0110 abcd efgh ijkl mnop qrst uvwx 
-	BRBC  | b=abcd : k=efghijklmnopqrstuvwx         | [0,15]:[-524288, 524288]| 1101 0111 abcd efgh ijkl mnop qrst uvwx 
+	CP.w    | Ra=abcdefgh : Rb=ijklmnop               | [0,255]:[0,255]         | 1101 0001 0000 0000 abcd efgh ijkl mnop 
+	CPI.w   | Ra=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1101 0010 abcd efgh ijkl mnop qrst uvwx 
+	JMP.w   | k=abcdefghijklmnop                      | [0,65535]               | 1101 0011 0000 0000 abcd efgh ijkl mnop 
+	RJMP.w  | k=abcdefghijklmnopq                     | [-65536,65535]          | 1101 0100 0000 000a bcde fghi jklm nopq
+	IJMP.w  | Ra=abcdefgh                             | [0,255]                 | 1101 0101 0000 0000 0000 0000 abcd efgh 
+	BRBS.w  | b=abcd : k=efghijklmnopqrstuvwx         | [0,15]:[-524288, 524288]| 1101 0110 abcd efgh ijkl mnop qrst uvwx 
+	BRBC.w  | b=abcd : k=efghijklmnopqrstuvwx         | [0,15]:[-524288, 524288]| 1101 0111 abcd efgh ijkl mnop qrst uvwx 
   
 # 8 BIT BRANCH 0101 *************************************************************************************************** 
-.postfix .b                                                                                                   
-	CP    | Ra=abcdefgh : Rb=ijklmnop               | [0,255]:[0,255]         | 0101 0001 0000 0000 abcd efgh ijkl mnop 
-	CPI   | Ra=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0101 0010 0000 0000 abcd efgh ijkl mnop
-	JMP   | k=abcdefgh                              | [0,65535]               | 0101 0011 0000 0000 0000 0000 abcd efgh 
-	RJMP  | k=abcdefgh                              | [-128,127]              | 0101 0100 0000 0000 0000 0000 abcd efgh 
-	IJMP  | Ra=abcdefgh                             | [0,255]                 | 0101 0101 0000 0000 0000 0000 abcd efgh 
-	BRBS  | b=abc : k=efghijkl                      | [0,7]:[-128, 127]       | 0101 0110 0000 0000 0000 0abc efgh ijkl 
-	BRBC  | b=abc : k=efghijkl                      | [0,7]:[-128, 127]       | 0101 0111 0000 0000 0000 0abc efgh ijkl 
+	CP.b    | Ra=abcdefgh : Rb=ijklmnop               | [0,255]:[0,255]         | 0101 0001 0000 0000 abcd efgh ijkl mnop 
+	CPI.b   | Ra=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0101 0010 0000 0000 abcd efgh ijkl mnop
+	JMP.b   | k=abcdefgh                              | [0,65535]               | 0101 0011 0000 0000 0000 0000 abcd efgh 
+	RJMP.b  | k=abcdefgh                              | [-128,127]              | 0101 0100 0000 0000 0000 0000 abcd efgh 
+	IJMP.b  | Ra=abcdefgh                             | [0,255]                 | 0101 0101 0000 0000 0000 0000 abcd efgh 
+	BRBS.b  | b=abc : k=efghijkl                      | [0,7]:[-128, 127]       | 0101 0110 0000 0000 0000 0abc efgh ijkl 
+	BRBC.b  | b=abc : k=efghijkl                      | [0,7]:[-128, 127]       | 0101 0111 0000 0000 0000 0abc efgh ijkl 
                                                                                                                    
 # CONTROL *********************************************************************************************************
-.postfix 
 NOP   |                                         |                         | 0000 0000 0000 0000 0000 0000 0000 0000
 EOF   |                                         |                         | 1111 1111 1111 1111 1111 1111 1111 1111
 

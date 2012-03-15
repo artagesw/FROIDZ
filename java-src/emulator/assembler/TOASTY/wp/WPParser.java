@@ -29,19 +29,11 @@ public class WPParser
     public WPParser(String path)
     {
         int num = 0;
-        String postfix = "";
         for (String line : this.removeComments(this.getLines(path)))
         {
-            if (line.indexOf(".postfix") >= 0)
-            {
-                postfix = line.substring(8);
-            }
-            else
-            {
-                WPChunk chunk = new WPChunk(line + postfix);
-                chunkBag.put(chunk.getOpName(), chunk);
-                num++;
-            }
+            WPChunk chunk = new WPChunk(line);
+            chunkBag.put(chunk.getOpName(), chunk);
+            num++;
         }
         
         System.out.println(num + " Instructions Supported.");
@@ -85,5 +77,13 @@ public class WPParser
     public WPChunk getChunk(String name)
     {
         return this.chunkBag.get(name);
+    }
+    
+    public void printAllInstructions()
+    {
+        for (WPChunk c : this.chunkBag.values())
+        {
+            System.out.println(c.getOpName() + " " + c.getOperands() + " " + c.getRanges() + " " + c.getOpCode());
+        }
     }
 }
