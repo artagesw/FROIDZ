@@ -4,40 +4,32 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * Common elements of actors that act in the Arena.
  * 
  * @author Brendan Redmond and Haley B-E
- * @version 0.0.1
+ * @version 0.1.0
  */
 abstract public class ArenaActor extends Actor
 {
-    //the current velocity of this ArenaActor
-    private Velocity velocity;
-    
-    //how much damage is done by this ArenaActor when it collides with another actor - currently constant
-    private int damage;
+    //the current speed of this ArenaActor in cells per unit time
+    private double speed;
 
     /**
-     * Constructor: set velocity to null
+     * Constructor: set speed to 0
      */
     public ArenaActor()
     {
-        this.velocity = null;
+        this.speed = 0;
     }
     
     /**
-     * Constructor: set velocity to a given velocity
+     * Constructor: set speed and direction to given values
+     * 
+     * @param speed     the given speed
+     * @param direction the given direction
      */
-    public ArenaActor(Velocity velocity)
+    public ArenaActor(double speed, int direction)
     {
-        this.velocity = velocity;
+        this.speed = speed;
+        this.setRotation(direction);
     }
-    
-    /**
-     * Constructor: set velocity based on given speed and direction
-     */
-    public ArenaActor(int speed, int direction)
-    {
-        this.velocity = new Velocity(speed, direction);
-    }
-    
     
     /**
      * Act - do whatever the ArenaActor wants to do. This method is called whenever
@@ -48,25 +40,58 @@ abstract public class ArenaActor extends Actor
         // Add your action code here.
     }    
     
+    /**
+     * Resolves collisions between this ArenaActor and any intersecting ArenaActors
+     */
+    private void resolveCollisions()
+    {
+        for (ArenaActor a : this.getIntersectingObjects(ArenaActor.class))
+        {
+            this.collideWith(a);
+        }
+    }
+    
+    /**
+     * Deals collision damage to this ArenaActor and a given intersecting ArenaActor, and changes
+     *  the velocities of these ArenaActors.
+     *  
+     * @param a     the intersecting ArenaActor
+     */
+    private void collideWith(ArenaActor a)
+    {
+        this.takeDamage(a);
+        a.takeDamage(this);
+        
+        this.deflect(a);
+        a.deflect(this);
+    }
+    
     //public getter methods
     
-    public Velocity getVelocity()
+    public double getSpeed()
     {
-        return this.velocity;
+        return this.speed;
     }
     
-    public int getSpeed()
+    public void setSpeed(double speed)
     {
-        return this.velocity.getSpeed();
+        this.speed = speed;
     }
     
-    public int getDirection()
+    /**
+     * Increases the speed of this ArenaActor by a given amount
+     * 
+     * @param increase  the amount by which the speed of this ArenaActor will increase
+     */
+    public void increaseSpeed(double increase)
     {
-        return this.velocity.getDirection();
+        this.speed += increase;
     }
     
-    public int getDamageDone()
-    {
-        return this.damage;
-    }
+    /**
+     * Returns the mass of this ArenaActor
+     * 
+     * @return  the mass of this ArenaActor
+     */
+    abstract public double getMass();
 }
