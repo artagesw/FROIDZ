@@ -4,16 +4,25 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * A genereric projectile
  * 
  * @author Brendan Redmond
- * @version 0.0.1
+ * @version 0.0.2
  */
 public class Projectile extends ArenaActor
 {
+    //the mass of this projectile in kilograms
+    private double mass;
+
     /**
-     * Constructor: calls super
+     * Constructor: calls super, sets the velocity and mass to given values
+     * 
+     * @param speed     the magnitude of the velocity to be set
+     * @param direction the direction of the velocity to be set
+     * @param mass      the mass to be set
      */
-    public Projectile()
+    public Projectile(double speed, int direction, int mass)
     {
-        super();
+        super(speed, direction);
+        
+        this.mass = mass;
     }
 
     /**

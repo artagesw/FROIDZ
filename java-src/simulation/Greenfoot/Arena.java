@@ -29,6 +29,8 @@ public class Arena extends World
         {
             this.add(robot);
         }
+        
+        this.setActOrder(Robot.class, Projectile.class);
     }
     
     /**
