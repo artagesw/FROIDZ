@@ -30,7 +30,7 @@ public class Projectile extends ArenaActor
      */
     public void act() 
     {
-        this.move((this.getSpeed() / ((Arena)this.getWorld()).getTurnLength()));
+        //this.move((this.getSpeed() / ((Arena)this.getWorld()).getTurnLength()));
     }    
     
     public double getMass()

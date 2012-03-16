@@ -14,7 +14,7 @@ public class Robot extends ArenaActor
      */
     public void act() 
     {
-        // Add your action code here.
+        super.act();
     }    
     
     public double getMass()

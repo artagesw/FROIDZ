@@ -37,6 +37,7 @@ public class Arena extends World
             robot.setExactLocation(robot.getX(), robot.getY());
         }
         
+        
         this.setActOrder(Robot.class, Projectile.class);
     }
     
