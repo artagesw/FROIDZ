@@ -45,9 +45,23 @@ abstract public class ArenaActor extends Actor
      */
     public void act() 
     {       
-        this.moveExactly(1.0);
-        //this.resolveCollisions();
+        this.moveExactly(5.0);
+        this.resolveCollisions();
     }   
+    
+    /**
+     * Overrides greenfoot's setLocation method so it also changes the actor's stored exact location
+     * @param x     x-coordinate of new location
+     * @param y     y-coordinate of new location
+     * 
+     */
+    public void setLocation(int x, int y)
+    {
+        super.setLocation(x, y);
+        this.location.setX(x);
+        this.location.setY(y);
+    }
+    
     
     /**
      * Moves the ArenaActor exactly the distance passed and updates actor's visual position to the closest approximate
