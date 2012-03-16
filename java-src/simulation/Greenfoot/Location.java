@@ -22,6 +22,18 @@ public class Location
         this.y = 0.0;
     }
     
+    /**
+     * Constructor: sets x and y to given values
+     * 
+     * @param x     the given x value
+     * @param y     the given y value
+     */
+    public Location(double x, double y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+    
     public double getX()
     {
         return this.x;

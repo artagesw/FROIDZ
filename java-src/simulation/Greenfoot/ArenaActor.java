@@ -1,10 +1,11 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.List;
 
 /**
  * Common elements of actors that act in the Arena.
  * 
  * @author Brendan Redmond and Haley B-E
- * @version 0.1.0
+ * @version 0.2.0
  */
 abstract public class ArenaActor extends Actor
 {
@@ -49,7 +50,9 @@ abstract public class ArenaActor extends Actor
      */
     private void resolveCollisions()
     {
-        for (ArenaActor a : this.getIntersectingObjects(ArenaActor.class))
+        List<ArenaActor> actors = this.getIntersectingObjects(ArenaActor.class);
+        
+        for (ArenaActor a : actors)
         {
             this.collideWith(a);
         }
@@ -63,11 +66,21 @@ abstract public class ArenaActor extends Actor
      */
     private void collideWith(ArenaActor a)
     {
-        this.takeDamage(a);
-        a.takeDamage(this);
+        this.takeCollisionDamage(a);
+        a.takeCollisionDamage(this);
         
         this.deflect(a);
         a.deflect(this);
+    }
+    
+    public void takeCollisionDamage(ArenaActor a)
+    {
+        
+    }
+    
+    public void deflect(ArenaActor a)
+    {
+        
     }
     
     //public getter methods
@@ -80,6 +93,17 @@ abstract public class ArenaActor extends Actor
     public void setSpeed(double speed)
     {
         this.speed = speed;
+    }
+    
+    public void setExactLocation(Location location)
+    {
+        this.location = location;
+    }
+    
+    public void setExactLocation(double x, double y)
+    {
+        this.location.setX(x);
+        this.location.setY(y);
     }
     
     /**

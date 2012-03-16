@@ -4,7 +4,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * A genereric projectile
  * 
  * @author Brendan Redmond
- * @version 0.0.2
+ * @version 0.1.0
  */
 public class Projectile extends ArenaActor
 {
@@ -33,4 +33,9 @@ public class Projectile extends ArenaActor
     {
         // Add your action code here.
     }    
+    
+    public double getMass()
+    {
+        return this.mass;
+    }
 }
