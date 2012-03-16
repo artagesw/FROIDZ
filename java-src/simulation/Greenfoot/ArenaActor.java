@@ -52,8 +52,102 @@ abstract public class ArenaActor extends Actor
      */
     public void act() 
     {       
+        this.moveExactly(5.0);
         this.resolveCollisions();
     }   
+    
+    /**
+     * Overrides greenfoot's setLocation method so it also changes the actor's stored exact location
+     * @param x     x-coordinate of new location
+     * @param y     y-coordinate of new location
+     * 
+     */
+    public void setLocation(int x, int y)
+    {
+        super.setLocation(x, y);
+        this.location.setX(x);
+        this.location.setY(y);
+    }
+    
+    
+    /**
+     * Moves the ArenaActor exactly the distance passed and updates actor's visual position to the closest approximate
+     *          position
+     * @param distance          the distance to move the actor
+     */
+    public void moveExactly(double distance)
+    {
+        double x, y;
+        
+        //finds new position in x-direction
+        if ((this.getRotation() < 90) || (this.getRotation() > 270))
+        {
+          y = (this.location.getY() - (distance * Math.cos(this.getRotation())));
+        }
+        else
+        {
+            y = (this.location.getY() + (distance * Math.cos(this.getRotation())));
+        }
+        
+        //finds new position in y-direction
+        if (this.getRotation() < 180)
+        {
+            x = (this.location.getX() + (distance * Math.sin(this.getRotation())));
+        }
+        else
+        {
+            x = (this.location.getX() + (distance * Math.sin(this.getRotation())));
+        }
+        
+        //checks to make sure we're not out of bounds - TEMPORARY UNTIL WE DECIDE ON BOUNDARY OBJECT
+        if (x >= getWorld().getWidth())
+        {
+            x = getWorld().getWidth() - 1;
+        }
+        else if (x < 0)
+        {
+            x = 0;
+        }
+        if (y >= getWorld().getHeight())
+        {
+            y = getWorld().getHeight() - 1;
+        }
+        else if (y < 0)
+        {
+            y = 0;
+        }
+        
+        this.location.setX(x);
+        this.location.setY(y);
+        
+        moveTo((int)x, (int)y);
+    }
+    
+    public boolean moveTo(int xNew, int yNew)
+    {
+        int xOld = this.getX();
+        int yOld = this.getY();
+        
+        if (((xNew <= xOld + 1) && (xNew >= xOld - 1)) || ((yNew <= yOld + 1) && (yNew >= yOld - 1)))
+        {
+            this.setLocation(xNew, yNew);
+            return true;
+        }
+        
+        double slope = ((yNew - yOld) / (xNew - xOld));
+        double b = yOld - (slope * xOld);
+        
+        for (int i = xOld; i < xNew; i++)
+        {
+            //this.setLocation(i, (int)(slope * i + b));
+            this.move(1);
+            this.resolveCollisions();
+        }
+        
+        return true;
+
+    }
+
     
     /**
      * Resolves collisions between this ArenaActor and any intersecting ArenaActors
@@ -90,6 +184,7 @@ abstract public class ArenaActor extends Actor
     
     public void deflect(ArenaActor a)
     {
+        
         
     }
     
