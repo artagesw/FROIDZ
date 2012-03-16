@@ -4,6 +4,7 @@ import java.util.List;
 /**
  * Common elements of actors that act in the Arena.
  * 
+ * 
  * @author Brendan Redmond and Haley B-E
  * @version 0.2.0
  */
@@ -11,6 +12,7 @@ abstract public class ArenaActor extends Actor
 {
     //the current speed of this ArenaActor in cells per unit time
     private double speed;
+    
     //the current location of the ArenaActor as a double as to prevent truncation in the 
     //ArenaActor's actual location in Arena
     private Location location;
@@ -37,13 +39,14 @@ abstract public class ArenaActor extends Actor
     }
     
     /**
-     * Act - do whatever the ArenaActor wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
+     * Act - do whatever the ArenaActor wants to do. 
+     * (To be overridden by subclasses)
+     * 
      */
     public void act() 
-    {
-        // Add your action code here.
-    }    
+    {       
+        this.resolveCollisions();
+    }   
     
     /**
      * Resolves collisions between this ArenaActor and any intersecting ArenaActors

@@ -26,12 +26,11 @@ public class Projectile extends ArenaActor
     }
 
     /**
-     * Act - do whatever the Projectile wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
+     * Act - do whatever the Projectile wants to do.
      */
     public void act() 
     {
-        // Add your action code here.
+        this.move((this.getSpeed() / ((Arena)this.getWorld()).getTurnLength()));
     }    
     
     public double getMass()

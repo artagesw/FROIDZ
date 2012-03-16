@@ -13,6 +13,9 @@ public class Arena extends World
     private static final int WIDTH = 600;
     //the height of the arena
     private static final int HEIGHT = 400;
+    
+    //length of time to be given as a turn
+    private static final int TURN_LENGTH = 10;
 
     /**
      * Constructor: creates the arena, then adds the robots to the arena
@@ -21,7 +24,7 @@ public class Arena extends World
     public Arena()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(WIDTH, HEIGHT, 1);
+        super(WIDTH, HEIGHT, 1, true);
         
         ArrayList<Robot> robots = (new Builder()).getRobots();
         ArrayList<Location> spawnLocations = this.getSpawnLocations(robots.size());
@@ -148,12 +151,14 @@ public class Arena extends World
     //Public getter methods
    /**
     * What are these for? -Brendan
-    public ArrayList<ArenaActor> getObstacles()
+    * Easily accessing ArrayLists of the different types of things so if there're class-specific actions
+    * they can be taken without casting shenanigans -Haley
+    public ArrayList<Obstacle> getObstacles()
     {
         return null;
     }
     
-    public ArrayList<ArenaActor> getProjectiles()
+    public ArrayList<Projectile> getProjectiles()
     {
         return null;
     }
@@ -167,4 +172,9 @@ public class Arena extends World
     {
         return this.getObjects(ArenaActor);
     }*/
+    
+    public int getTurnLength()
+    {
+        return this.TURN_LENGTH;
+    }
 }
