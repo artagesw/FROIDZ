@@ -26,4 +26,14 @@ public class Robot extends ArenaActor
     {
         return (this.getOneIntersectingObject(ArenaActor.class) != null);
     }
+    
+    public void takeDamage(double damage)
+    {
+        
+    }
+    
+    public double getHealth()
+    {
+        return 0.0;
+    }
 }

@@ -30,11 +30,24 @@ public class Projectile extends ArenaActor
      */
     public void act() 
     {
-        this.move((this.getSpeed() / ((Arena)this.getWorld()).getTurnLength()));
+        //this.move((this.getSpeed() / ((Arena)this.getWorld()).getTurnLength()));
     }    
     
     public double getMass()
     {
         return this.mass;
+    }
+    
+    public double getHealth()
+    {
+        return 1;
+    }
+    
+    /**
+     * A projectile will disappear after it hits something
+     */
+    public void takeDamage(double damage)
+    {
+        ((Arena) this.getWorld()).removeObject(this);
     }
 }

@@ -12,6 +12,8 @@ abstract public class ArenaActor extends Actor
 {
     //the current speed of this ArenaActor in cells per unit time
     private double speed;
+    //the current acceleration of this ArenaActor in cells per unit time squared
+    private double acceleration;
     
     //the current location of the ArenaActor as a double as to prevent truncation in the 
     //ArenaActor's actual location in Arena
@@ -23,6 +25,7 @@ abstract public class ArenaActor extends Actor
     public ArenaActor()
     {
         this.speed = 0;
+        this.acceleration = 0;
         this.location = new Location();
     }
     
@@ -34,6 +37,10 @@ abstract public class ArenaActor extends Actor
      */
     public ArenaActor(double speed, int direction)
     {
+        assert(speed >= 0);
+        assert(Math.abs(direction) < 360);
+        assert(Math.abs(direction) > 0);
+        
         this.speed = speed;
         this.setRotation(direction);
     }
@@ -125,4 +132,18 @@ abstract public class ArenaActor extends Actor
      * @return  the mass of this ArenaActor
      */
     abstract public double getMass();
+    
+    /**
+     * Has this ArenaActor take a given amount of damage
+     * 
+     * @param damage    the damage to be dealt
+     */
+    abstract public void takeDamage(double damage);
+    
+    /**
+     * Returns the health of this ArenaActor
+     * 
+     * @return  the health of this ArenaActor
+     */
+    abstract public double getHealth();
 }
