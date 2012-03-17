@@ -11,13 +11,23 @@ public class SpawnMap
     //the array of ArrayLists of spawn locations for a given number of robots
     private static Location[] locations = 
     {
-        //none of this is right, fix
-        new Location(Arena.MAX_ROBOT_WIDTH / 2, ARENA.MAX_ROBOT_HEIGHT / 2),
-        new Location(Arena.MAX_ROBOT_WIDTH - Arena.MAX_ROBOT_WIDTH / 2,
-                        ARENA.HEIGHT - ARENA.MAX_ROBOT_HEIGHT / 2),
-        new Location(Arena.MAX_ROBOT_WIDTH / 2, ARENA.MAX_ROBOT_HEIGHT - ARENA.MAX_ROBOT_HEIGHT / 2),
-        new Location(Arena.MAX_ROBOT_WIDTH - Arena.MAX_ROBOT_WIDTH / 2,
-                        ARENA.MAX_ROBOT_HEIGHT - ARENA.MAX_ROBOT_HEIGHT / 2)
+        //top left
+        new Location(Arena.MAX_ROBOT_WIDTH / 2, Arena.MAX_ROBOT_HEIGHT / 2),
+        //bottom right
+        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH / 2,
+                     Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT / 2),
+        //bottom left
+        new Location(Arena.MAX_ROBOT_WIDTH / 2, Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT / 2),
+        //top right
+        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH / 2, Arena.MAX_ROBOT_HEIGHT / 2),
+        //top middle
+        new Location(Arena.WIDTH / 2, Arena.MAX_ROBOT_HEIGHT / 2),
+        //left middle
+        new Location(Arena.MAX_ROBOT_WIDTH / 2, Arena.HEIGHT / 2),
+        //right middle
+        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH / 2, Arena.HEIGHT / 2),
+        //bottom middle
+        new Location(Arena.WIDTH / 2, Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT / 2)
     };
     
     

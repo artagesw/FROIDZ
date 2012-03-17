@@ -10,17 +10,17 @@ import java.util.ArrayList;
 public class Arena extends World
 {
     //the width of the arena in cells
-    private static final int WIDTH = 600;
+    public static final int WIDTH = 600;
     //the height of the arena in cells
-    private static final int HEIGHT = 400;
+    public static final int HEIGHT = 400;
     //the side length of each cell in pixels
-    private static final int CELL_SIZE = 1;
+    public static final int CELL_SIZE = 1;
     //the maximum number of robots in this Arena
-    private static final int MAX_ROBOTS = 8;
+    public static final int MAX_ROBOTS = 8;
     //the maximum height of the robot in pixels
-    private static final int MAX_ROBOT_HEIGHT = 50;
+    public static final int MAX_ROBOT_HEIGHT = 50;
     //the maximum width of the robot in pixels
-    private static final int MAX_ROBOT_WIDTH = 50;
+    public static final int MAX_ROBOT_WIDTH = 50;
     
     //length of time to be given as a turn
     private static final int TURN_LENGTH = 10;
