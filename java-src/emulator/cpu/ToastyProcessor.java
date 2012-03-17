@@ -6,30 +6,22 @@
  */
 public class ToastyProcessor extends Processor
 {
-    // 16 Bit registers
-    private char[] registers;
-    
-    // Data space
-    public char[] sram;
-    
-    // I/O Space
-    public char[] io;
-    
-    // Peripherals
-    private Peripheral[] peripherals;
+    public Memory mem;
     
     // Program space
     public int[] flash;
     
+    // Peripherals
+    private Peripheral[] peripherals;
+    
     private int programCounter = 0;
     
-    public ToastyProcessor(int regNum, int sramNum, int ioNum, int flashNum, int clockSpeed, Peripheral... peripherals)
+    public ToastyProcessor(int regNum, int ioNum, int sramNum, int flashNum, int clockSpeed, Peripheral... peripherals)
     {
         super(clockSpeed);
         
-        this.registers = new char[regNum];
-        this.sram = new char[sramNum];
-        this.io = new char[ioNum];
+        this.mem = new Memory(regNum, ioNum, sramNum);
+
         this.flash = new int[flashNum];
         this.peripherals = peripherals;
     }
@@ -39,7 +31,7 @@ public class ToastyProcessor extends Processor
         // 256 Registers
         // 1M of Data-space(SRAM)
         // 1M of IO Space
-        this(256, 65536, 65536, 1, 1);
+        this(256, 65536, 65536, 65536, 1);
     } 
     
     /**
@@ -50,6 +42,9 @@ public class ToastyProcessor extends Processor
         // fetch
         int instr = this.flash[this.programCounter];
         int opCode = (instr & 0xFF000000) >> 24;
+        int clockCount = 0;
+        
+        System.out.println(opCode);
         
         // execute
         switch (opCode)
@@ -58,14 +53,16 @@ public class ToastyProcessor extends Processor
             {
                 char Rb = (char)(instr & 0xFF);
                 char Ra = (char)((instr = instr >> 8) & 0xFF);
-                char Rd = (char)((instr >> 8) & 0xFF);                
+                char Rd = (char)((instr >> 8) & 0xFF);    
                 
-                char Vb = (char)(this.registers[Rb] & 0xFF);
-                char Va = (char)(this.registers[Ra] & 0xFF);
+                System.out.println((int)Rb + " " + (int)Ra + " " + (int)Rd);
+                
+                char Vb = (char)(this.mem.registers[Rb] & 0xFF);
+                char Va = (char)(this.mem.registers[Ra] & 0xFF);
                 
                 char result = (char)(Va + Vb);
                 
-                char sreg = this.io[IO.SREG];
+                char sreg = this.mem.io[IO.SREG];
                 if (result > 255) // Set the carry bit
                 {
                     sreg |= SREG.C;
@@ -115,10 +112,12 @@ public class ToastyProcessor extends Processor
                     sreg &= ~SREG.S;
                 }
                 
-                this.registers[IO.SREG] = sreg;                
-                this.registers[Rd] = (char)(result & 0xFF);
+                this.mem.io[IO.SREG] = sreg;                
+                this.mem.registers[Rd] = (char)(result & 0xFF);
                 
                 this.programCounter++;
+                
+                clockCount = 1;
                 
                 break;
             }
@@ -204,12 +203,12 @@ public class ToastyProcessor extends Processor
                 byte Ra = (byte)((instr = instr >> 8) & 0xFF);
                 byte Rd = (byte)((instr >> 8) & 0xFF);
                 
-                byte Vb = (byte)(this.registers[Rb] & 0xFF);
-                byte Va = (byte)(this.registers[Ra] & 0xFF);
+                byte Vb = (byte)(this.mem.registers[Rb] & 0xFF);
+                byte Va = (byte)(this.mem.registers[Ra] & 0xFF);
                 
                 byte result = (byte)((Va & Vb) & 0xFF);
                 
-                char sreg = this.io[IO.SREG];
+                char sreg = this.mem.io[IO.SREG];
                 sreg &= ~SREG.V;
                 if (result == 0)
                 {
@@ -236,10 +235,12 @@ public class ToastyProcessor extends Processor
                     sreg &= ~SREG.S;
                 }
                 
-                this.io[IO.SREG] = sreg;
-                this.registers[Rd] = (char)result;
+                this.mem.io[IO.SREG] = sreg;
+                this.mem.registers[Rd] = (char)result;
                 
                 this.programCounter++;
+                
+                clockCount = 1;
                 
                 break;
             }
@@ -253,12 +254,12 @@ public class ToastyProcessor extends Processor
                 byte Ra = (byte)((instr = instr >> 8) & 0xFF);
                 byte Rd = (byte)((instr >> 8) & 0xFF);
                 
-                byte Vb = (byte)(this.registers[Rb] & 0xFF);
-                byte Va = (byte)(this.registers[Ra] & 0xFF);
+                byte Vb = (byte)(this.mem.registers[Rb] & 0xFF);
+                byte Va = (byte)(this.mem.registers[Ra] & 0xFF);
                 
                 byte result = (byte)((Va | Vb) & 0xFF);
                 
-                char sreg = this.io[IO.SREG];
+                char sreg = this.mem.io[IO.SREG];
                 sreg &= ~SREG.V;
                 if (result == 0)
                 {
@@ -285,10 +286,12 @@ public class ToastyProcessor extends Processor
                     sreg &= ~SREG.S;
                 }
                 
-                this.io[IO.SREG] = sreg;
-                this.registers[Rd] = (char)result;
+                this.mem.io[IO.SREG] = sreg;
+                this.mem.registers[Rd] = (char)result;
                 
                 this.programCounter++;
+                
+                clockCount = 1;
                 
                 break;
             }
@@ -302,12 +305,12 @@ public class ToastyProcessor extends Processor
                 byte Ra = (byte)((instr = instr >> 8) & 0xFF);
                 byte Rd = (byte)((instr >> 8) & 0xFF);
                 
-                byte Vb = (byte)(this.registers[Rb] & 0xFF);
-                byte Va = (byte)(this.registers[Ra] & 0xFF);
+                byte Vb = (byte)(this.mem.registers[Rb] & 0xFF);
+                byte Va = (byte)(this.mem.registers[Ra] & 0xFF);
                 
                 byte result = (byte)((Va ^ Vb) & 0xFF);
                 
-                char sreg = this.io[IO.SREG];
+                char sreg = this.mem.io[IO.SREG];
                 sreg &= ~SREG.V;
                 if (result == 0)
                 {
@@ -334,10 +337,12 @@ public class ToastyProcessor extends Processor
                     sreg &= ~SREG.S;
                 }
                 
-                this.io[IO.SREG] = sreg;
-                this.registers[Rd] = (char)result;
+                this.mem.io[IO.SREG] = sreg;
+                this.mem.registers[Rd] = (char)result;
                 
                 this.programCounter++;
+                
+                clockCount = 1;
                 
                 break;
             }
@@ -371,26 +376,84 @@ public class ToastyProcessor extends Processor
             }
             case OPCODES.OUT_b:
             {
+                char Rr = (char)(instr & 0xFF);
+                char A = (char)((instr >> 8) & 0xFF);
+                
+                this.mem.io[A] = (char)(this.mem.registers[Rr] & 0xFF);
+                
+                this.programCounter++;
+                
+                clockCount = 1;
+                
                 break;
             }
             case OPCODES.IN_b:
             {
+                char A = (char)(instr & 0xFF);
+                char Rd = (char)((instr >> 8) & 0xFF);
+                
+                this.mem.registers[Rd] = (char)(this.mem.io[A] & 0xFF);
+                
+                this.programCounter++;
+                
+                clockCount = 1;
+                
                 break;
             }
             case OPCODES.LDI_b:
             {
+                char K = (char)(instr & 0xFF);
+                char Rd = (char)((instr >> 8) & 0xFF);
+                
+                this.mem.registers[Rd] = K;
+            
+                this.programCounter++;
+                
+                clockCount = 1;
+                
                 break;
             }
             case OPCODES.LD_b:
             {
+                char I = (char)(instr & 0xFF);
+                char Rd = (char)((instr >> 8) & 0xFF);
+                
+                char addr = (char)(((this.mem.registers[I] & 0xFF) << 8) & (this.mem.registers[I + 1] & 0xFF));
+                
+                this.mem.registers[Rd] = this.mem.sram[addr];
+                
+                this.programCounter++;
+                
+                clockCount = 2; // Not perfectly accurate. See instruction manual.
+                
                 break;
             }
             case OPCODES.STS_b:
             {
+                char Rr = (char)(instr & 0xFF);
+                char k = (char)((instr >> 8) & 0xFFFF);
+                
+                this.mem.write(k, this.mem.registers[Rr]);
+                
+                this.programCounter++;
+                
+                clockCount = 2;
+                
                 break;
             }
             case OPCODES.ST_b:
             {
+                char Rr = (char)(instr & 0xFF);
+                char I = (char)((instr >> 8) & 0xFF);
+                
+                char addr = (char)((this.mem.registers[I] & 0xFF) & ((this.mem.registers[I + 1] & 0xFF) << 8));
+                
+                this.mem.write(addr, this.mem.registers[Rr]);
+                
+                this.programCounter++;
+                
+                clockCount = 2; // Not perfectly accurate. See instruction manual.
+                
                 break;
             }
             case OPCODES.MOV_b:
@@ -427,6 +490,8 @@ public class ToastyProcessor extends Processor
             }
             case OPCODES.NOP:
             {
+                clockCount = 1;
+                
                 this.programCounter += 1;
             }
             case OPCODES.EOF:
@@ -436,6 +501,7 @@ public class ToastyProcessor extends Processor
                 break;
             }  
             
+            /*
             case OPCODES.ADD_w:
             {
                 char Rb = (char)(instr & 0xFF);
@@ -481,9 +547,9 @@ public class ToastyProcessor extends Processor
                 this.programCounter++;
                 
                 break;
-            }
-            
-            
+            }            
+            */
+           
             default:
             {
                 System.out.println(opCode);
@@ -497,6 +563,6 @@ public class ToastyProcessor extends Processor
             p.clock();
         }
         
-        return 1;   
+        return clockCount;   
     }
 }

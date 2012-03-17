@@ -1,4 +1,3 @@
-
 public class FROIDCPU
 {
     
@@ -11,9 +10,11 @@ public class FROIDCPU
     public FROIDCPU()
     {
         this.proc = new ToastyProcessor(10, 10, 64, 64, 1);
-        this.proc.flash[0] = 134348799;
-        this.proc.flash[1] = 134348801;
-        this.proc.flash[2] = 16974082;
+        this.proc.flash[0] = 1124073729; // Put 1 into reg 1
+        this.proc.flash[1] = 1124073986; // Put 2 into reg 2
+        this.proc.flash[2] = 16974337; // Add reg 1 and reg 2, put result in reg 3
+        this.act(3);
+        System.out.println((int)proc.registers[1] + " + " + (int)proc.registers[2] + " = " + (int)proc.registers[3]);
     }
     
     /**
@@ -24,8 +25,6 @@ public class FROIDCPU
     {
         // Execute a certain number of cycles on the processor
         this.cycleDebt = this.proc.run((time * proc.getClockSpeed()) - this.cycleDebt);
-        System.out.println("Debt: " + cycleDebt);
-        
     }
     
     // public getter methods
