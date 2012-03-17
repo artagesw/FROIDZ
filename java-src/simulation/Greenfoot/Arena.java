@@ -35,7 +35,7 @@ public class Arena extends World
         super(WIDTH, HEIGHT, CELL_SIZE, true);
         
         ArrayList<Robot> robots = (new Builder()).getRobots();
-        ArrayList<Location> spawnLocations = this.getSpawnLocations(robots.size());
+        ArrayList<Location> spawnLocations = SpawnMap.getSpawnLocations(robots.size());
         
         for (Robot robot : robots)
         {
@@ -63,9 +63,10 @@ public class Arena extends World
      * 
      * @param numLocations  the number of Locations required 
      * @return              the ArrayList of Locations
-     */
+     *
     private ArrayList<Location> getSpawnLocations(int numLocations)
     {
+        
         ArrayList<Location> spawnLocations = new ArrayList<Location>(numLocations);
         
         //make something that gives locations that look like the dots on dice as a function of the number

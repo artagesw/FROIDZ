@@ -6,7 +6,7 @@ import java.util.List;
  * 
  * 
  * @author Brendan Redmond and Haley B-E
- * @version 0.2.0
+ * @version 0.4.0
  */
 abstract public class ArenaActor extends Actor
 {
@@ -39,7 +39,7 @@ abstract public class ArenaActor extends Actor
     {
         assert(speed >= 0);
         assert(Math.abs(direction) < 360);
-        assert(Math.abs(direction) > 0);
+        assert(Math.abs(direction) >= 0);
         
         this.speed = speed;
         this.setRotation(direction);
@@ -62,9 +62,9 @@ abstract public class ArenaActor extends Actor
      * @param y     y-coordinate of new location
      * 
      */
-    public void setLocation(int x, int y)
+    public void setLocation(double x, double y)
     {
-        super.setLocation(x, y);
+        super.setLocation((int) Math.round(x), (int) Math.round(y));
         this.location.setX(x);
         this.location.setY(y);
     }
@@ -147,6 +147,32 @@ abstract public class ArenaActor extends Actor
         return true;
 
     }
+    
+    /**
+     * Returns the angle this ArenaActor must have to face two given coordinates
+     * 
+     * @param x     the x coordinate
+     * @param y     the y coordinate
+     * @return      the angle this ArenaActor must have to face two given coordinates
+     */
+    public double getAngleTowards(double x, double y)
+    {
+        assert(this.xIsInBoundaries(x));
+        assert(this.yIsInBoundaries(y));
+        
+        double angle = Math.toDegrees(Math.atan((y - this.location.getY()) / (x - this.location.getX())));
+        
+        //if the location is to the right, 180 must be added to the angle
+        if (x - this.location.getX() > 0)
+        {
+            angle += 180;
+        }
+        
+        assert(angle >= 0);
+        assert(angle < 360);
+        
+        return angle;
+    }
 
     
     /**
@@ -184,8 +210,11 @@ abstract public class ArenaActor extends Actor
     
     public void deflect(ArenaActor a)
     {
+        assert(a != null);
         
+        double referenceAngle = ((double) (this.getRotation() + a.getRotation())) / 2;
         
+        this.turn((int) (referenceAngle - this.getRotation()));
     }
     
     //public getter methods
@@ -219,6 +248,16 @@ abstract public class ArenaActor extends Actor
     public void increaseSpeed(double increase)
     {
         this.speed += increase;
+    }
+    
+    public boolean xIsInBoundaries(double x)
+    {
+        return (x >= 0 && x <= Arena.WIDTH);
+    }
+    
+    public boolean yIsInBoundaries(double y)
+    {
+        return (y >= 0 && y <= Arena.WIDTH);
     }
     
     /**

@@ -33,6 +33,8 @@ public class SpawnMap
     
     public static ArrayList<Location> getSpawnLocations(int numLocations)
     {
+        assert(numLocations <= locations.length);
+        
         ArrayList<Location> spawnLocations = new ArrayList<Location>();
         
         for (int i = 0; i < numLocations; i++)
