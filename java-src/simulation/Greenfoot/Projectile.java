@@ -4,7 +4,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * A genereric projectile
  * 
  * @author Brendan Redmond
- * @version 0.0.2
+ * @version 0.1.0
  */
 public class Projectile extends ArenaActor
 {
@@ -26,11 +26,28 @@ public class Projectile extends ArenaActor
     }
 
     /**
-     * Act - do whatever the Projectile wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
+     * Act - do whatever the Projectile wants to do.
      */
     public void act() 
     {
-        // Add your action code here.
+        //this.move((this.getSpeed() / ((Arena)this.getWorld()).getTurnLength()));
     }    
+    
+    public double getMass()
+    {
+        return this.mass;
+    }
+    
+    public double getHealth()
+    {
+        return 1;
+    }
+    
+    /**
+     * A projectile will disappear after it hits something
+     */
+    public void takeDamage(double damage)
+    {
+        ((Arena) this.getWorld()).removeObject(this);
+    }
 }
