@@ -107,7 +107,7 @@
 	CP.w    | Ra=abcdefgh : Rb=ijklmnop               | [0,255]:[0,255]         | 1101 0001 0000 0000 abcd efgh ijkl mnop 
 	CPI.w   | Ra=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1101 0010 abcd efgh ijkl mnop qrst uvwx 
 	JMP.w   | k=abcdefghijklmnop                      | [0,65535]               | 1101 0011 0000 0000 abcd efgh ijkl mnop 
-	RJMP.w  | k=abcdefghijklmnopq                     | [-65536,65535]          | 1101 0100 0000 000a bcde fghi jklm nopq
+	RJMP.w  | k=abcdefghijklmnopqrstuvwx              | [-8388608,8388607]      | 1101 0100 abcd efgh ijkl mnop qrst uvwx
 	IJMP.w  | Ra=abcdefgh                             | [0,255]                 | 1101 0101 0000 0000 0000 0000 abcd efgh 
 	BRBS.w  | b=abcd : k=efghijklmnopqrstuvwx         | [0,15]:[-524288, 524288]| 1101 0110 abcd efgh ijkl mnop qrst uvwx 
 	BRBC.w  | b=abcd : k=efghijklmnopqrstuvwx         | [0,15]:[-524288, 524288]| 1101 0111 abcd efgh ijkl mnop qrst uvwx 
@@ -115,7 +115,7 @@
 	CP.b    | Ra=abcdefgh : Rb=ijklmnop               | [0,255]:[0,255]         | 0101 0001 0000 0000 abcd efgh ijkl mnop 
 	CPI.b   | Ra=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0101 0010 0000 0000 abcd efgh ijkl mnop
 	JMP.b   | k=abcdefghijklmnop                      | [0,65535]               | 0101 0011 0000 0000 abcd efgh ijkl mnop 
-	RJMP.b  | k=abcdefgh                              | [-128,127]              | 0101 0100 0000 0000 0000 0000 abcd efgh 
+	RJMP.b  | k=abcdefghijkl                          | [-2048,2047]            | 0101 0100 0000 0000 0000 abcd efgh ijkl
 	IJMP.b  | Ra=abcdefgh                             | [0,255]                 | 0101 0101 0000 0000 0000 0000 abcd efgh 
 	BRBS.b  | b=abc : k=efghijkl                      | [0,7]:[-128, 127]       | 0101 0110 0000 0000 0000 0abc efgh ijkl 
 	BRBC.b  | b=abc : k=efghijkl                      | [0,7]:[-128, 127]       | 0101 0111 0000 0000 0000 0abc efgh ijkl 

@@ -517,8 +517,22 @@ public class ToastyProcessor extends Processor
                 
                 break;
             }
+            /**
+             * MOV.b
+             * 
+             * Coppies the contents of one register to another.
+             */
             case OPCODES.MOV_b:
             {
+                char Rr = (char)(instr & 0xFF);
+                char Rd = (char)((instr >> 8) & 0xFF);
+                
+                this.mem.registers[Rd] = (char)(this.mem.registers[Rr] & 0xFF);
+                
+                this.programCounter++;
+                
+                clockCount = 1;
+                
                 break;
             }
             case OPCODES.CP_b:
@@ -544,20 +558,70 @@ public class ToastyProcessor extends Processor
                 
                 break;
             }
+            /**
+             * RJMP.b
+             * 
+             * Adds a 12 bit signed number to the program counter.
+             */
             case OPCODES.RJMP_b:
             {
+                char k = (char)(instr & 0xFFF);
+                
+                this.programCounter += (k - 2047) + 1;
+                
+                clockCount = 2;
+                
                 break;
             }
+            /**
+             * IJMP.b
+             * 
+             * Jump to the address in the given register.
+             */
             case OPCODES.IJMP_b:
             {
+                char Rl = (char)(instr & 0xFF);
+                
+                this.programCounter = (char)(this.mem.registers[Rl] & (this.mem.registers[Rl + 1] << 8));
+                
+                clockCount = 2;
+                
                 break;
             }
             case OPCODES.BRBS_b:
             {
+                char k = (char)(instr & 0xFF);
+                char b = (char)((instr >> 8) & 0x07);
+                
+                if ((this.mem.io[IO.SREG] & (1 << b)) != 0) // If b bit in SREG is set
+                {
+                    this.programCounter += (k - 127) + 1;
+                    clockCount = 2;
+                }
+                else  // If b bit in SREG is clear
+                {
+                    this.programCounter++;
+                    clockCount = 1;
+                }
+                
                 break;
             }
             case OPCODES.BRBC_b:
             {
+                char k = (char)(instr & 0xFF);
+                char b = (char)((instr >> 8) & 0x07);
+                
+                if ((this.mem.io[IO.SREG] & (1 << b)) == 0) // If b bit in SREG is clear
+                {
+                    this.programCounter += (k - 127) + 1;
+                    clockCount = 2;
+                }
+                else  // If b bit in SREG is set
+                {
+                    this.programCounter++;
+                    clockCount = 1;
+                }
+                
                 break;
             }
             /**
