@@ -1,3 +1,11 @@
+/**
+ * AVRMEMORY
+ * 
+ * Represents the memory of an AVR Microcontroller device.
+ * 
+ * @author Jacob Weiss
+ * @version 0.0.1
+ */
 public class AVRMemory extends Memory
 {
     /**
@@ -5,9 +13,10 @@ public class AVRMemory extends Memory
      */
     public AVRMemory()
     {
-        super(32, 256, 4096);
+        super(32, 256, 4096, 65535);
     }
     
+    // Override methods ro react to different addresses being written to.
     public void writeIO(int addr, char data)
     {
         switch (addr)

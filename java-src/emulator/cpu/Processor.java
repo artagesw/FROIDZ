@@ -1,12 +1,16 @@
-
 /**
- * Abstract class Processor - write a description of the class here
+ * Processor
  * 
- * @author (your name here)
- * @version (version number or date here)
+ * Processors know how to run for a given number of clock cycles.
+ * They are also in charge of remembering their clock speed.
+ * 
+ * @author Alex Teiche, Jacob Weiss
+ * @version 0.0.1
  */
 public abstract class Processor
 {
+    public Memory mem; // REMOVE THIS ONCE MEMORY BECOMES PRIVATE
+
     // Specified in kHz
     private final int CLOCK_SPEED;
     
@@ -37,7 +41,7 @@ public abstract class Processor
     
     /**
      * Do one instruction
-     * @return int -> The number of cycles it did
+     * @return int -> The number of cycles that instruction took
      */
     protected abstract int execute();
 }

@@ -8,21 +8,17 @@ public class ToastyProcessor extends Processor
 {
     public Memory mem;
     
-    // Program space
-    public int[] flash;
-    
     // Peripherals
     private Peripheral[] peripherals;
     
     private int programCounter = 0;
     
-    public ToastyProcessor(Memory mem, int flashNum, int clockSpeed, Peripheral... peripherals)
+    public ToastyProcessor(Memory mem, int clockSpeed, Peripheral... peripherals)
     {
         super(clockSpeed);
         
         this.mem = mem;
 
-        this.flash = new int[flashNum];
         this.peripherals = peripherals;
     }
     
@@ -32,13 +28,19 @@ public class ToastyProcessor extends Processor
     public int execute()
     {
         // fetch
-        int instr = this.flash[this.programCounter];
+        int instr = this.mem.flash[this.programCounter];
         int opCode = (instr & 0xFF000000) >> 24;
         int clockCount = 0;
         
         // execute
         switch (opCode)
         {
+            /**
+             * ADD.b
+             * 
+             * Perform byte addition on two registers and put the result into a third.
+             * Ignores carry.
+             */
             case OPCODES.ADD_b:
             {
                 char Rb = (char)(instr & 0xFF);
@@ -109,14 +111,32 @@ public class ToastyProcessor extends Processor
                 
                 break;
             }
+            /**
+             * ADDI.b
+             * 
+             * Add a constant given 8-bit value to the given register.
+             * Ignores carry.
+             */
             case OPCODES.ADDI_b:
             {
                 break;
             }
+            /**
+             * ADD.b
+             * 
+             * Perform byte addition on two registers and put the result into a third.
+             * Uses carry.
+             */
             case OPCODES.ADC_b:
             {
                 break;
             }
+            /**
+             * ADDI.b
+             * 
+             * Add a constant given 8-bit value to the given register.
+             * Ignores carry.
+             */
             case OPCODES.ADCI_b:
             {
                 break;
@@ -185,6 +205,12 @@ public class ToastyProcessor extends Processor
             {
                 break;
             }
+            /**
+             * AND.b
+             * 
+             * Performs an 8-bit binary and on two registers and puts
+             * the result into a third.
+             */
             case OPCODES.AND_b:
             {
                 byte Rb = (byte)(instr & 0xFF);
@@ -236,6 +262,12 @@ public class ToastyProcessor extends Processor
             {
                 break;
             }
+            /**
+             * OR.b
+             * 
+             * Performs an 8-bit binary or on two registers and puts
+             * the result into a third.
+             */
             case OPCODES.OR_b:
             {
                 byte Rb = (byte)(instr & 0xFF);
@@ -287,6 +319,12 @@ public class ToastyProcessor extends Processor
             {
                 break;
             }
+            /**
+             * XOR.b
+             * 
+             * Performs an 8-bit binary exclusive or on two registers and puts
+             * the result into a third.
+             */
             case OPCODES.XOR_b:
             {
                 byte Rb = (byte)(instr & 0xFF);
@@ -362,6 +400,12 @@ public class ToastyProcessor extends Processor
             {
                 break;
             }
+            /**
+             * OUT.b
+             * 
+             * Writes an 8-bit value from a general purpose register to
+             * a given IO-Space address.
+             */
             case OPCODES.OUT_b:
             {
                 char Rr = (char)(instr & 0xFF);
@@ -375,6 +419,13 @@ public class ToastyProcessor extends Processor
                 
                 break;
             }
+            /**
+             * IN.b
+             * 
+             * Reads an 8-bit value from a a given IO-Space address
+             * and puts it into a given general purpose register.
+             * 
+             */
             case OPCODES.IN_b:
             {
                 char A = (char)(instr & 0xFF);
@@ -388,6 +439,11 @@ public class ToastyProcessor extends Processor
                 
                 break;
             }
+            /**
+             * LDI.b
+             * 
+             * Loads a given 8-bit value to a general purpose register.
+             */
             case OPCODES.LDI_b:
             {
                 char K = (char)(instr & 0xFF);
@@ -401,6 +457,12 @@ public class ToastyProcessor extends Processor
                 
                 break;
             }
+            /**
+             * LD.b
+             * 
+             * Loads an 8-bit value from the address pointer contained in a given register
+             * to another given register.
+             */
             case OPCODES.LD_b:
             {
                 char I = (char)(instr & 0xFF);
@@ -416,6 +478,11 @@ public class ToastyProcessor extends Processor
                 
                 break;
             }
+            /**
+             * STS.b
+             * 
+             * Writes an 8-bit value contained in a given register to a given address in memory.
+             */
             case OPCODES.STS_b:
             {
                 char Rr = (char)(instr & 0xFF);
@@ -429,6 +496,12 @@ public class ToastyProcessor extends Processor
                 
                 break;
             }
+            /**
+             * ST.b
+             * 
+             * Writes an 8-bit value contained in a given register to the memory adress pointed
+             * to by another given register.
+             */
             case OPCODES.ST_b:
             {
                 char Rr = (char)(instr & 0xFF);
@@ -456,6 +529,11 @@ public class ToastyProcessor extends Processor
             {
                 break;
             }
+            /**
+             * JMP.b
+             * 
+             * Sets the program counter to a given constant address (16-bit).
+             */
             case OPCODES.JMP_b:
             {
                 char k = (char)(instr & 0xFFFF);
@@ -482,15 +560,25 @@ public class ToastyProcessor extends Processor
             {
                 break;
             }
+            /**
+             * NOP
+             * 
+             * Do nothing for 1 clock cycle.
+             */
             case OPCODES.NOP:
             {
                 clockCount = 1;
                 
                 this.programCounter += 1;
             }
+            /**
+             * EOF
+             * 
+             * Freeze the program. The program counter does not reset or increment.
+             */
             case OPCODES.EOF:
-            {
-                this.programCounter = 0;
+            {   
+                clockCount = 1;
                 
                 break;
             }  
@@ -552,11 +640,13 @@ public class ToastyProcessor extends Processor
             }
         }
 
+        // Give each peripheral a chance to do something.
         for (Peripheral p : this.peripherals)
         {
             p.clock();
         }
         
+        // Return the number of clock cycles that the processor took.
         return clockCount;   
     }
 }

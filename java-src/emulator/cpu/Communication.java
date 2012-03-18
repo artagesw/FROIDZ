@@ -1,9 +1,8 @@
-
 /**
- * Write a description of interface CommunicationSlave here.
+ * Communication
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Jacob Weiss, Alex Teiche 
+ * @version 0.0.1
  */
 public abstract class Communication extends Peripheral
 {

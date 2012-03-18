@@ -1,4 +1,4 @@
-
+import java.util.Date;
 /**
  * Write a description of class Test here.
  * 
@@ -15,6 +15,21 @@ public class Test
         
         System.out.println((int)(((ToastyProcessor)(p.getProcessor())).mem.sram[3]));
         System.out.println((int)(((ToastyProcessor)(p.getProcessor())).mem.io[0]));
+    }
+    
+    public static void speedTest()
+    {
+        FROIDCPU cpu = new FROIDCPU();
+        long cycles = 0;
+        Date t = new Date();
+        long start = t.getTime();
+        while(cycles < 600000000)
+        {
+            cpu.act(1000);
+            cycles += 1000;
+        }
+        t = new Date();
+        System.out.println((cycles / (t.getTime() - start)) / 1000 + " mHz");
     }
     
     /*
