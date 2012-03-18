@@ -205,16 +205,19 @@ abstract public class ArenaActor extends Actor
     
     public void takeCollisionDamage(ArenaActor a)
     {
+        assert(a != null);
         
+        //double xDamage = Math.abs((this.kineticEnergyX() - a.kineticEnergyX()) * DAMAGE_PER_ENERGY);
+        //double yDamage = Math.abs((this.kineticEnergyY() - a.kineticEnergyY()) * DAMAGE_PER_ENERGY);
+        
+        //this.takeDamage(xDamage + yDamage);
     }
     
     public void deflect(ArenaActor a)
     {
         assert(a != null);
         
-        double referenceAngle = ((double) (this.getRotation() + a.getRotation())) / 2;
-        
-        this.turn((int) (referenceAngle - this.getRotation()));
+        this.speed = 0;
     }
     
     //public getter methods
