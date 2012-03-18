@@ -6,12 +6,12 @@
  */
 public abstract class Peripheral
 {
-    // Alias of the cpu's io space
-    protected char[] io;
+    // Alias of the cpu's memory
+    protected Memory mem;
     
-    public Peripheral(char[] io)
+    public Peripheral(Memory mem)
     {
-        this.io = io;
+        this.mem = mem;
     }
     
     public Peripheral()

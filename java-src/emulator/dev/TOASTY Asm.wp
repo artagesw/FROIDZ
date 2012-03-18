@@ -96,9 +96,9 @@
 # 8 BIT DATA 0100 *****************************************************************************************************  
 	OUT.b   | A=abcdefgh : Rr=qrstuvwx                | [0,255]:[0,255]         | 0100 0001 0000 0000 abcd efgh qrst uvwx 
 	IN.b    | Rd=abcdefgh : A=ijklmnop                | [0,255]:[0,255]         | 0100 0010 0000 0000 abcd efgh ijkl mnop
-	LDI.b   | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0100 0100 0000 0000 abcd efgh ijkl mnop 
+	LDI.b   | Rd=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0100 0011 0000 0000 abcd efgh ijkl mnop 
 	LD.b    | Rd=abcdefgh : I=ijklmnop                | [0,255]:[0,255]         | 0100 0100 0000 0000 abcd efgh ijkl mnop 
-	STS.b   | k=abcdefgh : Rr=qrstuvwx                | [0,255]:[0,255]         | 0100 0110 0000 0000 abcd efgh qrst uvwx 
+	STS.b   | k=abcdefghijklmnop : Rr=qrstuvwx        | [0,65535]:[0,255]       | 0100 0110 abcd efgh ijkl mnop qrst uvwx 
 	ST.b    | I=abcefgh : Rr=ijklmnop                 | [0,255]:[0,255]         | 0100 0111 0000 0000 abcd efgh ijkl mnop 
 	MOV.b   | Rd=abcdefgh : Rr=ijklmnop               | [0,255]:[0,255]         | 0100 1000 0000 0000 abcd efgh ijkl mnop
 	 

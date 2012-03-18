@@ -16,23 +16,15 @@ public class ToastyProcessor extends Processor
     
     private int programCounter = 0;
     
-    public ToastyProcessor(int regNum, int ioNum, int sramNum, int flashNum, int clockSpeed, Peripheral... peripherals)
+    public ToastyProcessor(Memory mem, int flashNum, int clockSpeed, Peripheral... peripherals)
     {
         super(clockSpeed);
         
-        this.mem = new Memory(regNum, ioNum, sramNum);
+        this.mem = mem;
 
         this.flash = new int[flashNum];
         this.peripherals = peripherals;
     }
-    
-    public ToastyProcessor()
-    {
-        // 256 Registers
-        // 1M of Data-space(SRAM)
-        // 1M of IO Space
-        this(256, 65536, 65536, 65536, 1);
-    } 
     
     /**
      * 
@@ -44,8 +36,6 @@ public class ToastyProcessor extends Processor
         int opCode = (instr & 0xFF000000) >> 24;
         int clockCount = 0;
         
-        System.out.println(opCode);
-        
         // execute
         switch (opCode)
         {
@@ -54,8 +44,6 @@ public class ToastyProcessor extends Processor
                 char Rb = (char)(instr & 0xFF);
                 char Ra = (char)((instr = instr >> 8) & 0xFF);
                 char Rd = (char)((instr >> 8) & 0xFF);    
-                
-                System.out.println((int)Rb + " " + (int)Ra + " " + (int)Rd);
                 
                 char Vb = (char)(this.mem.registers[Rb] & 0xFF);
                 char Va = (char)(this.mem.registers[Ra] & 0xFF);
@@ -379,7 +367,7 @@ public class ToastyProcessor extends Processor
                 char Rr = (char)(instr & 0xFF);
                 char A = (char)((instr >> 8) & 0xFF);
                 
-                this.mem.io[A] = (char)(this.mem.registers[Rr] & 0xFF);
+                this.mem.writeIO(A, (char)(this.mem.registers[Rr] & 0xFF));
                 
                 this.programCounter++;
                 
@@ -392,7 +380,7 @@ public class ToastyProcessor extends Processor
                 char A = (char)(instr & 0xFF);
                 char Rd = (char)((instr >> 8) & 0xFF);
                 
-                this.mem.registers[Rd] = (char)(this.mem.io[A] & 0xFF);
+                this.mem.registers[Rd] = (char)(this.mem.readIO(A) & 0xFF);
                 
                 this.programCounter++;
                 

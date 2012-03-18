@@ -27,8 +27,6 @@ public abstract class Processor
      */
     public int run(int cycles)
     {
-        System.out.println("Executing " + cycles + " cycles.");
-        
         while (cycles > 0)
         {
             cycles -= this.execute();

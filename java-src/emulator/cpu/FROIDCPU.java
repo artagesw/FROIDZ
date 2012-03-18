@@ -9,12 +9,13 @@ public class FROIDCPU
     
     public FROIDCPU()
     {
-        this.proc = new ToastyProcessor(10, 10, 64, 64, 1);
-        this.proc.flash[0] = 1124073729; // Put 1 into reg 1
-        this.proc.flash[1] = 1124073986; // Put 2 into reg 2
-        this.proc.flash[2] = 16974337; // Add reg 1 and reg 2, put result in reg 3
+        Memory mem = new AVRMemory();
+        this.proc = new ToastyProcessor(mem, 100, 1, new USART(mem));
+        
+        this.proc.flash[0] = 1124073792; 
+        this.proc.flash[1] = 1174445057;
+        
         this.act(3);
-        System.out.println((int)proc.registers[1] + " + " + (int)proc.registers[2] + " = " + (int)proc.registers[3]);
     }
     
     /**

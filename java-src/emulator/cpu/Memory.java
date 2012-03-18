@@ -16,41 +16,44 @@ public class Memory
         this.sram = new char[sramNum];
     }
     
+    public void writeIO(int addr, char data)
+    {        
+        this.io[addr] = data;
+    }
+    public char readIO(int addr)
+    {
+        return this.io[addr];
+    }
+    
     public void write(int addr, char data)
     {
-        try
+        if (addr < this.registers.length)
         {
             this.registers[addr] = data;
         }
-        catch (java.lang.IndexOutOfBoundsException e)
+        else if (addr < this.io.length)
         {
-            try
-            {
-                this.io[addr -= registers.length] = data;
-            }
-            catch (java.lang.IndexOutOfBoundsException f)
-            {
-                this.sram[addr - io.length] = data;
-            }
+            this.writeIO(addr, data);
         }
-        return;
+        else if (addr < this.sram.length)
+        {
+            this.sram[addr] = data;
+        }
     }
     public char read(int addr)
     {
-        try
+        if (addr < this.registers.length)
         {
             return this.registers[addr];
         }
-        catch (java.lang.IndexOutOfBoundsException e)
+        else if (addr < this.io.length)
         {
-            try
-            {
-                return this.io[addr -= registers.length];
-            }
-            catch (java.lang.IndexOutOfBoundsException f)
-            {
-                return this.sram[addr - io.length];
-            }
+            return this.readIO(addr);
         }
+        else if (addr < this.sram.length)
+        {
+            return this.sram[addr];
+        }
+        throw new java.lang.IndexOutOfBoundsException();
     }
 }
