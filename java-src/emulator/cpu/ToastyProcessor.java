@@ -458,6 +458,12 @@ public class ToastyProcessor extends Processor
             }
             case OPCODES.JMP_b:
             {
+                char k = (char)(instr & 0xFFFF);
+                
+                this.programCounter = k;
+                
+                clockCount = 3;
+                
                 break;
             }
             case OPCODES.RJMP_b:

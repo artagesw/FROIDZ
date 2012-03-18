@@ -114,7 +114,7 @@
 # 8 BIT BRANCH 0101 *************************************************************************************************** 
 	CP.b    | Ra=abcdefgh : Rb=ijklmnop               | [0,255]:[0,255]         | 0101 0001 0000 0000 abcd efgh ijkl mnop 
 	CPI.b   | Ra=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0101 0010 0000 0000 abcd efgh ijkl mnop
-	JMP.b   | k=abcdefgh                              | [0,65535]               | 0101 0011 0000 0000 0000 0000 abcd efgh 
+	JMP.b   | k=abcdefghijklmnop                      | [0,65535]               | 0101 0011 0000 0000 abcd efgh ijkl mnop 
 	RJMP.b  | k=abcdefgh                              | [-128,127]              | 0101 0100 0000 0000 0000 0000 abcd efgh 
 	IJMP.b  | Ra=abcdefgh                             | [0,255]                 | 0101 0101 0000 0000 0000 0000 abcd efgh 
 	BRBS.b  | b=abc : k=efghijkl                      | [0,7]:[-128, 127]       | 0101 0110 0000 0000 0000 0abc efgh ijkl 
