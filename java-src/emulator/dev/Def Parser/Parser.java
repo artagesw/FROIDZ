@@ -2,6 +2,8 @@ import java.util.Scanner;
 import java.util.HashMap;
 import java.io.File;
 import java.util.Map.Entry;
+import java.io.FileWriter;
+
 /** Parser
  * 
  * Parses a def.inc file to create a java constant file.
@@ -11,13 +13,28 @@ import java.util.Map.Entry;
  */
 public class Parser
 {   
-    public void parse()
+    public void parse() throws java.io.IOException
     {
         HashMap<String, Integer> lines = this.getMap("./m64def.inc");
+        FileWriter file;
+        try
+        {
+            file = new FileWriter(new File("./IO.java"));
+        }
+        catch (Throwable e)
+        {
+            System.out.println("404 File Not Found");
+            return;
+        }   
+        String f = "";
+        f += "public class IO\n";
+        f += "{\n";
         for (Entry<String, Integer> e : lines.entrySet())
         {
-            System.out.println(e.getKey() + "->" + e.getValue());
+            f += "\tpublic static final int " + e.getKey() + " = " + e.getValue() + ";\n";
         }
+        f += "}";
+        System.out.print(f);
     }
     
     private HashMap<String, Integer> getMap(String path)
@@ -39,8 +56,6 @@ public class Parser
             if (line.indexOf(".equ") >= 0)
             {
                 String[] parts = line.split("\\t| ");
-                System.out.print(line);
-                System.out.println(" " + parts.length);
                 lines.put(parts[1], this.stringToInteger(parts[3], lines));
             }
         }
