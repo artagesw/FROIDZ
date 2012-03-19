@@ -39,4 +39,8 @@ public class Obstacle extends ArenaActor
     {
         this.health -= damage;
     }
+    
+    public void act()
+    {
+    }
 }
