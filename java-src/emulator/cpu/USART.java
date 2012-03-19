@@ -1,4 +1,7 @@
- 
+package CPU; 
+
+import wp.*; 
+
 /**
  * Acts like a USART on an ATMEGA
  * 
