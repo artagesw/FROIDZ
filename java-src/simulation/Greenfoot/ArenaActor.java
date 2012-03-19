@@ -18,6 +18,10 @@ abstract public class ArenaActor extends Actor
     //the current location of the ArenaActor as a double as to prevent truncation in the 
     //ArenaActor's actual location in Arena
     private Location location;
+    
+    //the current angle of the ArenaActor as a double as to prevent truncation in the ArenaActor's
+    //actual rotation in Arena
+    private double angle;
 
     /**
      * Constructor: set speed to 0
@@ -26,14 +30,16 @@ abstract public class ArenaActor extends Actor
     {
         this.speed = 0;
         this.acceleration = 0;
+        this.angle = 0;
         this.location = new Location();
     }
     
     /**
-     * Constructor: set speed and direction to given values
+     * Constructor: set speed, direction, and angle to given values
      * 
      * @param speed     the given speed
      * @param direction the given direction
+     * @param angle     the given angle
      */
     public ArenaActor(double speed, int direction)
     {
@@ -43,8 +49,9 @@ abstract public class ArenaActor extends Actor
         
         this.speed = speed;
         this.setRotation(direction);
+        this.angle = direction;
     }
-    
+
     /**
      * Act - do whatever the ArenaActor wants to do. 
      * (To be overridden by subclasses)
@@ -52,22 +59,61 @@ abstract public class ArenaActor extends Actor
      */
     public void act() 
     {       
-        this.moveExactly(5.0);
+        this.moveExactly(1.2);
         this.resolveCollisions();
     }   
     
+    
+    //exact locations/rotations - overrides of greenfoot methods
+        //in each section, both methods are necessary because the first overrides the default and the second performs the function we actually need
+    
     /**
      * Overrides greenfoot's setLocation method so it also changes the actor's stored exact location
-     * @param x     x-coordinate of new location
-     * @param y     y-coordinate of new location
+     * @param x     integer x-coordinate of new location
+     * @param y     integer y-coordinate of new location
+     */
+    public void setLocation(int x, int y)
+    {
+        this.setLocation((double)x, (double)y);
+    }
+    
+    /**
+     * Like greenfoot's setLocation method, but takes doubles instead of ints and stores double location in Location object
+     * @param x     double x-coordinate of new location
+     * @param y     double y-coordinate of new location
      * 
      */
     public void setLocation(double x, double y)
     {
+        assert (this.xIsInBoundaries(x));
+        assert (this.yIsInBoundaries(y));
+        
         super.setLocation((int) Math.round(x), (int) Math.round(y));
         this.location.setX(x);
         this.location.setY(y);
     }
+
+    
+    /**
+     * Overrides greenfoot's setRotation method so it also changes the actor's stored exact rotation
+     * @param rotation     integer value of new rotation 
+     */
+    public void setRotation(int rotation)
+    {
+        this.setRotation((double)rotation);
+    }
+    
+    /**
+     * Like greenfoot's setRotation method, but takes doubles instead of ints and stores double rotation in a variable
+     * @param rotation      double value of new rotation
+     */
+    public void setRotation(double rotation)
+    {
+        super.setRotation((int) Math.round(rotation));
+        this.angle = rotation;
+    }
+    
+    
     
     
     /**
@@ -186,6 +232,12 @@ abstract public class ArenaActor extends Actor
         {
             this.collideWith(a);
         }
+        
+        //temporary until Brendan physics-es
+        if (actors.size() > 0)
+        {
+            this.setRotation(this.getRotation() + 180);
+        }
     }
     
     /**
@@ -220,7 +272,7 @@ abstract public class ArenaActor extends Actor
         this.speed = 0;
     }
     
-    //public getter methods
+    //public getter/setter methods
     
     public double getSpeed()
     {
@@ -235,13 +287,9 @@ abstract public class ArenaActor extends Actor
     public void setExactLocation(Location location)
     {
         this.location = location;
+        this.setLocation(location.getX(), location.getY());
     }
-    
-    public void setExactLocation(double x, double y)
-    {
-        this.location.setX(x);
-        this.location.setY(y);
-    }
+
     
     /**
      * Increases the speed of this ArenaActor by a given amount
@@ -253,15 +301,9 @@ abstract public class ArenaActor extends Actor
         this.speed += increase;
     }
     
-    public boolean xIsInBoundaries(double x)
-    {
-        return (x >= 0 && x <= Arena.WIDTH);
-    }
+
     
-    public boolean yIsInBoundaries(double y)
-    {
-        return (y >= 0 && y <= Arena.WIDTH);
-    }
+
     
     /**
      * Returns the mass of this ArenaActor
@@ -283,4 +325,18 @@ abstract public class ArenaActor extends Actor
      * @return  the health of this ArenaActor
      */
     abstract public double getHealth();
+    
+    
+    //Aids for assertions
+
+    public boolean xIsInBoundaries(double x)
+    {
+        return ((x >= 0) && (x <= Arena.WIDTH));
+    }
+    
+    public boolean yIsInBoundaries(double y)
+    {
+        return ((y >= 0) && (y <= Arena.WIDTH));
+    }
+    
 }
