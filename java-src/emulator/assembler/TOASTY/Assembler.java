@@ -1,3 +1,5 @@
+package assembler.TOASTY;
+
 import java.util.Scanner;
 import java.util.Iterator;
 import java.util.List;
@@ -8,10 +10,6 @@ import java.io.IOException;
 import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.Arrays; 
-import WP.WPChunk;
-import WP.Binary;
-import WP.WPParser;
-import WP.InvalidInputException;
 
 /**
  * Write a description of class ASMParser here.
