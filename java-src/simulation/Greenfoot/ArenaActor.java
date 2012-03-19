@@ -115,6 +115,39 @@ abstract public class ArenaActor extends Actor
     
     
     
+    //public getter/setter methods and variable modifiers
+
+    
+    public double getSpeed()
+    {
+        return this.speed;
+    }
+    
+    public void setSpeed(double speed)
+    {
+        this.speed = speed;
+    }
+    
+
+
+    
+    /**
+     * Changes the speed of this ArenaActor by a given amount
+     * 
+     * @param change  the amount by which the speed of this ArenaActor will change (negative number decreases speed, positive increases)
+     */
+    public void changeSpeed(double change)
+    {
+        this.speed += change;
+    }
+    
+        public void setExactLocation(Location location)
+    {
+        this.location = location;
+        this.setLocation(location.getX(), location.getY());
+    }
+    
+    
     
     /**
      * Moves the ArenaActor exactly the distance passed and updates actor's visual position to the closest approximate
@@ -272,34 +305,7 @@ abstract public class ArenaActor extends Actor
         this.speed = 0;
     }
     
-    //public getter/setter methods
-    
-    public double getSpeed()
-    {
-        return this.speed;
-    }
-    
-    public void setSpeed(double speed)
-    {
-        this.speed = speed;
-    }
-    
-    public void setExactLocation(Location location)
-    {
-        this.location = location;
-        this.setLocation(location.getX(), location.getY());
-    }
 
-    
-    /**
-     * Increases the speed of this ArenaActor by a given amount
-     * 
-     * @param increase  the amount by which the speed of this ArenaActor will increase
-     */
-    public void increaseSpeed(double increase)
-    {
-        this.speed += increase;
-    }
     
 
     
@@ -339,4 +345,13 @@ abstract public class ArenaActor extends Actor
         return ((y >= 0) && (y <= Arena.WIDTH));
     }
     
+    public boolean isInBoundaries(Location loc)
+    {
+        return (this.isInBoundaries(loc.getX(), loc.getY()));
+    }
+    
+    public boolean isInBoundaries (double x, double y)
+    {
+        return (this.xIsInBoundaries(x) && this.yIsInBoundaries(y));
+    }
 }
