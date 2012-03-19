@@ -1,4 +1,4 @@
-
+ 
 /**
  * Abstract class CommunicationSlave
  * 
