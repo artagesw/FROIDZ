@@ -2,55 +2,107 @@
  * Memory
  * 
  * Represents the memory of a microcontroller device.
+ * 
+ * Note: For effeciency's sake, it is OK to directly access the 
+ *       public instance variables of this class.
+ * 
+ * @author Jacob Weiss
+ * @version 0.0.2
  */
 public class Memory
 {
     public char[] registers; // Register File
     public char[] io; // IO Space
     public char[] sram; // Data Space
-    
-    public Memory(int regNum, int ioNum, int sramNum)
+    public int[]  flash; // Program Space
+    public Memory(int regNum, int ioNum, int sramNum, int flashNum)
     {
         this.registers = new char[regNum];
         this.io = new char[ioNum];
         this.sram = new char[sramNum];
+        this.flash = new int[flashNum];
     }
     
+    /**
+     * writeIO()
+     * 
+     * Writes a value to the io space.
+     * 
+     * Overriding this method in a subclass can allow the
+     * processor to respond to the accessing of io
+     * locations.
+     * 
+     * @param   int     the address
+     * @param   char    the data
+     */
+    public void writeIO(int addr, char data)
+    {        
+        this.io[addr] = data;
+    }
+    /**
+     * readIO()
+     * 
+     * Reads a value from the io space.
+     * 
+     * Overriding this method in a subclass can allow the
+     * processor to respond to the accessing of io
+     * locations.
+     * 
+     * @param   int     the address
+     * @return  char    the data
+     */
+    public char readIO(int addr)
+    {
+        return this.io[addr];
+    }
+    
+    /**
+     * write()
+     * 
+     * Treats the register, io space, and sram as one 
+     * continuous block of memory.
+     * 
+     * @param   int     the address
+     * @param   char    the data
+     */
     public void write(int addr, char data)
     {
-        try
+        if (addr < this.registers.length)
         {
             this.registers[addr] = data;
         }
-        catch (java.lang.IndexOutOfBoundsException e)
+        else if (addr < this.io.length)
         {
-            try
-            {
-                this.io[addr -= registers.length] = data;
-            }
-            catch (java.lang.IndexOutOfBoundsException f)
-            {
-                this.sram[addr - io.length] = data;
-            }
+            this.writeIO(addr, data);
         }
-        return;
+        else if (addr < this.sram.length)
+        {
+            this.sram[addr] = data;
+        }
     }
+    /**
+     * read()
+     * 
+     * Treats the register, io space, and sram as one 
+     * continuous block of memory.
+     * 
+     * @param   int     the address
+     * @return  char    the data
+     */
     public char read(int addr)
     {
-        try
+        if (addr < this.registers.length)
         {
             return this.registers[addr];
         }
-        catch (java.lang.IndexOutOfBoundsException e)
+        else if (addr < this.io.length)
         {
-            try
-            {
-                return this.io[addr -= registers.length];
-            }
-            catch (java.lang.IndexOutOfBoundsException f)
-            {
-                return this.sram[addr - io.length];
-            }
+            return this.readIO(addr);
         }
+        else if (addr < this.sram.length)
+        {
+            return this.sram[addr];
+        }
+        throw new java.lang.IndexOutOfBoundsException();
     }
 }

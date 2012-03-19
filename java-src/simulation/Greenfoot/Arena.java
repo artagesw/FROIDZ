@@ -13,8 +13,6 @@ public class Arena extends World
     public static final int WIDTH = 600;
     //the height of the arena in cells
     public static final int HEIGHT = 400;
-    //the side length of each cell in pixels
-    public static final int CELL_SIZE = 1;
     //the maximum number of robots in this Arena
     public static final int MAX_ROBOTS = 8;
     //the maximum height of the robot in pixels
@@ -32,7 +30,7 @@ public class Arena extends World
     public Arena()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(WIDTH, HEIGHT, CELL_SIZE, true);
+        super(WIDTH, HEIGHT, 1, true);
         
         ArrayList<Robot> robots = (new Builder()).getRobots();
         ArrayList<Location> spawnLocations = SpawnMap.getSpawnLocations(robots.size());
@@ -45,8 +43,17 @@ public class Arena extends World
             robot.setExactLocation(robot.getX(), robot.getY());
         }
         
-        
+        this.addObject(new Obstacle(20, 100, 100), 300, 200);
+        this.makeWalls();
         this.setActOrder(Robot.class, Projectile.class);
+    }
+    
+    private void makeWalls()
+    {
+        this.addObject(new Wall(WIDTH - 1, 1), WIDTH / 2, 0);
+        this.addObject(new Wall(1, HEIGHT - 1), WIDTH, HEIGHT / 2);
+        this.addObject(new Wall(WIDTH - 1, 1), WIDTH / 2 - 1, HEIGHT);
+        this.addObject(new Wall(1, HEIGHT - 1), 0, HEIGHT / 2 - 1);
     }
     
     /**
