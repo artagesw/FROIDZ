@@ -1,3 +1,4 @@
+ 
 /**
  * Peripherals of a microcontroller react to registers being written to and can act
  * once per instruction.

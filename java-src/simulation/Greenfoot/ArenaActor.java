@@ -272,7 +272,7 @@ abstract public class ArenaActor extends Actor
         this.speed = 0;
     }
     
-    //public getter methods
+    //public getter/setter methods
     
     public double getSpeed()
     {
@@ -287,13 +287,9 @@ abstract public class ArenaActor extends Actor
     public void setExactLocation(Location location)
     {
         this.location = location;
+        this.setLocation(location.getX(), location.getY());
     }
-    
-    public void setExactLocation(double x, double y)
-    {
-        this.location.setX(x);
-        this.location.setY(y);
-    }
+
     
     /**
      * Increases the speed of this ArenaActor by a given amount
@@ -307,7 +303,7 @@ abstract public class ArenaActor extends Actor
     
 
     
-    
+
     
     /**
      * Returns the mass of this ArenaActor
@@ -331,17 +327,13 @@ abstract public class ArenaActor extends Actor
     abstract public double getHealth();
     
     
-    /**
-     * 
-     */
+    //Aids for assertions
+
     public boolean xIsInBoundaries(double x)
     {
         return ((x >= 0) && (x <= Arena.WIDTH));
     }
     
-    /**
-     * 
-     */
     public boolean yIsInBoundaries(double y)
     {
         return ((y >= 0) && (y <= Arena.WIDTH));

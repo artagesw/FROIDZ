@@ -1,3 +1,4 @@
+ 
 /**
  * Abstract class ToastyProcessor - Runs ToastyAssembly
  * 
@@ -5,9 +6,7 @@
  * @version 0.0.1
  */
 public class ToastyProcessor extends Processor
-{
-    public Memory mem;
-    
+{    
     // Peripherals
     private Peripheral[] peripherals;
     
@@ -69,7 +68,7 @@ public class ToastyProcessor extends Processor
                 {
                     sreg &= ~SREG.Z;
                 }
-                if ((result & 0x7F) != 0) // Set the two's complement bit
+                if ((result & 0x80) != 0) // Set the two's complement bit
                 {
                     sreg |= SREG.N;
                 }
@@ -85,7 +84,7 @@ public class ToastyProcessor extends Processor
                 {
                     sreg &= ~SREG.V;
                 }
-                if (((Vb & Va | Va & ~Vb | ~result & Vb) & 0x01) != 0) // Set the half-carry bit
+                if (((Vb & Va | Va & ~result | ~result & Vb) & 0x04) != 0) // Set the half-carry bit
                 {
                     sreg |= SREG.H;
                 }
@@ -143,6 +142,72 @@ public class ToastyProcessor extends Processor
             }
             case OPCODES.SUB_b:
             {
+                char Rb = (char)(instr & 0xFF);
+                char Ra = (char)((instr = instr >> 8) & 0xFF);
+                char Rd = (char)((instr >> 8) & 0xFF);    
+                
+                char Vb = (char)(this.mem.registers[Rb] & 0xFF);
+                char Va = (char)(this.mem.registers[Ra] & 0xFF);
+                
+                char result = (char)(Va - Vb);
+                
+                char sreg = this.mem.io[IO.SREG];
+                if (result > 255) // Set the carry bit
+                {
+                    sreg |= SREG.C;
+                }
+                else
+                {
+                    sreg &= ~SREG.C;
+                }
+                if (result == 0) // Set the 0 bit
+                {
+                    sreg |= SREG.Z;
+                }
+                else
+                {
+                    sreg &= ~SREG.Z;
+                }
+                if ((result & 0x80) != 0) // Set the two's complement bit
+                {
+                    sreg |= SREG.N;
+                }
+                else
+                {
+                    sreg &= ~SREG.N;
+                }
+                if (((Vb & ~Va & ~result | ~Vb & Va & result) & 0x80) != 0) // Set the two's complement overflow bit
+                {
+                    sreg |= SREG.V;
+                }
+                else
+                {
+                    sreg &= ~SREG.V;
+                }
+                if (((~Vb & Va | Va & Vb | result & ~Vb) & 0x04) != 0) // Set the half-carry bit
+                {
+                    sreg |= SREG.H;
+                }
+                else
+                {
+                    sreg &= ~SREG.H;
+                }
+                if (((sreg & SREG.N) != 0) ^ ((sreg & SREG.V) != 0))
+                {
+                    sreg |= SREG.S;
+                }
+                else
+                {
+                    sreg &= ~SREG.S;
+                }
+                
+                this.mem.io[IO.SREG] = sreg;                
+                this.mem.registers[Rd] = (char)(result & 0xFF);
+                
+                this.programCounter++;
+                
+                clockCount = 1;
+                
                 break;
             }
             case OPCODES.SUBI_b:
