@@ -1,4 +1,7 @@
- 
+package CPU; 
+
+import wp.*; 
+
 /**
  * Abstract class ToastyProcessor - Runs ToastyAssembly
  * 

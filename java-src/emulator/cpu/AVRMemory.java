@@ -1,4 +1,7 @@
+package CPU; 
  
+import wp.*;
+
 /**
  * AVRMEMORY
  * 
