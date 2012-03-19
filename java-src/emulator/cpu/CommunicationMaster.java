@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 /**
- * Abstract class CommunicationMaster - write a description of the class here
+ * Abstract class CommunicationMaster
  * 
- * @author (your name here)
- * @version (version number or date here)
+ * @author Alex Teiche, Jacob Weiss
+ * @version 0.0.1
  */
 public abstract class CommunicationMaster extends Communication
 {

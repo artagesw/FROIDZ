@@ -6,14 +6,23 @@ import robot.Robot;
  * A battle arena.
  * 
  * @author Brendan Redmond and Haley B-E
- * @version 0.1.0
+ * @version 0.2.0
  */
 public class Arena extends World
 {
-    //the width of the arena
-    private static final int WIDTH = 600;
-    //the height of the arena
-    private static final int HEIGHT = 400;
+    //the width of the arena in cells
+    public static final int WIDTH = 600;
+    //the height of the arena in cells
+    public static final int HEIGHT = 400;
+    //the maximum number of robots in this Arena
+    public static final int MAX_ROBOTS = 8;
+    //the maximum height of the robot in pixels
+    public static final int MAX_ROBOT_HEIGHT = 50;
+    //the maximum width of the robot in pixels
+    public static final int MAX_ROBOT_WIDTH = 50;
+    
+    //length of time to be given as a turn
+    private static final int TURN_LENGTH = 10;
 
     /**
      * Constructor: creates the arena, then adds the robots to the arena
@@ -22,16 +31,30 @@ public class Arena extends World
     public Arena()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(WIDTH, HEIGHT, 1);
+        super(WIDTH, HEIGHT, 1, true);
         
-        Builder builder = new Builder();
+        ArrayList<Robot> robots = (new Builder()).getRobots();
+        ArrayList<Location> spawnLocations = SpawnMap.getSpawnLocations(robots.size());
         
-        for (Robot robot : builder.getRobots())
+        for (Robot robot : robots)
         {
-            this.add(robot);
+            //adds each robot to a random spawn location and removes that spawn location
+            this.addObject(robot, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
+            
+            robot.setExactLocation(robot.getX(), robot.getY());
         }
         
+        this.addObject(new Obstacle(20, 100, 100), 300, 200);
+        this.makeWalls();
         this.setActOrder(Robot.class, Projectile.class);
+    }
+    
+    private void makeWalls()
+    {
+        this.addObject(new Wall(WIDTH - 1, 1), WIDTH / 2, 0);
+        this.addObject(new Wall(1, HEIGHT - 1), WIDTH, HEIGHT / 2);
+        this.addObject(new Wall(WIDTH - 1, 1), WIDTH / 2 - 1, HEIGHT);
+        this.addObject(new Wall(1, HEIGHT - 1), 0, HEIGHT / 2 - 1);
     }
     
     /**
@@ -41,93 +64,40 @@ public class Arena extends World
     {
     }
     
-    /**
-     * The main game loop
-     */
-    public void play()
-    {
-        ArrayList<ArenaActor> actQueue = this.orderActors(this.getArenaActors());
-        for (int i = 0; i < actQueue.size(); i++)
-        {
-            actQueue.get(i).act();
-            this.resolveCollisions();
-        }
-    }
-    
-    
-    /**
-     * Places actors in an arraylist in order of speed - greatest speed first, least speed last
-     * @param toOrder       ArrayList of actors to be ordered by speed
-     * @return              ArrayList of given actors, ordered by speed
-     */
-    private ArrayList<ArenaActor> orderActors(ArrayList<ArenaActor> toOrder)
-    {
-        ArrayList<ArenaActor> ordered = new ArrayList<ArenaActor>();
-        for (ArenaActor actor : actors)
-        {
-            ordered.add(actor, findInsert(actor, ordered));
-        }
-        return ordered;
-    }
-    
-    /**
-     * NOTE: THIS CAN PROBABLY BE IMPROVED IN TERMS OF EFFICIENCY
-     * Helper method for orderActors --> finds the correct location for the actor in the arraylist based on its speed
-     *          (list sorted from greatest speed to least)
-     * @param actor             the actor to find a place for
-     * @param toPlaceIn         the list to find a place to put the actor into
-     * @return                  the index at which the actor should be placed
-     */
-    private int findInsert(ArenaActor actor, ArrayList<ArenaActor> toPlaceIn)
-    {
-        int i = actor.getSpeed();
-        int j = 0;
-        while ((toPlaceIn.get(j).getSpeed() > i) && (j < toPlaceIn.getSize() - 1))
-        {
-            j++;
-        }
-        return j;
-    }
-    
-    private void resolveCollisions()
-    {
-        for (Robot robot : this.getRobots())
-        {
-            ArrayList<ArenaActor> collisions = robot.getIntersectingObjects(ArenaActor);
-            if (collisions != null)
-            {
-                for (ArenaActor actor : collisions)
-                {
-                    robot.takeDamage(actor.doDamage);
-                    //include a way to get rid of things like bullets that disappear upon impact
-                }
-            }
-        }
-        for (Projectile projectile : this.getProjectiles())
-        {
-            if ((projectile.getIntersectingObjects(Boundary) != null) && (projectile.getIntersectingObjects(Obstacle) != null))
-            {
-                projectile.removeSelfFromGrid(); //include a way to make it explode instead at some point
-            }
-        }
-    }
-    
-    
     //Methods for adding/removing things to the arena
     
     /**
-     * Adds a robot to a random empty location.
+     * Returns an ArrayList of Locations at which a Robot may spawn
      * 
-     * @param robot     the robot to added
-     */
-    public void add(Robot robot)
+     * @param numLocations  the number of Locations required 
+     * @return              the ArrayList of Locations
+     *
+    private ArrayList<Location> getSpawnLocations(int numLocations)
     {
-        this.addObject(robot, (int) Math.random() * WIDTH, (int) Math.random() * HEIGHT);
         
-        while (robot.isInContact())
-        {    
-            robot.setLocation((int) Math.random() * WIDTH, (int) Math.random() * HEIGHT);
-        }
+        ArrayList<Location> spawnLocations = new ArrayList<Location>(numLocations);
+        
+        //make something that gives locations that look like the dots on dice as a function of the number
+        //locations needed and the size of the arena, we have to decide
+        //whether each robot has a unique image or not. For now, here's two temporary locations
+        //also, are all robots going to start off facing the center or something? or random?
+        //also, make sure the image doesnt hang off the screen, we need to do something about boundaries
+        
+        spawnLocations.add(new Location(50, 75));
+        spawnLocations.add(new Location(100, 250));
+        
+        return spawnLocations;
+    }
+    
+    /**
+     * Wrapper method for addObject, takes an Actor and a Location
+     * 
+     * @param actor     the actor to be added
+     * @param location  the location at which the actor will be added
+     */
+    private void addObject(Actor actor, Location location)
+    {
+        this.addObject(actor, (int) location.getX(), (int) location.getY());
     }
     
     /**
@@ -137,7 +107,7 @@ public class Arena extends World
      * @param xCoord        x coordinate of the desired location
      * @param
      */
-    public boolean addArenaActor(ArenaActor toAdd, int xCoord, int yCoord)
+    public boolean add(ArenaActor toAdd, int xCoord, int yCoord)
     {
         if (this.getObjectsAt(xCoord, yCoord, null) != null)
         {
@@ -152,7 +122,7 @@ public class Arena extends World
      * 
      * @param toRemove      ArenaActor to remove from arena
      */
-    public void removeArenaActor(ArenaActor toRemove)
+    public void remove(ArenaActor toRemove)
     {
         this.removeObject(toRemove);
     }
@@ -197,13 +167,16 @@ public class Arena extends World
     }
     
     //Public getter methods
-    
-    public ArrayList<ArenaActor> getObstacles()
+   /**
+    * What are these for? -Brendan
+    * Easily accessing ArrayLists of the different types of things so if there're class-specific actions
+    * they can be taken without casting shenanigans -Haley
+    public ArrayList<Obstacle> getObstacles()
     {
         return null;
     }
     
-    public ArrayList<ArenaActor> getProjectiles()
+    public ArrayList<Projectile> getProjectiles()
     {
         return null;
     }
@@ -216,5 +189,10 @@ public class Arena extends World
     public ArrayList<ArenaActor> getArenaActors()
     {
         return this.getObjects(ArenaActor);
+    }*/
+    
+    public int getTurnLength()
+    {
+        return this.TURN_LENGTH;
     }
 }

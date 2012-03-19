@@ -1,4 +1,4 @@
-
+import java.util.Date;
 /**
  * Write a description of class Test here.
  * 
@@ -13,13 +13,33 @@ public class Test
         
         p.act(3);
         
-        System.out.println((int)(((ToastyProcessor)(p.getProcessor())).sram[3]));
-        System.out.println((int)(((ToastyProcessor)(p.getProcessor())).io[0]));
+        System.out.println((int)(((ToastyProcessor)(p.getProcessor())).mem.sram[3]));
+        System.out.println((int)(((ToastyProcessor)(p.getProcessor())).mem.io[0]));
     }
     
-    public static void shiftest()
+    public static void speedTest()
     {
-        System.out.println((134283265 & 0xFF000000) >> 24);
-        //System.out.println(0xFF & 0xF0);
+        FROIDCPU cpu = new FROIDCPU();
+        long cycles = 0;
+        Date t = new Date();
+        long start = t.getTime();
+        while(cycles < 600000000)
+        {
+            cpu.act(1000);
+            cycles += 1000;
+        }
+        t = new Date();
+        System.out.println((cycles / (t.getTime() - start)) / 1000 + " mHz");
     }
+    
+    /*
+    public static void addTest()
+    {
+        this.proc.flash[0] = 1124073729; // Put 1 into reg 1
+        this.proc.flash[1] = 1124073986; // Put 2 into reg 2
+        this.proc.flash[2] = 16974337; // Add reg 1 and reg 2, put result in reg 3
+        this.act(3);
+        System.out.println((int)proc.mem.registers[1] + " + " + (int)proc.mem.registers[2] + " = " + (int)proc.mem.registers[3]);
+    }
+    */
 }

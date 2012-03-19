@@ -1,17 +1,18 @@
 /**
- * Write a description of class Peripheral here.
+ * Peripherals of a microcontroller react to registers being written to and can act
+ * once per instruction.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Jacob Weiss
+ * @version 0.0.1
  */
 public abstract class Peripheral
 {
-    // Alias of the cpu's io space
-    protected char[] io;
+    // Alias of the cpu's memory
+    protected Memory mem;
     
-    public Peripheral(char[] io)
+    public Peripheral(Memory mem)
     {
-        this.io = io;
+        this.mem = mem;
     }
     
     public Peripheral()
