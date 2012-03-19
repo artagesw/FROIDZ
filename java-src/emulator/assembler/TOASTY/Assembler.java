@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.Arrays; 
+import wp.*;
 
 /**
  * Write a description of class ASMParser here.
