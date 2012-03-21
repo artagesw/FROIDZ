@@ -1,4 +1,4 @@
-package CPU;
+package cpu;
 
 import java.util.ArrayList;
 /**
@@ -11,17 +11,6 @@ public class Pin<E> extends Pinnable<E>
 {
     public Pin(E initialValue)
     {
-       this.value = new Wrapper<E>(initialValue);
-    }
-    public void write(E value)
-    {
-        for (Wrapper<E> w : this.connections)
-        {
-            w.set(value);
-        }
-    }
-    public E read()
-    {
-        return (E)this.connections.get(0).get();
+       this.value = initialValue;
     }
 }
