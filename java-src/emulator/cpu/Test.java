@@ -74,6 +74,11 @@ public class Test
         return cpu;
     }
     
+    public static void pinTest()
+    {
+        
+    }
+    
     /*
     public static void addTest()
     {

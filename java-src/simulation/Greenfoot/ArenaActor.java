@@ -115,7 +115,7 @@ abstract public class ArenaActor extends Actor
     
     
     
-    //public getter/setter methods and variable modifiers
+    //other public getter/setter methods and variable modifiers
 
     
     public double getSpeed()
@@ -128,9 +128,6 @@ abstract public class ArenaActor extends Actor
         this.speed = speed;
     }
     
-
-
-    
     /**
      * Changes the speed of this ArenaActor by a given amount
      * 
@@ -141,7 +138,7 @@ abstract public class ArenaActor extends Actor
         this.speed += change;
     }
     
-        public void setExactLocation(Location location)
+    public void setExactLocation(Location location)
     {
         this.location = location;
         this.setLocation(location.getX(), location.getY());
@@ -149,34 +146,38 @@ abstract public class ArenaActor extends Actor
     
     
     
+    //methods dealing with movement
+    
+    
     /**
-     * Moves the ArenaActor exactly the distance passed and updates actor's visual position to the closest approximate
-     *          position
+     * Moves the ArenaActor exactly the distance passed and updates actor's visual position to the closest approximate position
      * @param distance          the distance to move the actor
      */
     public void moveExactly(double distance)
     {
         double x, y;
         
-        //finds new position in x-direction
-        if ((this.getRotation() < 90) || (this.getRotation() > 270))
+        if (this.angle < 90)
         {
-          y = (this.location.getY() - (distance * Math.cos(this.getRotation())));
+            x = (this.location.getX() + (distance * Math.abs(Math.sin(this.angle))));
+            y = (this.location.getY() - (distance * Math.abs(Math.cos(this.angle))));
+        }
+        else if (this.angle < 180)
+        {
+            x = (this.location.getX() + (distance * Math.abs(Math.cos(this.angle - 90))));
+            y = (this.location.getY() + (distance * Math.abs(Math.sin(this.angle - 90))));
+        }
+        else if (this.angle < 270)
+        {
+            x = (this.location.getX() - (distance * Math.abs(Math.sin(this.angle - 180))));
+            y = (this.location.getY() + (distance * Math.abs(Math.cos(this.angle - 180))));
         }
         else
         {
-            y = (this.location.getY() + (distance * Math.cos(this.getRotation())));
+            x = (this.location.getX() - (distance * Math.abs(Math.sin(360 - this.angle))));
+            y = (this.location.getY() - (distance * Math.abs(Math.cos(360 - this.angle))));
         }
-        
-        //finds new position in y-direction
-        if (this.getRotation() < 180)
-        {
-            x = (this.location.getX() + (distance * Math.sin(this.getRotation())));
-        }
-        else
-        {
-            x = (this.location.getX() + (distance * Math.sin(this.getRotation())));
-        }
+
         
         //checks to make sure we're not out of bounds - TEMPORARY UNTIL WE DECIDE ON BOUNDARY OBJECT
         if (x >= getWorld().getWidth())
@@ -201,6 +202,7 @@ abstract public class ArenaActor extends Actor
         
         moveTo((int)x, (int)y);
     }
+    
     
     public boolean moveTo(int xNew, int yNew)
     {
