@@ -1,4 +1,4 @@
-package CPU;
+package cpu;
 
 import java.util.ArrayList;
 /**

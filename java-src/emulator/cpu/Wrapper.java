@@ -1,4 +1,4 @@
-package CPU;
+package cpu;
 
 /**
  * Write a description of class Wrapper here.
