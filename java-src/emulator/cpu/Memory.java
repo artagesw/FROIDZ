@@ -8,8 +8,8 @@ package cpu;
  * Note: For effeciency's sake, it is OK to directly access the 
  *       public instance variables of this class.
  * 
- * @author Jacob Weiss
- * @version 0.0.2
+ * @author Jacob Weiss, Alex Teiche
+ * @version 0.0.3
  */
 public class Memory
 {
@@ -107,4 +107,10 @@ public class Memory
         }
         throw new java.lang.IndexOutOfBoundsException();
     }
+    
+    /**
+     * loadBin(String path)
+     * 
+     * 
+     */
 }
