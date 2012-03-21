@@ -1,16 +1,20 @@
-package CPU;
+package cpu;
 
 public class LED extends Pinnable<Boolean>
 {
     public void act()
     {
-        if (this.value.get())
+        for (Pinnable<Boolean> b : this.connections)
         {
-            System.out.println("on");
+            if (b.getValue())
+            {
+                System.out.print("on ");
+            }
+            else
+            {
+                System.out.print("off ");
+            }
         }
-        else
-        {
-            System.out.println("off");
-        }
+        System.out.println();
     }
 }
