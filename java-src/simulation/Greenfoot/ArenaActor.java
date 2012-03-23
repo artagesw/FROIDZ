@@ -14,14 +14,6 @@ abstract public class ArenaActor extends Actor
     private double speed;
     //the current acceleration of this ArenaActor in cells per unit time squared
     private double acceleration;
-    
-    //the current location of the ArenaActor as a double as to prevent truncation in the 
-    //ArenaActor's actual location in Arena
-    private Location location;
-    
-    //the current angle of the ArenaActor as a double as to prevent truncation in the ArenaActor's
-    //actual rotation in Arena
-    private double angle;
 
     /**
      * Constructor: set speed to 0
@@ -30,8 +22,6 @@ abstract public class ArenaActor extends Actor
     {
         this.speed = 0;
         this.acceleration = 0;
-        this.angle = 0;
-        this.location = new Location();
     }
     
     /**
@@ -49,7 +39,6 @@ abstract public class ArenaActor extends Actor
         
         this.speed = speed;
         this.setRotation(direction);
-        this.angle = direction;
     }
 
     /**
@@ -59,61 +48,34 @@ abstract public class ArenaActor extends Actor
      */
     public void act() 
     {       
-        this.moveExactly(1.2);
+        this.move(10);
         this.resolveCollisions();
     }   
     
     
-    //exact locations/rotations - overrides of greenfoot methods
-        //in each section, both methods are necessary because the first overrides the default and the second performs the function we actually need
+    //wrapper methods that take doubles in order to utilize greenfoot's movement methods that require ints
     
     /**
-     * Overrides greenfoot's setLocation method so it also changes the actor's stored exact location
-     * @param x     integer x-coordinate of new location
-     * @param y     integer y-coordinate of new location
-     */
-    public void setLocation(int x, int y)
-    {
-        this.setLocation((double)x, (double)y);
-    }
-    
-    /**
-     * Like greenfoot's setLocation method, but takes doubles instead of ints and stores double location in Location object
+     * Sets the ArenaActor's location to the nearest integer location to the double coordinates passed
      * @param x     double x-coordinate of new location
      * @param y     double y-coordinate of new location
-     * 
      */
     public void setLocation(double x, double y)
     {
-        assert (this.xIsInBoundaries(x));
-        assert (this.yIsInBoundaries(y));
-        
-        super.setLocation((int) Math.round(x), (int) Math.round(y));
-        this.location.setX(x);
-        this.location.setY(y);
+        super.setLocation((int)Math.round(x), (int)Math.round(y));
     }
 
     
     /**
-     * Overrides greenfoot's setRotation method so it also changes the actor's stored exact rotation
-     * @param rotation     integer value of new rotation 
-     */
-    public void setRotation(int rotation)
-    {
-        this.setRotation((double)rotation);
-    }
-    
-    /**
-     * Like greenfoot's setRotation method, but takes doubles instead of ints and stores double rotation in a variable
-     * @param rotation      double value of new rotation
+     * Sets the ArenaActor's direction to the nearest integer location to the double value passed
+     * @param rotation     double value of new rotation 
      */
     public void setRotation(double rotation)
     {
-        super.setRotation((int) Math.round(rotation));
-        this.angle = rotation;
+        this.setRotation((int)Math.round(rotation));
     }
     
-    
+
     
     //other public getter/setter methods and variable modifiers
 
@@ -138,72 +100,52 @@ abstract public class ArenaActor extends Actor
         this.speed += change;
     }
     
-    public void setExactLocation(Location location)
-    {
-        this.location = location;
-        this.setLocation(location.getX(), location.getY());
-    }
     
     
+    //methods dealing with movement    
     
-    //methods dealing with movement
-    
+
     
     /**
-     * Moves the ArenaActor exactly the distance passed and updates actor's visual position to the closest approximate position
+     * I AM NOT EVEN SURE IF THIS IS NECESSARY BECAUSE IT MAY BE THE EXACT SAME THING AS move()
      * @param distance          the distance to move the actor
      */
-    public void moveExactly(double distance)
+    public void movement(int distance)
     {
-        double x, y;
+        //will hold the x- and y-coordinates
+        int x = this.getX();
+        int y = this.getY();
+        //stores current rotation to avoid multiple calls to getRotation()
+        int angle = this.getRotation();
+        //stores angle to be used for calculation of distance
+        int calcAngle = (angle % 180);
         
-        if (this.angle < 90)
+        //sets new coordinate location
+        if ((angle < 90) || ((angle < 270) && (angle > 180)))
         {
-            x = (this.location.getX() + (distance * Math.abs(Math.sin(this.angle))));
-            y = (this.location.getY() - (distance * Math.abs(Math.cos(this.angle))));
+            x += (int)(distance * Math.sin(calcAngle));
+            y += (int)(distance * Math.cos(calcAngle));
         }
-        else if (this.angle < 180)
+        else if (((angle >= 90) && (angle < 180)) || (angle > 270))
         {
-            x = (this.location.getX() + (distance * Math.abs(Math.cos(this.angle - 90))));
-            y = (this.location.getY() + (distance * Math.abs(Math.sin(this.angle - 90))));
+            x += (int)(distance * Math.cos(calcAngle));
+            y += (int)(distance * Math.sin(calcAngle));
         }
-        else if (this.angle < 270)
+        else if (angle == 180)
         {
-            x = (this.location.getX() - (distance * Math.abs(Math.sin(this.angle - 180))));
-            y = (this.location.getY() + (distance * Math.abs(Math.cos(this.angle - 180))));
+            y -= distance;
         }
-        else
+        else if (angle == 270)
         {
-            x = (this.location.getX() - (distance * Math.abs(Math.sin(360 - this.angle))));
-            y = (this.location.getY() - (distance * Math.abs(Math.cos(360 - this.angle))));
-        }
-
-        
-        //checks to make sure we're not out of bounds - TEMPORARY UNTIL WE DECIDE ON BOUNDARY OBJECT
-        if (x >= getWorld().getWidth())
-        {
-            x = getWorld().getWidth() - 1;
-        }
-        else if (x < 0)
-        {
-            x = 0;
-        }
-        if (y >= getWorld().getHeight())
-        {
-            y = getWorld().getHeight() - 1;
-        }
-        else if (y < 0)
-        {
-            y = 0;
+            x -= distance;
         }
         
-        this.location.setX(x);
-        this.location.setY(y);
-        
-        moveTo((int)x, (int)y);
+        moveTo(x, y);
     }
     
-    
+    /**
+     * Moves the actor to a new location 
+     */
     public boolean moveTo(int xNew, int yNew)
     {
         int xOld = this.getX();
@@ -229,6 +171,8 @@ abstract public class ArenaActor extends Actor
 
     }
     
+    
+    
     /**
      * Returns the angle this ArenaActor must have to face two given coordinates
      * 
@@ -236,15 +180,24 @@ abstract public class ArenaActor extends Actor
      * @param y     the y coordinate
      * @return      the angle this ArenaActor must have to face two given coordinates
      */
-    public double getAngleTowards(double x, double y)
+    public double getAngleTowards(int x, int y)
     {
         assert(this.xIsInBoundaries(x));
         assert(this.yIsInBoundaries(y));
         
-        double angle = Math.toDegrees(Math.atan((y - this.location.getY()) / (x - this.location.getX())));
+        double angle;
+        
+        if (x == this.getX())
+        {
+            angle = 0;
+        }
+        else
+        {
+            angle = Math.toDegrees(Math.atan((y - this.getY()) / (x - this.getX())));
+        }
         
         //if the location is to the right, 180 must be added to the angle
-        if (x - this.location.getX() > 0)
+        if (x - this.getX() > 0)
         {
             angle += 180;
         }
@@ -254,6 +207,14 @@ abstract public class ArenaActor extends Actor
         
         return angle;
     }
+    
+    /**
+     * Returns the angle this ArenaActor must have to face a given Actor
+     */
+    public double getAngleTowards(Actor a)
+    {
+        return this.getAngleTowards(a.getX(), a.getY());
+    }
 
     
     /**
@@ -262,32 +223,30 @@ abstract public class ArenaActor extends Actor
     private void resolveCollisions()
     {
         List<ArenaActor> actors = this.getIntersectingObjects(ArenaActor.class);
+        List<Wall> walls = this.getIntersectingObjects(Wall.class);
+        
         
         for (ArenaActor a : actors)
         {
             this.collideWith(a);
         }
-        
-        //temporary until Brendan physics-es
-        if (actors.size() > 0)
+        for (Wall w : walls)
         {
-            this.setRotation(this.getRotation() + 180);
+            this.deflect(w);
         }
     }
     
     /**
-     * Deals collision damage to this ArenaActor and a given intersecting ArenaActor, and changes
-     *  the velocities of these ArenaActors.
+     * Deals collision damage to the given intersecting ArenaActor and changes the movement of
+     *  this ArenaActor as a result of the collision
      *  
      * @param a     the intersecting ArenaActor
      */
     private void collideWith(ArenaActor a)
     {
-        this.takeCollisionDamage(a);
         a.takeCollisionDamage(this);
         
         this.deflect(a);
-        a.deflect(this);
     }
     
     public void takeCollisionDamage(ArenaActor a)
@@ -304,14 +263,21 @@ abstract public class ArenaActor extends Actor
     {
         assert(a != null);
         
+        this.setRotation(this.getAngleTowards(a.getX(), a.getY()) - 180);
+        
         this.speed = 0;
     }
     
+    public void deflect(Wall w)
+    {
+        int angle = this.getRotation();
+       this.setRotation(this.getRotation() - 180);
+    }
 
     
 
     
-
+    //abstract methods
     
     /**
      * Returns the mass of this ArenaActor
@@ -337,22 +303,18 @@ abstract public class ArenaActor extends Actor
     
     //Aids for assertions
 
-    public boolean xIsInBoundaries(double x)
+    public boolean xIsInBoundaries(int x)
     {
         return ((x >= 0) && (x <= Arena.WIDTH));
     }
-    
-    public boolean yIsInBoundaries(double y)
+   
+    public boolean yIsInBoundaries(int y)
     {
         return ((y >= 0) && (y <= Arena.WIDTH));
     }
+
     
-    public boolean isInBoundaries(Location loc)
-    {
-        return (this.isInBoundaries(loc.getX(), loc.getY()));
-    }
-    
-    public boolean isInBoundaries (double x, double y)
+    public boolean isInBoundaries (int x, int y)
     {
         return (this.xIsInBoundaries(x) && this.yIsInBoundaries(y));
     }
