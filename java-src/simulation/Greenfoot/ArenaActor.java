@@ -263,6 +263,7 @@ abstract public class ArenaActor extends Actor
     {
         assert(a != null);
         
+        //int tangent = (this.getAngleToward(a) + 90) % 180;
         
         
         this.speed = 0;
@@ -270,7 +271,7 @@ abstract public class ArenaActor extends Actor
     
     public void deflect(Wall w)
     {
-        int angle = this.getRotation();
+       int angle = this.getRotation();
        this.setRotation(this.getRotation() - 180);
     }
 
