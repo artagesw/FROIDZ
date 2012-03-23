@@ -1,5 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Common elements of actors that act in the Arena.
@@ -40,17 +41,6 @@ abstract public class ArenaActor extends Actor
         this.speed = speed;
         this.setRotation(direction);
     }
-
-    /**
-     * Act - do whatever the ArenaActor wants to do. 
-     * (To be overridden by subclasses)
-     * 
-     */
-    public void act() 
-    {       
-        this.move(10);
-        this.resolveCollisions();
-    }   
     
     
     //wrapper methods that take doubles in order to utilize greenfoot's movement methods that require ints
@@ -104,44 +94,23 @@ abstract public class ArenaActor extends Actor
     
     //methods dealing with movement    
     
-
     
-    /**
-     * I AM NOT EVEN SURE IF THIS IS NECESSARY BECAUSE IT MAY BE THE EXACT SAME THING AS move()
-     * @param distance          the distance to move the actor
-     */
-    public void movement(int distance)
+    public void act()
     {
-        //will hold the x- and y-coordinates
-        int x = this.getX();
-        int y = this.getY();
-        //stores current rotation to avoid multiple calls to getRotation()
-        int angle = this.getRotation();
-        //stores angle to be used for calculation of distance
-        int calcAngle = (angle % 180);
-        
-        //sets new coordinate location
-        if ((angle < 90) || ((angle < 270) && (angle > 180)))
-        {
-            x += (int)(distance * Math.sin(calcAngle));
-            y += (int)(distance * Math.cos(calcAngle));
-        }
-        else if (((angle >= 90) && (angle < 180)) || (angle > 270))
-        {
-            x += (int)(distance * Math.cos(calcAngle));
-            y += (int)(distance * Math.sin(calcAngle));
-        }
-        else if (angle == 180)
-        {
-            y -= distance;
-        }
-        else if (angle == 270)
-        {
-            x -= distance;
-        }
-        
-        moveTo(x, y);
+        move(10);
     }
+
+    public void move(int distance)
+    {
+        while (distance > 0)
+        {
+            super.move(1);
+            this.resolveCollisions();
+            distance--;
+        }
+    }
+    
+    
     
     /**
      * Moves the actor to a new location 
@@ -220,7 +189,7 @@ abstract public class ArenaActor extends Actor
     /**
      * Resolves collisions between this ArenaActor and any intersecting ArenaActors
      */
-    private void resolveCollisions()
+    private void resolveCollisionss()
     {
         List<ArenaActor> actors = this.getIntersectingObjects(ArenaActor.class);
         List<Wall> walls = this.getIntersectingObjects(Wall.class);
@@ -234,6 +203,43 @@ abstract public class ArenaActor extends Actor
         {
             this.deflect(w);
         }
+    }
+    
+    private void resolveCollisions()
+    {
+        int width = (this.getImage().getWidth() / 2);
+        int height = (this.getImage().getHeight() / 2);
+        
+        List<Actor> intersecting = new ArrayList<Actor>();
+        
+        for (int i = (this.getX() - width); i <= (this.getX() + width); i++)
+        {
+            for (int j = (this.getY() - height); j <= (this.getY() + height); j++)
+            {
+                List<Actor> toAdd = this.getWorld().getObjectsAt(i, j, Actor.class);
+                
+                if (toAdd != null)
+                {
+                    for (Actor a : toAdd)
+                    {
+                        intersecting.add(a);
+                    }
+                }
+            }
+        }
+        
+        for (Actor a : intersecting)
+        {
+            if (a instanceof ArenaActor)
+            {
+                this.collideWith((ArenaActor)a);
+            }
+            else if (a instanceof Wall)
+            {
+                this.deflect((Wall)a);
+            }
+        }
+        
     }
     
     /**
@@ -263,15 +269,48 @@ abstract public class ArenaActor extends Actor
     {
         assert(a != null);
         
-        this.setRotation(this.getAngleTowards(a.getX(), a.getY()) - 180);
+        //int tangent = (this.getAngleToward(a) + 90) % 180;
+        
         
         this.speed = 0;
     }
     
     public void deflect(Wall w)
     {
-        int angle = this.getRotation();
+<<<<<<< HEAD
+       int angle = this.getRotation();
        this.setRotation(this.getRotation() - 180);
+=======
+        int angle = this.getRotation();
+        int newAngle;
+        
+        if ((angle < 90) && (angle > 0))
+        {
+            newAngle = 360 - angle;
+        }
+        else if (((angle <= 180) && (angle > 90)) || (angle == 0))
+        {
+            newAngle = 180 - angle;
+        }
+        else if ((angle < 270) && (angle != 90))
+        {
+            newAngle = 90 + angle;
+        }
+        else if (angle == 90)
+        {
+            newAngle = 270;
+        }
+        else if (angle == 270)
+        {
+            newAngle = 90;
+        }
+        else
+        {
+            newAngle = 360 - angle;
+        }
+        
+        this.setRotation(newAngle);
+>>>>>>> 5646a7a62802a7d0e60d4477773905d03df690f0
     }
 
     
