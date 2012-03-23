@@ -1,4 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.awt.Color;
 
 /**
  * Boundaries for the Arena, indestructable.
@@ -6,11 +7,13 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author Brendan Redmond
  * @version 0.1.0
  */
-public class Wall extends Obstacle
+public class Wall extends Actor
 {
     public Wall(int width, int height)
     {
-        super(width, height, Integer.MAX_VALUE);
+        this.setImage(new GreenfootImage(width, height));
+        this.getImage().setColor(Color.BLACK);
+        this.getImage().fillRect(0, 0, width, height); 
     }
         
 
@@ -23,12 +26,4 @@ public class Wall extends Obstacle
         // Add your action code here.
     }   
     
-    public void takeDamage(double damage)
-    {
-    }
-    
-    public double getMass()
-    {
-        return 0.0;
-    }
 }

@@ -18,12 +18,6 @@ public class Builder
         ArrayList<Robot> robots = new ArrayList<Robot>();
         robots.add(new Robot());
         robots.add(new Robot());
-        robots.add(new Robot());
-        robots.add(new Robot());
-        robots.add(new Robot());
-        robots.add(new Robot());
-        robots.add(new Robot());
-        robots.add(new Robot());
         
         return robots;
     }
