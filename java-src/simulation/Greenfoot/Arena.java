@@ -13,7 +13,7 @@ public class Arena extends World
     //the width of the arena in cells
     public static final int WIDTH = 600;
     //the height of the arena in cells
-    public static final int HEIGHT = 400;
+    public static final int HEIGHT = 600;
     //the maximum number of robots in this Arena
     public static final int MAX_ROBOTS = 8;
     //the maximum height of the robot in pixels

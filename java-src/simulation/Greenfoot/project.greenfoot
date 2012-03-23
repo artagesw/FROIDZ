@@ -1,5 +1,13 @@
 #Greenfoot properties
+<<<<<<< HEAD
 #Fri Mar 23 13:49:53 PDT 2012
+=======
+<<<<<<< HEAD
+#Fri Mar 23 13:46:20 PDT 2012
+=======
+#Fri Mar 23 13:47:34 PDT 2012
+>>>>>>> 842e4614d1cda6b653bae68940089606fb9407ac
+>>>>>>> 820746cc34df548b9970a02ed6e448e7f531877d
 target2.width=80
 target8.name=SpawnMap
 target5.naviview.expanded=true
@@ -67,7 +75,11 @@ dependency11.from=Arena
 dependency7.type=UsesDependency
 target1.naviview.expanded=true
 version=2.2.1
+<<<<<<< HEAD
+class.Robot.image=smiley1.png
+=======
 class.Robot.image=robot.png
+>>>>>>> 842e4614d1cda6b653bae68940089606fb9407ac
 target5.editor.width=1007
 dependency15.from=Wall
 dependency6.to=Projectile

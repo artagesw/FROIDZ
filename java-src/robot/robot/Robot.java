@@ -1,4 +1,4 @@
-package robot;  
+package robot.robot;  
    
 /**
  * Write a description of class Robot here.

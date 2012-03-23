@@ -10,18 +10,11 @@ import wp.*;
  */
 public class ToastyProcessor extends Processor
 {    
-    // Peripherals
-    private Peripheral[] peripherals;
-    
-    private int programCounter = 0;
-    
     public ToastyProcessor(Memory mem, int clockSpeed, Peripheral... peripherals)
     {
         super(clockSpeed);
         
         this.mem = mem;
-
-        this.peripherals = peripherals;
     }
     
     /**

@@ -94,6 +94,11 @@ abstract public class ArenaActor extends Actor
     
     //methods dealing with movement    
     
+    
+    public void act()
+    {
+        move(10);
+    }
 
     public void move(int distance)
     {
@@ -282,13 +287,21 @@ abstract public class ArenaActor extends Actor
         {
             newAngle = 360 - angle;
         }
-        else if (((angle <= 180) && (angle > 90)) || (angle == 270) || (angle == 0))
+        else if (((angle <= 180) && (angle > 90)) || (angle == 0))
         {
             newAngle = 180 - angle;
         }
-        else if (angle < 270)
+        else if ((angle < 270) && (angle != 90))
         {
             newAngle = 90 + angle;
+        }
+        else if (angle == 90)
+        {
+            newAngle = 270;
+        }
+        else if (angle == 270)
+        {
+            newAngle = 90;
         }
         else
         {
