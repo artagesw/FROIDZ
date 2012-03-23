@@ -263,7 +263,7 @@ abstract public class ArenaActor extends Actor
     {
         assert(a != null);
         
-        this.setRotation(this.getAngleTowards(a.getX(), a.getY()) - 180);
+        
         
         this.speed = 0;
     }
