@@ -277,11 +277,10 @@ abstract public class ArenaActor extends Actor
     
     public void deflect(Wall w)
     {
-<<<<<<< HEAD
-       int angle = this.getRotation();
-       this.setRotation(this.getRotation() - 180);
-=======
         int angle = this.getRotation();
+        this.setRotation(this.getRotation() - 180);
+        
+
         int newAngle;
         
         if ((angle < 90) && (angle > 0))
@@ -310,7 +309,6 @@ abstract public class ArenaActor extends Actor
         }
         
         this.setRotation(newAngle);
->>>>>>> 5646a7a62802a7d0e60d4477773905d03df690f0
     }
 
     

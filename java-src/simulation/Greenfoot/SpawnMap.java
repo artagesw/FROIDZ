@@ -12,22 +12,22 @@ public class SpawnMap
     private static Location[] locations = 
     {
         //top left
-        new Location(Arena.MAX_ROBOT_WIDTH / 2, Arena.MAX_ROBOT_HEIGHT / 2),
+        new Location(Arena.MAX_ROBOT_WIDTH / 2 + Wall.THICKNESS / 2, Arena.MAX_ROBOT_HEIGHT / 2 + Wall.THICKNESS / 2),
         //bottom right
-        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH / 2,
-                     Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT / 2),
+        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH / 2 - Wall.THICKNESS / 2,
+                     Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT / 2 - Wall.THICKNESS / 2),
         //bottom left
-        new Location(Arena.MAX_ROBOT_WIDTH / 2, Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT / 2),
+        new Location(Arena.MAX_ROBOT_WIDTH / 2 + Wall.THICKNESS / 2, Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT / 2 - Wall.THICKNESS / 2),
         //top right
-        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH / 2, Arena.MAX_ROBOT_HEIGHT / 2),
+        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH / 2 - Wall.THICKNESS / 2, Arena.MAX_ROBOT_HEIGHT / 2 + Wall.THICKNESS / 2),
         //top middle
-        new Location(Arena.WIDTH / 2, Arena.MAX_ROBOT_HEIGHT / 2),
+        new Location(Arena.WIDTH / 2, Arena.MAX_ROBOT_HEIGHT / 2 + Wall.THICKNESS / 2),
         //left middle
-        new Location(Arena.MAX_ROBOT_WIDTH / 2, Arena.HEIGHT / 2),
+        new Location(Arena.MAX_ROBOT_WIDTH / 2 + Wall.THICKNESS / 2, Arena.HEIGHT / 2),
         //right middle
-        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH / 2, Arena.HEIGHT / 2),
+        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH / 2 - Wall.THICKNESS / 2, Arena.HEIGHT / 2),
         //bottom middle
-        new Location(Arena.WIDTH / 2, Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT / 2)
+        new Location(Arena.WIDTH / 2, Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT / 2 - Wall.THICKNESS / 2)
     };
     
     
