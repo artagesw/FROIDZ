@@ -9,6 +9,8 @@ import java.awt.Color;
  */
 public class Wall extends Actor
 {
+    public static final int THICKNESS = 10;
+
     public Wall(int width, int height)
     {
         this.setImage(new GreenfootImage(width, height));

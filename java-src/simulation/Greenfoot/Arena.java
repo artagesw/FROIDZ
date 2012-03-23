@@ -52,10 +52,23 @@ public class Arena extends World
     
     private void makeWalls()
     {
-        this.addObject(new Wall(WIDTH - 2, 10), WIDTH / 2, 0);
-        this.addObject(new Wall(10, HEIGHT), WIDTH, HEIGHT / 2);
-        this.addObject(new Wall(WIDTH - 2, 10), WIDTH / 2 - 1, HEIGHT);
-        this.addObject(new Wall(10, HEIGHT), 0, HEIGHT / 2 - 1);
+        Wall wall;
+        
+        wall = new Wall(WIDTH - Wall.THICKNESS * 2, Wall.THICKNESS);
+        this.addObject(wall, WIDTH / 2, Wall.THICKNESS / 2);
+        wall.setRotation(0);
+        
+        wall = new Wall(WIDTH - Wall.THICKNESS * 2, Wall.THICKNESS);
+        this.addObject(wall, WIDTH / 2, HEIGHT - Wall.THICKNESS / 2);
+        wall.setRotation(0);
+        
+        wall = new Wall(HEIGHT, Wall.THICKNESS);
+        this.addObject(wall, WIDTH - Wall.THICKNESS / 2 - 1, HEIGHT / 2);
+        wall.setRotation(90);
+        
+        wall = new Wall(HEIGHT, Wall.THICKNESS);
+        this.addObject(wall, Wall.THICKNESS / 2 - 1, HEIGHT / 2);
+        wall.setRotation(90);
     }
     
     /**
