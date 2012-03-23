@@ -37,7 +37,7 @@ public class FROIDZCPU
     {
         
     }
-    public void connectToPin(PartCommunication part, int clock, int dataIn, int dataOut)
+    public void connectToPin(PinConnector part, int clock, int dataIn, int dataOut)
     {
         
     }
