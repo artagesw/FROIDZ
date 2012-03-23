@@ -1,16 +1,15 @@
 package cpu;
 
-import java.util.ArrayList;
-/**
+/** 
  * One pin of a microcontroller.
  * 
  * @author Jacob Weiss
  * @version 0.0.1
  */
-public class Pin<E> extends Pinnable<E>
+public class Pin<E> extends Connectable<E>
 {
-    public Pin(E initialValue)
+    public Pin(E initial)
     {
-       this.value = initialValue;
+        this.setValue(initial);
     }
 }

@@ -76,7 +76,14 @@ public class Test
     
     public static void pinTest()
     {
+        Pin<Boolean> p1 = new Pin(true);
+        Pin<Boolean> p2 = new Pin(false);
+        LED l1 = new LED();
+        LED l2 = new LED();
         
+        p1.connect(l1);
+        p2.connect(l2);
+        l1.connect(l2);
     }
     
     /*

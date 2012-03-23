@@ -20,7 +20,7 @@ public class Port extends Peripheral
         
         for (int i = 0; i < numPins; i++)
         {
-            this.pins[i] = new Pin<Boolean>(false);
+            //this.pins[i] = new Pin<Boolean>(false);
         }
     }
     

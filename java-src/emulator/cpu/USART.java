@@ -10,6 +10,8 @@ import java.util.ArrayList;
  */
 public class USART extends Peripheral
 {
+    private ArrayList<IUSART> devices = new ArrayList();
+    
     public USART(Memory mem)
     {
         super(mem);
@@ -19,7 +21,10 @@ public class USART extends Peripheral
     {
         if ((this.mem.io[IO.UCSR1A] & 32) == 0)
         {
-            System.out.print(this.mem.readIO(IO.UDR1));
+            for (IUSART d : this.devices)
+            {
+                this.mem.io[IO.UDR1] = (char)d.TxRx((byte)this.mem.io[IO.UDR1]);
+            }
         }
         this.mem.io[IO.UCSR1A] |= 32;
     }
