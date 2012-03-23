@@ -1,5 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Common elements of actors that act in the Arena.
@@ -40,17 +41,6 @@ abstract public class ArenaActor extends Actor
         this.speed = speed;
         this.setRotation(direction);
     }
-
-    /**
-     * Act - do whatever the ArenaActor wants to do. 
-     * (To be overridden by subclasses)
-     * 
-     */
-    public void act() 
-    {       
-        this.move(10);
-        this.resolveCollisions();
-    }   
     
     
     //wrapper methods that take doubles in order to utilize greenfoot's movement methods that require ints
@@ -105,43 +95,17 @@ abstract public class ArenaActor extends Actor
     //methods dealing with movement    
     
 
-    
-    /**
-     * I AM NOT EVEN SURE IF THIS IS NECESSARY BECAUSE IT MAY BE THE EXACT SAME THING AS move()
-     * @param distance          the distance to move the actor
-     */
-    public void movement(int distance)
+    public void move(int distance)
     {
-        //will hold the x- and y-coordinates
-        int x = this.getX();
-        int y = this.getY();
-        //stores current rotation to avoid multiple calls to getRotation()
-        int angle = this.getRotation();
-        //stores angle to be used for calculation of distance
-        int calcAngle = (angle % 180);
-        
-        //sets new coordinate location
-        if ((angle < 90) || ((angle < 270) && (angle > 180)))
+        while (distance > 0)
         {
-            x += (int)(distance * Math.sin(calcAngle));
-            y += (int)(distance * Math.cos(calcAngle));
+            super.move(1);
+            this.resolveCollisions();
+            distance--;
         }
-        else if (((angle >= 90) && (angle < 180)) || (angle > 270))
-        {
-            x += (int)(distance * Math.cos(calcAngle));
-            y += (int)(distance * Math.sin(calcAngle));
-        }
-        else if (angle == 180)
-        {
-            y -= distance;
-        }
-        else if (angle == 270)
-        {
-            x -= distance;
-        }
-        
-        moveTo(x, y);
     }
+    
+    
     
     /**
      * Moves the actor to a new location 
@@ -220,7 +184,7 @@ abstract public class ArenaActor extends Actor
     /**
      * Resolves collisions between this ArenaActor and any intersecting ArenaActors
      */
-    private void resolveCollisions()
+    private void resolveCollisionss()
     {
         List<ArenaActor> actors = this.getIntersectingObjects(ArenaActor.class);
         List<Wall> walls = this.getIntersectingObjects(Wall.class);
@@ -234,6 +198,43 @@ abstract public class ArenaActor extends Actor
         {
             this.deflect(w);
         }
+    }
+    
+    private void resolveCollisions()
+    {
+        int width = (this.getImage().getWidth() / 2);
+        int height = (this.getImage().getHeight() / 2);
+        
+        List<Actor> intersecting = new ArrayList<Actor>();
+        
+        for (int i = (this.getX() - width); i <= (this.getX() + width); i++)
+        {
+            for (int j = (this.getY() - height); j <= (this.getY() + height); j++)
+            {
+                List<Actor> toAdd = this.getWorld().getObjectsAt(i, j, Actor.class);
+                
+                if (toAdd != null)
+                {
+                    for (Actor a : toAdd)
+                    {
+                        intersecting.add(a);
+                    }
+                }
+            }
+        }
+        
+        for (Actor a : intersecting)
+        {
+            if (a instanceof ArenaActor)
+            {
+                this.collideWith((ArenaActor)a);
+            }
+            else if (a instanceof Wall)
+            {
+                this.deflect((Wall)a);
+            }
+        }
+        
     }
     
     /**
@@ -271,7 +272,26 @@ abstract public class ArenaActor extends Actor
     public void deflect(Wall w)
     {
         int angle = this.getRotation();
-       this.setRotation(this.getRotation() - 180);
+        int newAngle;
+        
+        if ((angle < 90) && (angle > 0))
+        {
+            newAngle = 360 - angle;
+        }
+        else if (((angle <= 180) && (angle > 90)) || (angle == 270) || (angle == 0))
+        {
+            newAngle = 180 - angle;
+        }
+        else if (angle < 270)
+        {
+            newAngle = 90 + angle;
+        }
+        else
+        {
+            newAngle = 360 - angle;
+        }
+        
+        this.setRotation(newAngle);
     }
 
     
