@@ -1,5 +1,5 @@
 #Greenfoot properties
-#Fri Mar 23 13:31:25 PDT 2012
+#Fri Mar 23 13:46:20 PDT 2012
 target2.width=80
 target8.name=SpawnMap
 target5.naviview.expanded=true
@@ -67,7 +67,7 @@ dependency11.from=Arena
 dependency7.type=UsesDependency
 target1.naviview.expanded=true
 version=2.2.1
-class.Robot.image=button-green.png
+class.Robot.image=smiley1.png
 target5.editor.width=1007
 dependency15.from=Wall
 dependency6.to=Projectile
