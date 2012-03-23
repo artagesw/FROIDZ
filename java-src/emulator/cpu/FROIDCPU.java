@@ -1,4 +1,4 @@
-package CPU; 
+package cpu; 
    
 /**
  * FROIDCPU
@@ -22,6 +22,14 @@ public class FROIDCPU
     public FROIDCPU()
     {
         Memory mem = new AVRMemory();
+        this.proc = new ToastyProcessor(mem, 1, new USART(mem));
+    }
+    
+    public FROIDCPU(String path)
+    {
+        Memory mem = new AVRMemory();
+        mem.loadBin(path);
+        
         this.proc = new ToastyProcessor(mem, 1, new USART(mem));
     }
     

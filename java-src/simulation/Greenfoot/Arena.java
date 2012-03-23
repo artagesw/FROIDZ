@@ -1,6 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.ArrayList;
-import robot.Robot;
+//import robot.Robot;
 
 /**
  * A battle arena.
@@ -42,20 +42,20 @@ public class Arena extends World
             //adds each robot to a random spawn location and removes that spawn location
             this.addObject(robot, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
             
-            robot.setExactLocation(robot.getX(), robot.getY());
+            robot.setLocation(robot.getX(), robot.getY());
         }
         
-        this.addObject(new Obstacle(20, 100, 100), 300, 200);
+        //this.addObject(new Obstacle(20, 100, 100), 300, 200);
         this.makeWalls();
         this.setActOrder(Robot.class, Projectile.class);
     }
     
     private void makeWalls()
     {
-        this.addObject(new Wall(WIDTH - 1, 1), WIDTH / 2, 0);
-        this.addObject(new Wall(1, HEIGHT - 1), WIDTH, HEIGHT / 2);
-        this.addObject(new Wall(WIDTH - 1, 1), WIDTH / 2 - 1, HEIGHT);
-        this.addObject(new Wall(1, HEIGHT - 1), 0, HEIGHT / 2 - 1);
+        this.addObject(new Wall(WIDTH - 2, 10), WIDTH / 2, 0);
+        this.addObject(new Wall(10, HEIGHT), WIDTH, HEIGHT / 2);
+        this.addObject(new Wall(WIDTH - 2, 10), WIDTH / 2 - 1, HEIGHT);
+        this.addObject(new Wall(10, HEIGHT), 0, HEIGHT / 2 - 1);
     }
     
     /**

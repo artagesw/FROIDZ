@@ -1,4 +1,7 @@
-package CPU; 
+package cpu; 
+
+import java.util.Scanner;
+import java.io.File;
  
 /**
  * Memory
@@ -8,8 +11,8 @@ package CPU;
  * Note: For effeciency's sake, it is OK to directly access the 
  *       public instance variables of this class.
  * 
- * @author Jacob Weiss
- * @version 0.0.2
+ * @author Jacob Weiss, Alex Teiche
+ * @version 0.0.3
  */
 public class Memory
 {
@@ -106,5 +109,40 @@ public class Memory
             return this.sram[addr];
         }
         throw new java.lang.IndexOutOfBoundsException();
+    }
+    
+    /**
+     * loadBin(String path)
+     * 
+     * 
+     */
+    public boolean loadBin(String path)
+    {
+        int pos = 0;
+        
+        try
+        {
+            Scanner scanner = new Scanner(new File(path));
+
+            while (scanner.hasNextLine())
+            {
+                this.flash[pos] = Integer.parseInt(scanner.nextLine().replace(" ", ""), 2);
+                
+                pos++;
+                
+                if (pos >= this.flash.length)
+                {
+                    return false;
+                }
+            }
+        }
+        catch (Throwable e)
+        {
+            System.out.println("404 File Not Found: " + path);
+            System.out.println(e.getMessage());
+        }
+        
+        System.out.println(pos + " instructions loaded.");
+        return true;
     }
 }
