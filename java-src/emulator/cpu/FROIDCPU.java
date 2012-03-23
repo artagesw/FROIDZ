@@ -25,6 +25,14 @@ public class FROIDCPU
         this.proc = new ToastyProcessor(mem, 1, new USART(mem));
     }
     
+    public FROIDCPU(String path)
+    {
+        Memory mem = new AVRMemory();
+        mem.loadBin(path);
+        
+        this.proc = new ToastyProcessor(mem, 1, new USART(mem));
+    }
+    
     /**
      * Tell the CPU to do things
      * @param time Milliseconds for the CPU to do things

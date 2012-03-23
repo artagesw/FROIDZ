@@ -1,4 +1,7 @@
 package cpu; 
+
+import java.util.Scanner;
+import java.io.File;
  
 /**
  * Memory
@@ -113,4 +116,33 @@ public class Memory
      * 
      * 
      */
+    public boolean loadBin(String path)
+    {
+        int pos = 0;
+        
+        try
+        {
+            Scanner scanner = new Scanner(new File(path));
+
+            while (scanner.hasNextLine())
+            {
+                this.flash[pos] = Integer.parseInt(scanner.nextLine().replace(" ", ""), 2);
+                
+                pos++;
+                
+                if (pos >= this.flash.length)
+                {
+                    return false;
+                }
+            }
+        }
+        catch (Throwable e)
+        {
+            System.out.println("404 File Not Found: " + path);
+            System.out.println(e.getMessage());
+        }
+        
+        System.out.println(pos + " instructions loaded.");
+        return true;
+    }
 }
