@@ -97,7 +97,7 @@ abstract public class ArenaActor extends Actor
     
     public void act()
     {
-        move(10);
+        move(1);
     }
 
     public void move(int distance)
@@ -106,6 +106,7 @@ abstract public class ArenaActor extends Actor
         {
             super.move(1);
             this.resolveCollisions();
+            this.getWorld().repaint();
             distance--;
         }
     }
@@ -277,38 +278,46 @@ abstract public class ArenaActor extends Actor
     
     public void deflect(Wall w)
     {
-        int angle = this.getRotation();
-        this.setRotation(this.getRotation() - 180);
-        
+       this.setRotation(2 * w.getRotation() - this.getRotation());
 
-        int newAngle;
+       /** int angle = this.getRotation();
+        int newAngle = 30;
+        int quad = angle / 90;
+
         
-        if ((angle < 90) && (angle > 0))
-        {
-            newAngle = 360 - angle;
-        }
-        else if (((angle <= 180) && (angle > 90)) || (angle == 0))
+        if ((angle == 0) || (angle == 180))
         {
             newAngle = 180 - angle;
-        }
-        else if ((angle < 270) && (angle != 90))
-        {
-            newAngle = 90 + angle;
-        }
-        else if (angle == 90)
-        {
-            newAngle = 270;
         }
         else if (angle == 270)
         {
             newAngle = 90;
         }
+        else if (angle == 90)
+        {
+            newAngle = 270;
+        }
         else
         {
-            newAngle = 360 - angle;
+                    
+            if (w.getRotation() == 0)
+            {
+                if ((quad == 0) || (quad == 2))
+                {
+                    newAngle = 180 - angle;
+                }
+                else
+                {
+                    newAngle = angle + 90;
+                }
+            }
+            else
+            {
+                newAngle = 360 - angle;
+            }
         }
         
-        this.setRotation(newAngle);
+        this.setRotation(newAngle);*/
     }
 
     
