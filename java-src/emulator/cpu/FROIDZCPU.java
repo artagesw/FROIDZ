@@ -10,27 +10,36 @@ package cpu;
  * @author Jacob Weiss, Alex Teiche
  * @version 0.0.2
  */
-public class FROIDCPU
+public class FROIDZCPU
 {
     // This' processor
     public Processor proc;
-
+    
     // How many cycles extra have been used
     // This is subtracted from the number total we can use
     private int cycleDebt = 0;
     
-    public FROIDCPU()
+    public FROIDZCPU()
     {
         Memory mem = new AVRMemory();
         this.proc = new ToastyProcessor(mem, 1, new USART(mem));
     }
     
-    public FROIDCPU(String path)
+    public FROIDZCPU(String path)
     {
         Memory mem = new AVRMemory();
         mem.loadBin(path);
         
         this.proc = new ToastyProcessor(mem, 1, new USART(mem));
+    }
+    
+    public void connectToSerial(IUSART part)
+    {
+        
+    }
+    public void connectToPin(PartCommunication part, int clock, int dataIn, int dataOut)
+    {
+        
     }
     
     /**

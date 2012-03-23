@@ -8,6 +8,10 @@ package cpu;
  */
 public class Pin<E> extends Connectable<E>
 {
+    public Pin()
+    {
+        this.setValue(null);
+    }
     public Pin(E initial)
     {
         this.setValue(initial);

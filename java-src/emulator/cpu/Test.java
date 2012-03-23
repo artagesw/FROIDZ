@@ -11,7 +11,7 @@ public class Test
 {
     public static void main()
     {
-        FROIDCPU p = new FROIDCPU();
+        FROIDZCPU p = new FROIDZCPU();
         
         p.act(3);
         
@@ -21,7 +21,7 @@ public class Test
     
     public static void speedTest()
     {
-        FROIDCPU cpu = new FROIDCPU();
+        FROIDZCPU cpu = new FROIDZCPU();
         cpu.proc.mem.flash[0] = Integer.parseInt("01010011000000000000000000000000", 2);
         long cycles = 0;
         Date t = new Date();
@@ -35,9 +35,9 @@ public class Test
         System.out.println((cycles / (t.getTime() - start)) / 1000 + " mHz");
     }
     
-    public static FROIDCPU helloWorld()
+    public static FROIDZCPU helloWorld()
     {
-        FROIDCPU cpu = new FROIDCPU("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/cpu/helloworld.asm");
+        FROIDZCPU cpu = new FROIDZCPU("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/cpu/helloworld.asm");
        
         return cpu;
     }

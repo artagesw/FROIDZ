@@ -1,8 +1,8 @@
 #BlueJ package file
 package.editor.height=370
 package.editor.width=554
-package.editor.x=38
-package.editor.y=332
+package.editor.x=395
+package.editor.y=100
 package.numDependencies=0
 package.numTargets=1
 package.showExtends=true
@@ -10,7 +10,7 @@ package.showUses=true
 target1.editor.height=700
 target1.editor.width=900
 target1.editor.x=93
-target1.editor.y=100
+target1.editor.y=96
 target1.height=50
 target1.name=Robot
 target1.naviview.expanded=false

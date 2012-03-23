@@ -12,7 +12,12 @@ package cpu;
 public abstract class Processor
 {
     public Memory mem; // REMOVE THIS ONCE MEMORY BECOMES PRIVATE
-
+    
+    // Peripherals
+    protected Peripheral[] peripherals;
+    
+    protected int programCounter = 0;
+    
     // Specified in kHz
     private final int CLOCK_SPEED;
     
