@@ -31,9 +31,10 @@ public class Arena extends World
     public Arena()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(WIDTH, HEIGHT, 1, true);
+        super(WIDTH, HEIGHT, 1);
         
-        ArrayList<Robot> robots = (new Builder()).getRobots();
+        Builder builder = new Builder();
+        ArrayList<Robot> robots = builder.getRobots();
         ArrayList<Location> spawnLocations = SpawnMap.getSpawnLocations(robots.size());
         
         for (Robot robot : robots)
