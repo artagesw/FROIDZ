@@ -11,10 +11,13 @@ import java.util.ArrayList;
  */
 abstract public class ArenaActor extends Actor
 {
+    //the number of time units elapsed for each actor's act method
+    public static final int ACT_TIME = 10;
+
     //the current speed of this ArenaActor in cells per unit time
     private double speed;
-    //the current acceleration of this ArenaActor in cells per unit time squared
-    private double acceleration;
+    //the exact location of this ArenaActor
+    private Location location;
 
     /**
      * Constructor: set speed to 0
@@ -22,11 +25,11 @@ abstract public class ArenaActor extends Actor
     public ArenaActor()
     {
         this.speed = 0;
-        this.acceleration = 0;
+        this.location = null;
     }
     
     /**
-     * Constructor: set speed, direction, and angle to given values
+     * Constructor: set speed, direction to given values
      * 
      * @param speed     the given speed
      * @param direction the given direction
@@ -39,7 +42,9 @@ abstract public class ArenaActor extends Actor
         assert(Math.abs(direction) >= 0);
         
         this.speed = speed;
+        this.acceleration = 0;
         this.setRotation(direction);
+        this.location = new Location();
     }
     
     
@@ -52,7 +57,15 @@ abstract public class ArenaActor extends Actor
      */
     public void setLocation(double x, double y)
     {
-        super.setLocation((int)Math.round(x), (int)Math.round(y));
+        super.setLocation((int) (x + .5), (int) (y + .5));
+        
+        this.location.setX(x);
+        this.location.setY(y);
+    }
+    
+    public void setLocation(Location location)
+    {
+        this.location = location;
     }
 
     
@@ -90,6 +103,10 @@ abstract public class ArenaActor extends Actor
         this.speed += change;
     }
     
+    public Location getLocation()
+    {
+        return this.location;
+    }
     
     
     //methods dealing with movement    
@@ -97,7 +114,8 @@ abstract public class ArenaActor extends Actor
     
     public void act()
     {
-        move(1);
+        this.move(1);
+        //this.move(this.speed * ACT_TIME);
     }
 
     public void move(int distance)
