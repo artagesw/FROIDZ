@@ -40,8 +40,10 @@ public class Arena extends World
         for (Robot robot : robots)
         {
             //adds each robot to a random spawn location and removes that spawn location
-            this.add(robot, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
+            //this.add(robot, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
+            
         }
+        this.add(new Robot(), 200.0, 200.0);
         
         //this.addObject(new Obstacle(20, 100, 100), 300, 200);
         this.makeWalls();
