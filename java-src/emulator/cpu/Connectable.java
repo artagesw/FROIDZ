@@ -1,4 +1,4 @@
-package cpu;
+package emulator.cpu;
 
 /**
  * Pinnable objects can be connected to one another for communication.

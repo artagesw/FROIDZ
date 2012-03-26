@@ -1,4 +1,4 @@
-package wp; 
+package emulator.wp; 
 /**
  * Write a description of class InvalidInputException here.
  * 

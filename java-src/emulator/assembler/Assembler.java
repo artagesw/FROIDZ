@@ -1,4 +1,4 @@
-package assembler.TOASTY;
+package emulator.assembler;
 
 import java.util.Scanner;
 import java.util.Iterator;

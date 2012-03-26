@@ -1,4 +1,4 @@
-package cpu;
+package emulator.cpu;
 
 /**
  * Anything that can be connected to a USART Port is USARTAble

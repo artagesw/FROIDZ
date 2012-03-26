@@ -1,13 +1,8 @@
-<<<<<<< HEAD
 package robot;  
 
 import java.util.ArrayList;
-import emulator.cpu.FROIDCPU;
+import emulator.cpu.FROIDZCPU;
 
-=======
-package robot.robot;  
-   
->>>>>>> 5f2507502062dfcecd5f7c1e7ec12e9791e75428
 /**
  * Main robot class.
  * 
@@ -17,7 +12,7 @@ package robot.robot;
 public class Robot
 {
     private String name;                    // robot's name
-    private FROIDCPU cpu;
+    private FROIDZCPU cpu;
     private ArrayList<Part> parts;
 
     /**
@@ -40,12 +35,12 @@ public class Robot
         return this.name;
     }
 
-    public Robot setCPU(FROIDCPU cpu)
+    public Robot setCPU(FROIDZCPU cpu)
     {
         this.cpu = cpu;
         return this;
     }
-    public FROIDCPU cpu()
+    public FROIDZCPU cpu()
     {
         return this.cpu;
     }

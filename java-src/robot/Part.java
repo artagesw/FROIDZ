@@ -1,6 +1,7 @@
 package robot;
 
 import emulator.cpu.IUSART;
+import emulator.cpu.PinConnector;
 
 /**
  * Base class representing a single robot part.
@@ -8,7 +9,7 @@ import emulator.cpu.IUSART;
  * @author Sam Weiss 
  * @version 0.1.0
  */
-public class Part extends emulator.cpu.PinConnector<Byte>, implements emulator.cpu.IUSART
+public class Part extends PinConnector<Byte> implements IUSART
 {
     /**
      * Constructor for objects of class RobotPart
@@ -17,11 +18,11 @@ public class Part extends emulator.cpu.PinConnector<Byte>, implements emulator.c
     {
     }
     
-    public act()
+    public void acct()
     {
         if (this.hasNewData())
         {
-            this.setMyData(this.TxRx(getMyData()));
+            this.setData(this.TxRx(getData()));
         }
     }
 

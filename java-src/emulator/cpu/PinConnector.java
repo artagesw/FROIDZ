@@ -1,4 +1,4 @@
-package cpu;
+package emulator.cpu;
 
 /**
  * Write a description of class PartCommunication here.

@@ -1,4 +1,4 @@
-package wp; 
+package emulator.wp; 
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

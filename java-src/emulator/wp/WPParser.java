@@ -1,4 +1,4 @@
-package wp; 
+package emulator.wp; 
 
 import java.util.HashMap;
 import java.io.File;

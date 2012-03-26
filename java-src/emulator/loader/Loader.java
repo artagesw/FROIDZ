@@ -1,3 +1,5 @@
+package emulator.loader;
+
 /**
  * Translates machine code to TOASTY hex
  * 

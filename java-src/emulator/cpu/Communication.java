@@ -1,4 +1,4 @@
-package cpu; 
+package emulator.cpu; 
  
 /**
  * Communication
