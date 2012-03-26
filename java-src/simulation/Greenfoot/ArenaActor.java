@@ -134,7 +134,14 @@ abstract public class ArenaActor extends Actor
         double x = this.getLocation().getX();
         double y = this.getLocation().getY();
         
-        this.setLocation( (x + (Math.cos(this.getRotation()))), (y + (Math.sin(this.getRotation()))));     
+        if (this.getRotation() < 180)
+        {
+            this.setLocation( (x + (Math.cos(this.getRotation()))), (y + (Math.sin(this.getRotation()))));  
+        }
+        else
+        {
+            this.setLocation( (x + (Math.sin(this.getRotation()))), (y + (Math.cos(this.getRotation()))));
+        }
     }
     
     

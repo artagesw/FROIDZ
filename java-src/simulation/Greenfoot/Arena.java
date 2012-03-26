@@ -215,6 +215,6 @@ public class Arena extends World
     
     public static boolean isInBoundaries(int x, int y)
     {
-        return (this.xIsInBoundaries(x) && this.yIsInBoundaries(y));
+        return (xIsInBoundaries(x) && yIsInBoundaries(y));
     }
 }
