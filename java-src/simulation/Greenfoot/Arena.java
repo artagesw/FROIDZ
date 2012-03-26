@@ -197,4 +197,22 @@ public class Arena extends World
     {
         return this.TURN_LENGTH;
     }
+    
+    
+
+    public static boolean xIsInBoundaries(int x)
+    {
+        return ((x >= 0) && (x <= Arena.WIDTH));
+    }
+   
+    public static boolean yIsInBoundaries(int y)
+    {
+        return ((y >= 0) && (y <= Arena.WIDTH));
+    }
+
+    
+    public static boolean isInBoundaries(int x, int y)
+    {
+        return (this.xIsInBoundaries(x) && this.yIsInBoundaries(y));
+    }
 }
