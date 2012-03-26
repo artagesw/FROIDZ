@@ -1,4 +1,4 @@
-package cpu;
+package emulator.cpu;
 
 /** 
  * One pin of a microcontroller.

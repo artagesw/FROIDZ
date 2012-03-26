@@ -1,4 +1,4 @@
-package wp; 
+package emulator.wp; 
 public class IO
 {
 	public static final int XDIV3 = 3;

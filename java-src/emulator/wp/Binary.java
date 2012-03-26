@@ -1,4 +1,4 @@
-package wp; 
+package emulator.wp; 
 
 import java.lang.NumberFormatException;
 import java.util.HashMap;

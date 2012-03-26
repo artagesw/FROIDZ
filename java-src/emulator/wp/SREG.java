@@ -1,4 +1,4 @@
-package wp;  
+package emulator.wp;  
 public class SREG
 {
     public static final int C = 1;
