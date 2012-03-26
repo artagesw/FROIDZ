@@ -11,10 +11,14 @@ import java.util.ArrayList;
  */
 abstract public class ArenaActor extends Actor
 {
+    //the number of time units elapsed for each actor's act method
+    public static final int ACT_TIME = 10;
+
     //the current speed of this ArenaActor in cells per unit time
     private double speed;
-    //the current acceleration of this ArenaActor in cells per unit time squared
-    private double acceleration;
+    
+    //the exact location of this ArenaActor
+    private Location location;
 
     /**
      * Constructor: set speed to 0
@@ -22,11 +26,11 @@ abstract public class ArenaActor extends Actor
     public ArenaActor()
     {
         this.speed = 0;
-        this.acceleration = 0;
+        this.location = null;
     }
     
     /**
-     * Constructor: set speed, direction, and angle to given values
+     * Constructor: set speed, direction to given values
      * 
      * @param speed     the given speed
      * @param direction the given direction
@@ -40,6 +44,7 @@ abstract public class ArenaActor extends Actor
         
         this.speed = speed;
         this.setRotation(direction);
+        this.location = new Location();
     }
     
     
@@ -52,7 +57,15 @@ abstract public class ArenaActor extends Actor
      */
     public void setLocation(double x, double y)
     {
-        super.setLocation((int)Math.round(x), (int)Math.round(y));
+        super.setLocation((int) (x + .5), (int) (y + .5));
+        
+        this.location.setX(x);
+        this.location.setY(y);
+    }
+    
+    public void setLocation(Location location)
+    {
+        this.location = location;
     }
 
     
@@ -90,6 +103,10 @@ abstract public class ArenaActor extends Actor
         this.speed += change;
     }
     
+    public Location getLocation()
+    {
+        return this.location;
+    }
     
     
     //methods dealing with movement    
@@ -97,48 +114,29 @@ abstract public class ArenaActor extends Actor
     
     public void act()
     {
-        move(10);
+        this.move(5);
+        //this.move(this.speed * ACT_TIME);
     }
 
     public void move(int distance)
     {
         while (distance > 0)
         {
-            super.move(1);
+            this.moveOne();
             this.resolveCollisions();
             distance--;
         }
+        
     }
     
-    
-    
-    /**
-     * Moves the actor to a new location 
-     */
-    public boolean moveTo(int xNew, int yNew)
+    public void moveOne()
     {
-        int xOld = this.getX();
-        int yOld = this.getY();
+        double x = this.getLocation().getX();
+        double y = this.getLocation().getY();
         
-        if (((xNew <= xOld + 1) && (xNew >= xOld - 1)) || ((yNew <= yOld + 1) && (yNew >= yOld - 1)))
-        {
-            this.setLocation(xNew, yNew);
-            return true;
-        }
-        
-        double slope = ((yNew - yOld) / (xNew - xOld));
-        double b = yOld - (slope * xOld);
-        
-        for (int i = xOld; i < xNew; i++)
-        {
-            //this.setLocation(i, (int)(slope * i + b));
-            this.move(1);
-            this.resolveCollisions();
-        }
-        
-        return true;
-
+        this.setLocation( (x + (Math.cos(this.getRotation()))), (y + (Math.sin(this.getRotation()))));     
     }
+    
     
     
     
@@ -277,38 +275,46 @@ abstract public class ArenaActor extends Actor
     
     public void deflect(Wall w)
     {
-        int angle = this.getRotation();
-        this.setRotation(this.getRotation() - 180);
-        
+       this.setRotation(2 * w.getRotation() - this.getRotation());
 
-        int newAngle;
+       /** int angle = this.getRotation();
+        int newAngle = 30;
+        int quad = angle / 90;
+
         
-        if ((angle < 90) && (angle > 0))
-        {
-            newAngle = 360 - angle;
-        }
-        else if (((angle <= 180) && (angle > 90)) || (angle == 0))
+        if ((angle == 0) || (angle == 180))
         {
             newAngle = 180 - angle;
-        }
-        else if ((angle < 270) && (angle != 90))
-        {
-            newAngle = 90 + angle;
-        }
-        else if (angle == 90)
-        {
-            newAngle = 270;
         }
         else if (angle == 270)
         {
             newAngle = 90;
         }
+        else if (angle == 90)
+        {
+            newAngle = 270;
+        }
         else
         {
-            newAngle = 360 - angle;
+                    
+            if (w.getRotation() == 0)
+            {
+                if ((quad == 0) || (quad == 2))
+                {
+                    newAngle = 180 - angle;
+                }
+                else
+                {
+                    newAngle = angle + 90;
+                }
+            }
+            else
+            {
+                newAngle = 360 - angle;
+            }
         }
         
-        this.setRotation(newAngle);
+        this.setRotation(newAngle);*/
     }
 
     

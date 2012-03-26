@@ -40,10 +40,10 @@ public class Arena extends World
         for (Robot robot : robots)
         {
             //adds each robot to a random spawn location and removes that spawn location
-            this.addObject(robot, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
+            //this.add(robot, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
             
-            robot.setLocation(robot.getX(), robot.getY());
         }
+        this.add(new Robot(), 200.0, 200.0);
         
         //this.addObject(new Obstacle(20, 100, 100), 300, 200);
         this.makeWalls();
@@ -109,26 +109,16 @@ public class Arena extends World
      * @param actor     the actor to be added
      * @param location  the location at which the actor will be added
      */
-    private void addObject(Actor actor, Location location)
+    private void add(ArenaActor actor, Location location)
     {
-        this.addObject(actor, (int) location.getX(), (int) location.getY());
+        this.addObject(actor, (int) (location.getX() + .5), (int) (location.getY() + .5));
+        actor.setLocation(location);
     }
     
-    /**
-     * Adds an ArenaActor to the given location
-     * 
-     * @param toAdd         the ArenaActor to place in the arena
-     * @param xCoord        x coordinate of the desired location
-     * @param
-     */
-    public boolean add(ArenaActor toAdd, int xCoord, int yCoord)
+    public void add(ArenaActor actor, double x, double y)
     {
-        if (this.getObjectsAt(xCoord, yCoord, null) != null)
-        {
-            return false;
-        }     
-        this.addObject(toAdd, xCoord, yCoord);
-        return true;
+        this.addObject(actor, (int) (x + .5), (int) (x + .5));
+        actor.setLocation(x, y);
     }
     
     /**
@@ -208,5 +198,23 @@ public class Arena extends World
     public int getTurnLength()
     {
         return this.TURN_LENGTH;
+    }
+    
+    
+
+    public static boolean xIsInBoundaries(int x)
+    {
+        return ((x >= 0) && (x <= Arena.WIDTH));
+    }
+   
+    public static boolean yIsInBoundaries(int y)
+    {
+        return ((y >= 0) && (y <= Arena.WIDTH));
+    }
+
+    
+    public static boolean isInBoundaries(int x, int y)
+    {
+        return (this.xIsInBoundaries(x) && this.yIsInBoundaries(y));
     }
 }

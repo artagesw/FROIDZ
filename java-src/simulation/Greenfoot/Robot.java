@@ -11,7 +11,7 @@ public class Robot extends ArenaActor
     
     public Robot()
     {
-        super(0, (int)(Math.random() * 361));
+        super(0, (int)(Math.random() * 360));
     }
 
     /**
@@ -21,6 +21,7 @@ public class Robot extends ArenaActor
     public void act() 
     {
         super.act();
+        
     }    
     
     public double getMass()
