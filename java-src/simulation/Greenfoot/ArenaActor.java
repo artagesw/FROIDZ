@@ -16,6 +16,7 @@ abstract public class ArenaActor extends Actor
 
     //the current speed of this ArenaActor in cells per unit time
     private double speed;
+    
     //the exact location of this ArenaActor
     private Location location;
 
@@ -42,7 +43,6 @@ abstract public class ArenaActor extends Actor
         assert(Math.abs(direction) >= 0);
         
         this.speed = speed;
-        this.acceleration = 0;
         this.setRotation(direction);
         this.location = new Location();
     }
@@ -114,7 +114,7 @@ abstract public class ArenaActor extends Actor
     
     public void act()
     {
-        this.move(1);
+        this.move(5);
         //this.move(this.speed * ACT_TIME);
     }
 
@@ -122,42 +122,21 @@ abstract public class ArenaActor extends Actor
     {
         while (distance > 0)
         {
-            super.move(1);
+            this.moveOne();
             this.resolveCollisions();
-            this.getWorld().repaint();
             distance--;
         }
+        
     }
     
-    
-    
-    /**
-     * Moves the actor to a new location 
-     */
-    public boolean moveTo(int xNew, int yNew)
+    public void moveOne()
     {
-        int xOld = this.getX();
-        int yOld = this.getY();
+        double x = this.getLocation().getX();
+        double y = this.getLocation().getY();
         
-        if (((xNew <= xOld + 1) && (xNew >= xOld - 1)) || ((yNew <= yOld + 1) && (yNew >= yOld - 1)))
-        {
-            this.setLocation(xNew, yNew);
-            return true;
-        }
-        
-        double slope = ((yNew - yOld) / (xNew - xOld));
-        double b = yOld - (slope * xOld);
-        
-        for (int i = xOld; i < xNew; i++)
-        {
-            //this.setLocation(i, (int)(slope * i + b));
-            this.move(1);
-            this.resolveCollisions();
-        }
-        
-        return true;
-
+        this.setLocation( (x + (Math.cos(this.getRotation()))), (y + (Math.sin(this.getRotation()))));     
     }
+    
     
     
     
