@@ -43,7 +43,13 @@ public class Arena extends World
             //this.add(robot, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
             
         }
-        this.add(new Robot(), 200.0, 200.0);
+        Robot robot = new Robot();
+        this.add(robot, 200.0, 200.0);
+        robot.setRotation(robot.getAngleTowards(Arena.WIDTH / 2, Arena.HEIGHT / 2));
+        
+        robot = new Robot();
+        this.add(robot, 350, 400);
+        robot.setRotation(robot.getAngleTowards(Arena.WIDTH / 2, Arena.HEIGHT / 2));
         
         //this.addObject(new Obstacle(20, 100, 100), 300, 200);
         this.makeWalls();
@@ -118,7 +124,7 @@ public class Arena extends World
     public void add(ArenaActor actor, double x, double y)
     {
         this.addObject(actor, (int) (x + .5), (int) (x + .5));
-        actor.setLocation(x, y);
+        actor.setLocation(new Location(x, y));
     }
     
     /**
@@ -202,18 +208,18 @@ public class Arena extends World
     
     
 
-    public static boolean xIsInBoundaries(int x)
+    public static boolean xIsInBoundaries(double x)
     {
         return ((x >= 0) && (x <= Arena.WIDTH));
     }
    
-    public static boolean yIsInBoundaries(int y)
+    public static boolean yIsInBoundaries(double y)
     {
         return ((y >= 0) && (y <= Arena.WIDTH));
     }
 
     
-    public static boolean isInBoundaries(int x, int y)
+    public static boolean isInBoundaries(double x, double y)
     {
         return (xIsInBoundaries(x) && yIsInBoundaries(y));
     }

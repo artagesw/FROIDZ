@@ -16,7 +16,7 @@ abstract public class ArenaActor extends Actor
 
     //the current speed of this ArenaActor in cells per unit time
     private double speed;
-    
+    private double rotation;
     //the exact location of this ArenaActor
     private Location location;
 
@@ -36,7 +36,7 @@ abstract public class ArenaActor extends Actor
      * @param direction the given direction
      * @param angle     the given angle
      */
-    public ArenaActor(double speed, int direction)
+    public ArenaActor(double speed, double direction)
     {
         assert(speed >= 0);
         assert(Math.abs(direction) < 360);
@@ -75,9 +75,29 @@ abstract public class ArenaActor extends Actor
      */
     public void setRotation(double rotation)
     {
-        this.setRotation((int)Math.round(rotation));
+        super.setRotation((int) (rotation + .5));
+        this.rotation = rotation;
     }
     
+    public double getExactRotation()
+    {
+        return this.rotation;
+    }
+    
+    public double getExactX()
+    {
+        return this.location.getX();
+    }
+    
+    public double getExactY()
+    {
+        return this.location.getY();
+    }
+    
+    public Location getExactLocation()
+    {
+        return this.location;
+    }
 
     
     //other public getter/setter methods and variable modifiers
@@ -108,13 +128,19 @@ abstract public class ArenaActor extends Actor
         return this.location;
     }
     
+    public void turn(int angle)
+    {
+        super.turn(angle);
+        this.rotation += angle;
+        this.rotation %= 360;
+    }
     
     //methods dealing with movement    
     
     
     public void act()
     {
-        this.move(5);
+        this.move(2);
         //this.move(this.speed * ACT_TIME);
     }
 
@@ -131,21 +157,12 @@ abstract public class ArenaActor extends Actor
     
     public void moveOne()
     {
-        double x = this.getLocation().getX();
-        double y = this.getLocation().getY();
+        double x = this.getExactX();
+        double y = this.getExactY();
         
-        if (this.getRotation() < 180)
-        {
-            this.setLocation( (x + (Math.cos(this.getRotation()))), (y + (Math.sin(this.getRotation()))));  
-        }
-        else
-        {
-            this.setLocation( (x + (Math.sin(this.getRotation()))), (y + (Math.cos(this.getRotation()))));
-        }
+        this.setLocation((x + (Math.cos(Math.toRadians(this.getExactRotation())))), 
+                         (y + (Math.sin(Math.toRadians(this.getExactRotation())))));  
     }
-    
-    
-    
     
     /**
      * Returns the angle this ArenaActor must have to face two given coordinates
@@ -154,26 +171,35 @@ abstract public class ArenaActor extends Actor
      * @param y     the y coordinate
      * @return      the angle this ArenaActor must have to face two given coordinates
      */
-    public double getAngleTowards(int x, int y)
+    public double getAngleTowards(double x, double y)
     {
-        assert(this.xIsInBoundaries(x));
-        assert(this.yIsInBoundaries(y));
+        assert(Arena.xIsInBoundaries(x));
+        assert(Arena.yIsInBoundaries(y));
         
         double angle;
         
-        if (x == this.getX())
-        {
-            angle = 0;
-        }
-        else
+        if (x > this.getExactX())
         {
             angle = Math.toDegrees(Math.atan((y - this.getY()) / (x - this.getX())));
         }
-        
-        //if the location is to the right, 180 must be added to the angle
-        if (x - this.getX() > 0)
+        else if (x < this.getExactX())
         {
-            angle += 180;
+            angle = Math.toDegrees(Math.atan((y - this.getY()) / (x - this.getX()))) + 180;
+        }
+        else
+        {
+            if (y > this.getExactY())
+            {
+                return 90;
+            }
+            else if (y < this.getExactY())
+            {
+                return 270;
+            }
+            else
+            {
+                return this.getExactRotation();
+            }
         }
         
         assert(angle >= 0);
@@ -185,31 +211,33 @@ abstract public class ArenaActor extends Actor
     /**
      * Returns the angle this ArenaActor must have to face a given Actor
      */
-    public double getAngleTowards(Actor a)
+    public double getAngleTowards(ArenaActor a)
     {
-        return this.getAngleTowards(a.getX(), a.getY());
+        return this.getAngleTowards(a.getExactX(), a.getExactY());
     }
 
     
     /**
      * Resolves collisions between this ArenaActor and any intersecting ArenaActors
      */
-    private void resolveCollisionss()
+    private void resolveCollisions()
     {
         List<ArenaActor> actors = this.getIntersectingObjects(ArenaActor.class);
         List<Wall> walls = this.getIntersectingObjects(Wall.class);
         
         
-        for (ArenaActor a : actors)
-        {
-            this.collideWith(a);
-        }
         for (Wall w : walls)
         {
             this.deflect(w);
         }
+        
+        for (ArenaActor a : actors)
+        {
+            this.collideWith(a);
+            this.deflect(a);
+        }
     }
-    
+    /*
     private void resolveCollisions()
     {
         int width = (this.getImage().getWidth() / 2);
@@ -245,7 +273,7 @@ abstract public class ArenaActor extends Actor
             }
         }
         
-    }
+    }*/
     
     /**
      * Deals collision damage to the given intersecting ArenaActor and changes the movement of
@@ -255,34 +283,25 @@ abstract public class ArenaActor extends Actor
      */
     private void collideWith(ArenaActor a)
     {
+        this.takeCollisionDamage(a);
         a.takeCollisionDamage(this);
-        
-        this.deflect(a);
     }
     
     public void takeCollisionDamage(ArenaActor a)
     {
         assert(a != null);
-        
-        //double xDamage = Math.abs((this.kineticEnergyX() - a.kineticEnergyX()) * DAMAGE_PER_ENERGY);
-        //double yDamage = Math.abs((this.kineticEnergyY() - a.kineticEnergyY()) * DAMAGE_PER_ENERGY);
-        
-        //this.takeDamage(xDamage + yDamage);
     }
     
     public void deflect(ArenaActor a)
     {
         assert(a != null);
         
-        //int tangent = (this.getAngleToward(a) + 90) % 180;
-        
-        
-        this.speed = 0;
+        this.setRotation(2 * this.getAngleTowards(a) - this.getExactRotation());
     }
     
     public void deflect(Wall w)
     {
-       this.setRotation(2 * w.getRotation() - this.getRotation());
+       this.setRotation(2 * w.getRotation() - this.getExactRotation());
 
        /** int angle = this.getRotation();
         int newAngle = 30;
