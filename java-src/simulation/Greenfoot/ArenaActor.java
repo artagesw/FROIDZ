@@ -69,6 +69,13 @@ abstract public class ArenaActor extends Actor
     }
 
     
+    public void setRotation(int rotation)
+    {
+        super.setRotation(rotation);
+        this.rotation = rotation;
+    }
+    
+    
     /**
      * Sets the ArenaActor's direction to the nearest integer location to the double value passed
      * @param rotation     double value of new rotation 
@@ -160,8 +167,20 @@ abstract public class ArenaActor extends Actor
         double x = this.getExactX();
         double y = this.getExactY();
         
-        this.setLocation((x + (Math.cos(Math.toRadians(this.getExactRotation())))), 
-                         (y + (Math.sin(Math.toRadians(this.getExactRotation())))));  
+        double xAdd = Math.cos(Math.toRadians(this.getExactRotation()));
+        double yAdd = Math.sin(Math.toRadians(this.getExactRotation()));
+        
+        this.location.setX(x + (Math.cos(Math.toRadians(this.getExactRotation()))));
+        this.location.setY(y + (Math.sin(Math.toRadians(this.getExactRotation()))));
+        
+        if (this.getX() != (int)this.location.getX())
+        {
+            this.setLocation(this.location.getX(), this.getY());
+        }
+        if (this.getY() != (int)this.location.getY())
+        {
+            this.setLocation(this.getX(), this.location.getY());
+        }
     }
     
     /**

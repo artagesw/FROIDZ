@@ -44,12 +44,12 @@ public class Arena extends World
             
         }
         Robot robot = new Robot();
-        this.add(robot, 200.0, 200.0);
-        robot.setRotation(robot.getAngleTowards(Arena.WIDTH / 2, Arena.HEIGHT / 2));
+        this.add(robot, 100, 200);
+        robot.setRotation(30);
         
-        robot = new Robot();
-        this.add(robot, 350, 400);
-        robot.setRotation(robot.getAngleTowards(Arena.WIDTH / 2, Arena.HEIGHT / 2));
+        Robot robot2 = new Robot();
+        this.add(robot2, 100, 400);
+        robot2.setRotation(60);
         
         //this.addObject(new Obstacle(20, 100, 100), 300, 200);
         this.makeWalls();
@@ -123,7 +123,7 @@ public class Arena extends World
     
     public void add(ArenaActor actor, double x, double y)
     {
-        this.addObject(actor, (int) (x + .5), (int) (x + .5));
+        this.addObject(actor, (int) (x + .5), (int) (y + .5));
         actor.setLocation(new Location(x, y));
     }
     
