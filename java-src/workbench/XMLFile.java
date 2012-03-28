@@ -1,3 +1,5 @@
+package workbench;
+
 import org.w3c.dom.*;
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
@@ -8,15 +10,15 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.OutputKeys;
 import java.util.ArrayList;
-/**s
+/**
  * The XMLFile class provides a straightforward set of methods for reading and writing from its XML file. 
  * The class uses the DOM (Document Object Model) to represent the XML file in memory to provide fast access.
  * Writing to the XML file is implemented using the xml transform api. 
  * 
  * @author Henry Millican
- * @version 0.0.1
+ * @version 0.1.1
  */
-public class XMLFile implements Document
+public class XMLFile implements Document //TODO: change to extending DocumentImplementation
 {
     private File XMLFile;
     private Document doc;
@@ -25,19 +27,18 @@ public class XMLFile implements Document
      * Constructs an XMLFile object based on the path to an XML file specified. 
      * For FROIDZ the only two file paths we will encounter will be "robots.xml" and "users.xml"
      */
-    public XMLFile(String filePath)
+    public XMLFile(File file)
     {
         try
         {
-            this.filePath = filePath;
-            this.XMLFile = new File(this.filePath);
-            
+            this.XMLFile = file;
+            this.filePath = this.XMLFile.getPath();
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
             if (!this.XMLFile.exists())
             {
                 this.doc = docBuilder.newDocument();
-                doc.appendChild(doc.createElement("Robots"));
+                //doc.appendChild(doc.createElement());
                 this.write();
             }
             else
@@ -49,6 +50,16 @@ public class XMLFile implements Document
         {
             System.out.println(e.getMessage());
         }
+    }
+    
+    public boolean contains(String s)
+    {
+        return false;    
+    }
+    
+    public void test()
+    {
+        System.out.println(this.doc.getDocumentElement().getElementsByTagName("Name").item(0).getTextContent());
     }
     
     public Node renameNode(Node n, String namespaceURI, String qualifiedName)
@@ -403,6 +414,11 @@ public class XMLFile implements Document
     public String getNodeValue()
     {
         return this.doc.getNodeValue();       
+    }
+    
+    public String getName()
+    {
+        return this.XMLFile.getName();
     }
     
     /**

@@ -11,14 +11,39 @@ import emulator.cpu.PinConnector;
  */
 public class Part extends PinConnector<Byte> implements IUSART
 {
+    private int serialPort;
+    
     /**
      * Constructor for objects of class RobotPart
      */
     public Part()
     {
+        this.serialPort = 0;
     }
     
-    public void acct()
+    /**
+     * An example of a method - replace this comment with your own
+     *
+     * @param  portNum  serial port to connect to
+     */
+    public Part setSerialPort(int portNum)
+    {
+        this.serialPort = portNum;
+        return this;
+    }
+
+    
+     /**
+     * An example of a method - replace this comment with your own
+     *
+     * @param  portNum  serial port to connect to
+     */
+    public int getSerialPort()
+    {
+        return this.serialPort;
+    }
+
+    public void act()
     {
         if (this.hasNewData())
         {

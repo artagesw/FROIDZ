@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-//import robot.Robot;
 /**
  * Stub class - placeholder for Charlie and Henry's class
  * 
@@ -17,8 +16,10 @@ public class Builder
     public ArrayList<RobotActor> getRobots()
     {
         ArrayList<RobotActor> robots = new ArrayList<RobotActor>();
-        robots.add(new RobotActor());
-        robots.add(new RobotActor());
+        for (int i = 0; i < 8; i++)
+        {
+            robots.add(new RobotActor());
+        }
         
         return robots;
     }
