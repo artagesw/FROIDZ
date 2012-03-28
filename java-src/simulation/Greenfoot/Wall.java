@@ -7,7 +7,7 @@ import java.awt.Color;
  * @author Brendan Redmond
  * @version 0.1.0
  */
-public class Wall extends Actor
+public class Wall extends Actor implements Collidable
 {
     public static final int THICKNESS = 10;
 
@@ -29,4 +29,16 @@ public class Wall extends Actor
         // Add your action code here.
     }   
     
+    public int getDeflectionAngle()
+    {
+        return this.getRotation();
+    }
+    
+    public void setDeflectionRotation(int angle)
+    {
+    }
+    public void moveOne()
+    {
+        
+    }
 }
