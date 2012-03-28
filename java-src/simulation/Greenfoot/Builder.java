@@ -19,6 +19,8 @@ public class Builder
         ArrayList<RobotActor> robots = new ArrayList<RobotActor>();
         robots.add(new RobotActor());
         robots.add(new RobotActor());
+        robots.add(new RobotActor());
+        robots.add(new RobotActor());
         
         return robots;
     }
