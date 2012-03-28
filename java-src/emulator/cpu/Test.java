@@ -2,6 +2,8 @@ package emulator.cpu;
 
 import java.util.Date;
 import emulator.wp.IO;
+import robot.Robot;
+import robot.MotorPart;
 /**
  * Write a description of class Test here.
  * 
@@ -30,13 +32,23 @@ public class Test
     
     public static void testUSARTFile()
     {
+        Robot r = new Robot("Fred");
+        
+        MotorPart m = new MotorPart(100);
+        m.setSerialPort(0);
+        
         AVR cpu = new AVR("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.tst");
         
-        Printer p = new Printer();
+        r.setCPU(cpu);
+        r.addPart(m);
         
-        cpu.connectToSerial(p, IO.UDR1);
+        //Printer p = new Printer();
+        
+        //cpu.connectToSerial(p, IO.UDR1);
       
         cpu.act(100);
+        
+        r.printSpeed();
     }
     
     public static void testUSART()

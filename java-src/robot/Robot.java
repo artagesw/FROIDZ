@@ -14,6 +14,7 @@ public class Robot
     private String name;                    // robot's name
     private FROIDZCPU cpu;
     private ArrayList<Part> parts;
+    private int speed;                      // current speed in meters/sec.
 
     /**
      * Constructor for objects of class Robot
@@ -47,8 +48,19 @@ public class Robot
     
     public Robot addPart(Part part)
     {
+        part.setRobot(this);
         this.parts.add(part);
         this.cpu.connectToSerial(part, part.getSerialPort());
         return this;
+    }
+    
+    public void setSpeed (int curSpeed)
+    {
+        this.speed = curSpeed;
+    }
+
+    public int getSpeed ()
+    {
+        return this.speed;
     }
 }
