@@ -10,7 +10,7 @@ package emulator.cpu;
  * @author Jacob Weiss, Alex Teiche
  * @version 0.0.2
  */
-public class FROIDZCPU
+abstract public class FROIDZCPU
 {
     // This' processor
     public Processor proc;
@@ -27,14 +27,9 @@ public class FROIDZCPU
         this.proc.mem.loadBin(path);        
     }
     
-    public void connectToSerial(IUSART part, int udrRegister, int ucsrRegister)
-    {
-        USART usart = new USART(this.proc.mem, udrRegister, ucsrRegister);
-    }
-    public void connectToPWM(PinConnector part, int clock, int pwmRegister)
-    {
-        PWM pwm = new PWM(this.proc.mem, pwmRegister);       
-    }
+    abstract public void connectToSerial(IUSART usart, int udr);
+    abstract public void connectToPWM(PinConnector part, int address);
+    abstract public void connectToPin(Connector<Boolean> c, int address, int bit);
     
     /**
      * Tell the CPU to do things

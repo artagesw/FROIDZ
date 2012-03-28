@@ -68,7 +68,7 @@ public class Test
 
     public static void main()
     {
-        FROIDZCPU p = new FROIDZCPU();
+        FROIDZCPU p = new AVR();
         
         p.act(3);
         
@@ -78,7 +78,7 @@ public class Test
     
     public static void speedTest()
     {
-        FROIDZCPU cpu = new FROIDZCPU();
+        FROIDZCPU cpu = new AVR();
         cpu.proc.mem.flash[0] = Integer.parseInt("01010011000000000000000000000000", 2);
         long cycles = 0;
         Date t = new Date();
