@@ -18,11 +18,11 @@ public class Arena extends World
     //the maximum height of the robot in pixels
     public static final int MAX_ROBOT_HEIGHT = 50;
     //the maximum width of the robot in pixels
-    public static final int MAX_ROBOT_WIDTH = 50;
-    
+    public static final int MAX_ROBOT_WIDTH = 50;    
     //length of time to be given as a turn
     private static final int TURN_LENGTH = 10;
 
+    
     /**
      * Constructor: creates the arena, then adds the robots to the arena
      * 
