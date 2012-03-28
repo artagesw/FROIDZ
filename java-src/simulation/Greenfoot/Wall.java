@@ -13,6 +13,7 @@ public class Wall extends Actor
 
     public Wall(int width, int height)
     {
+        super();
         this.setImage(new GreenfootImage(width, height));
         this.getImage().setColor(Color.BLACK);
         this.getImage().fillRect(0, 0, width, height); 

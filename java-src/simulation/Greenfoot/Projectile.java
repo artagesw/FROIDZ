@@ -12,7 +12,7 @@ public class Projectile extends ArenaActor
     private double mass;
 
     /**
-     * Constructor: calls super, sets the velocity and mass to given values
+     * Constructor: sets the velocity and mass to given values
      * 
      * @param speed     the magnitude of the velocity to be set
      * @param direction the direction of the velocity to be set
@@ -30,14 +30,23 @@ public class Projectile extends ArenaActor
      */
     public void act() 
     {
-        //this.move((this.getSpeed() / ((Arena)this.getWorld()).getTurnLength()));
     }    
     
+    /**
+     * Returns the current mass of this Projectile
+     * 
+     * @return  the current mass of this Projectile
+     */
     public double getMass()
     {
         return this.mass;
     }
     
+    /**
+     * Returns the current health of this Projectile
+     * 
+     * @return  the current health of this Projectile
+     */
     public double getHealth()
     {
         return 1;

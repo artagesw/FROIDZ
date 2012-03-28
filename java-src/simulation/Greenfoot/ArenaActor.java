@@ -1,6 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Common elements of actors that act in the Arena.
@@ -26,6 +25,7 @@ abstract public class ArenaActor extends Actor
      */
     public ArenaActor()
     {
+        super();
         this.speed = 0;
         this.setExactRotation(0);
         this.location = null;
@@ -39,6 +39,7 @@ abstract public class ArenaActor extends Actor
      */
     public ArenaActor(double speed, double direction)
     {
+        super();
         assert(speed >= 0);
         assert(Math.abs(direction) < 360);
         assert(Math.abs(direction) >= 0);
