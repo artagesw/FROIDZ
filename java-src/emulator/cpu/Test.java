@@ -10,7 +10,20 @@ import emulator.wp.IO;
  */
 public class Test
 {
-    public static void testPeripherals()
+    public static void testPinConnector()
+    {
+        AVR cpu = new AVR();
+        
+        PinPrinter p = new PinPrinter();
+        
+        cpu.connectToPWM(p, IO.OCR3AH);
+        
+        cpu.connectToPin(p.clockPin(), IO.PORTB, 0);
+        
+        cpu.act(100);
+    }
+    
+    public static void testUSART()
     {
         AVR cpu = new AVR();
         

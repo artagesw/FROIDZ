@@ -21,7 +21,13 @@ public class Builder
     public Builder()
     {
         this.usersDirectory = new File("users");        
-        //this.playingRobots = new XMLFile(this.usersDirectory); TODO: implement a playing checker
+        for (File f : this.usersDirectory.listFiles())
+        {
+            if (f.getName().equals("PlayingRobots.xml"))
+            {
+                this.playingRobots = new XMLFile(f);
+            }           
+        }
     }
     
     /**
@@ -33,15 +39,15 @@ public class Builder
     public ArrayList<Robot> getRobots()
     {
         ArrayList<Robot> robotList = new ArrayList<Robot>();
+        String listOfPlayingRobots  = this.playingRobots.getDocumentElement().getTextContent();
         for (File userDirectory : usersDirectory.listFiles())
         {
             if (!userDirectory.getName().equals("PlayingRobots.xml"))
             {
                 for (File userFile : userDirectory.listFiles())
                 {
-                    if (!userFile.getName().equals("user.xml")  && !userFile.getName().contains(".bin"))
+                    if (!userFile.getName().equals("user.xml")  && !userFile.getName().contains(".bin") && listOfPlayingRobots.contains(userFile.getName()))
                     {
-                        //TODO: check if robot is in playing robots
                         robotList.add(buildRobot(new XMLFile(userFile)));
                     }
                 }
@@ -63,6 +69,12 @@ public class Builder
         Robot robot = new Robot(name);
         /////////////////////////////////////////////////
         
+        //////////////////build/code cpu ////////////////
+        String CPUName = robotFile.getDocumentElement().getElementsByTagName("CPU").item(0).getTextContent();
+        String codePath = ((robotFile.getName()).substring(0, robotFile.getName().length()-4)+".bin");//robotFile.getDocumentElement().getElementsByTagName("code").item(0).getTextContent();
+        robot.setCPU(this.buildCPU(CPUName, codePath));
+        /////////////////////////////////////////////////   
+                        
         /////////////build and add parts/////////////////
         ArrayList<Part> parts = this.buildParts(robotFile.getDocumentElement().getElementsByTagName("part"));
         for (Part p : parts)
@@ -70,12 +82,6 @@ public class Builder
             robot.addPart(p);
         }
         /////////////////////////////////////////////////
-        
-        //////////////////build/code cpu ////////////////
-        String CPUName = robotFile.getDocumentElement().getElementsByTagName("CPU").item(0).getTextContent();
-        String codePath = ((robotFile.getName()).substring(0, robotFile.getName().length()-4)+".bin");//robotFile.getDocumentElement().getElementsByTagName("code").item(0).getTextContent();
-        robot.setCPU(this.buildCPU(CPUName, codePath));
-        /////////////////////////////////////////////////        
         return robot;
     }
     

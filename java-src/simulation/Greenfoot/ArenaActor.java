@@ -29,6 +29,7 @@ abstract public class ArenaActor extends Actor
         this.speed = 0;
         this.setExactRotation(0);
         this.location = null;
+       
     }
     
     /**

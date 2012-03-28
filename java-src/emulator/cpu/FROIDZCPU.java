@@ -22,6 +22,10 @@ public class FROIDZCPU
     public FROIDZCPU()
     {
     }
+    public FROIDZCPU(String path)
+    {
+        this.proc.mem.loadBin(path);        
+    }
     
     public void connectToSerial(IUSART part, int udrRegister, int ucsrRegister)
     {
@@ -29,8 +33,7 @@ public class FROIDZCPU
     }
     public void connectToPWM(PinConnector part, int clock, int pwmRegister)
     {
-        PWM pwm = new PWM(this.proc.mem, pwmRegister);
-        
+        PWM pwm = new PWM(this.proc.mem, pwmRegister);       
     }
     
     /**
