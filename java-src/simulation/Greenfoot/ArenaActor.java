@@ -26,6 +26,7 @@ abstract public class ArenaActor extends Actor
     public ArenaActor()
     {
         this.speed = 0;
+        //set rotation to something
         this.location = null;
     }
     
@@ -140,7 +141,7 @@ abstract public class ArenaActor extends Actor
     
     public void act()
     {
-        this.move(2);
+        this.move(1);
         //this.move(this.speed * ACT_TIME);
     }
 
