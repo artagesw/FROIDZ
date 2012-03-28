@@ -308,8 +308,7 @@ abstract public class ArenaActor extends Actor
      */
     public void setExactRotation(double rotation)
     {
-        assert(rotation >= 0);
-        assert(rotation < 360);
+        rotation = (360 + rotation) % 360;
         
         super.setRotation((int) (rotation + .5));
         this.rotation = rotation;
