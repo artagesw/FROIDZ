@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * A battle arena.
  * 
  * @author Brendan Redmond and Haley B-E
- * @version 0.2.0
+ * @version 0.3.0
  */
 public class Arena extends World
 {
@@ -34,47 +34,67 @@ public class Arena extends World
         super(WIDTH, HEIGHT, 1);
         
         Builder builder = new Builder();
-        ArrayList<Robot> robots = builder.getRobots();
+        ArrayList<RobotActor> robots = builder.getRobots();
         ArrayList<Location> spawnLocations = SpawnMap.getSpawnLocations(robots.size());
         
-        for (Robot robot : robots)
+        for (RobotActor robot : robots)
         {
             //adds each robot to a random spawn location and removes that spawn location
-            //this.add(robot, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
-            
+            this.add(robot, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
+            robot.setExactRotation(Math.random() * 360);
+            //robot.setExactRotation(robot.getAngleTowards((this.getWidth() / 2), (this.getHeight() / 2)));
         }
         
-        Robot robot = new Robot();
-        this.add(robot, 100, 200);
-        robot.setExactRotation(30);
-        
-        Robot robot2 = new Robot();
-        this.add(robot2, 100, 400);
-        robot2.setExactRotation(60);
-        
         this.makeWalls();
-        this.setActOrder(Robot.class, Projectile.class);
+        this.setActOrder(RobotActor.class, Projectile.class);
     }
     
+    /**
+     * Creates the walls that bound the Arena
+     */
     private void makeWalls()
     {
         Wall wall;
         
+        //top
         wall = new Wall(WIDTH - Wall.THICKNESS * 2, Wall.THICKNESS);
         this.addObject(wall, WIDTH / 2, Wall.THICKNESS / 2);
         wall.setRotation(0);
         
+        //bottom
         wall = new Wall(WIDTH - Wall.THICKNESS * 2, Wall.THICKNESS);
         this.addObject(wall, WIDTH / 2, HEIGHT - Wall.THICKNESS / 2);
         wall.setRotation(0);
         
+        //right
         wall = new Wall(HEIGHT, Wall.THICKNESS);
         this.addObject(wall, WIDTH - Wall.THICKNESS / 2 - 1, HEIGHT / 2);
         wall.setRotation(90);
         
+        //left
         wall = new Wall(HEIGHT, Wall.THICKNESS);
         this.addObject(wall, Wall.THICKNESS / 2 - 1, HEIGHT / 2);
         wall.setRotation(90);
+        
+        //right lower diagonal
+        wall = new Wall(70, Wall.THICKNESS);
+        this.addObject(wall, WIDTH - (3 * Wall.THICKNESS), HEIGHT - (3 * Wall.THICKNESS));
+        wall.setRotation(135);
+        
+        //right upper diagonal
+        wall = new Wall(70, Wall.THICKNESS);
+        this.addObject(wall, WIDTH - (3 * Wall.THICKNESS), 3 * Wall.THICKNESS);
+        wall.setRotation(45);
+        
+        //left lower diagonal
+        wall = new Wall(70, Wall.THICKNESS);
+        this.addObject(wall, 3 * Wall.THICKNESS, HEIGHT - (3 * Wall.THICKNESS));
+        wall.setRotation(45);
+        
+        //left upper diagonal
+        wall = new Wall(70, Wall.THICKNESS);
+        this.addObject(wall, 3 * Wall.THICKNESS, 3 * Wall.THICKNESS);
+        wall.setRotation(135);
     }
     
     /**
@@ -85,29 +105,6 @@ public class Arena extends World
     }
     
     //Methods for adding/removing things to the arena
-    
-    /**
-     * Returns an ArrayList of Locations at which a Robot may spawn
-     * 
-     * @param numLocations  the number of Locations required 
-     * @return              the ArrayList of Locations
-     *
-    private ArrayList<Location> getSpawnLocations(int numLocations)
-    {
-        
-        ArrayList<Location> spawnLocations = new ArrayList<Location>(numLocations);
-        
-        //make something that gives locations that look like the dots on dice as a function of the number
-        //locations needed and the size of the arena, we have to decide
-        //whether each robot has a unique image or not. For now, here's two temporary locations
-        //also, are all robots going to start off facing the center or something? or random?
-        //also, make sure the image doesnt hang off the screen, we need to do something about boundaries
-        
-        spawnLocations.add(new Location(50, 75));
-        spawnLocations.add(new Location(100, 250));
-        
-        return spawnLocations;
-    }
     
     /**
      * Wrapper method for addObject, takes an Actor and a Location
@@ -121,6 +118,13 @@ public class Arena extends World
         actor.setExactLocation(location);
     }
     
+    /**
+     * Wrapper method for addObject, takes an Actor, an x and a y coordinate
+     * 
+     * @param actor     the actor to be added
+     * @param x         the x coordinate of the location at which the actor will be added
+     * @param y         the y coordinate of the location at which the actor will be added
+     */
     public void add(ArenaActor actor, double x, double y)
     {
         this.addObject(actor, (int) (x + .5), (int) (y + .5));
@@ -176,37 +180,7 @@ public class Arena extends World
         return nearest;
     }
     
-    //Public getter methods
-   /**
-    * What are these for? -Brendan
-    * Easily accessing ArrayLists of the different types of things so if there're class-specific actions
-    * they can be taken without casting shenanigans -Haley
-    public ArrayList<Obstacle> getObstacles()
-    {
-        return null;
-    }
-    
-    public ArrayList<Projectile> getProjectiles()
-    {
-        return null;
-    }
-    
-    public ArrayList<Robot> getRobots()
-    {
-        return null;
-    }
-    
-    public ArrayList<ArenaActor> getArenaActors()
-    {
-        return this.getObjects(ArenaActor);
-    }*/
-    
-    public int getTurnLength()
-    {
-        return this.TURN_LENGTH;
-    }
-    
-    
+    //methods that ensure given coordinates are within the Arena
 
     public static boolean xIsInBoundaries(double x)
     {
@@ -217,7 +191,6 @@ public class Arena extends World
     {
         return ((y >= 0) && (y <= Arena.WIDTH));
     }
-
     
     public static boolean isInBoundaries(double x, double y)
     {

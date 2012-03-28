@@ -2,10 +2,10 @@ import java.util.ArrayList;
 
 //import robot.Robot;
 /**
- * Stub class.
+ * Stub class - placeholder for Charlie and Henry's class
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Haley B-E and Brendan Redmond
+ * @version 0.1.0
  */
 public class Builder  
 {
@@ -14,11 +14,11 @@ public class Builder
         
     }
     
-    public ArrayList<Robot> getRobots()
+    public ArrayList<RobotActor> getRobots()
     {
-        ArrayList<Robot> robots = new ArrayList<Robot>();
-        robots.add(new Robot());
-        robots.add(new Robot());
+        ArrayList<RobotActor> robots = new ArrayList<RobotActor>();
+        robots.add(new RobotActor());
+        robots.add(new RobotActor());
         
         return robots;
     }

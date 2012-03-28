@@ -1,5 +1,6 @@
 package emulator.cpu; 
  
+import java.util.ArrayList;
 /**
  * Processor
  * 
@@ -14,7 +15,7 @@ public abstract class Processor
     public Memory mem; // REMOVE THIS ONCE MEMORY BECOMES PRIVATE
     
     // Peripherals
-    protected Peripheral[] peripherals;
+    protected ArrayList<Peripheral> peripherals = new ArrayList();
     
     protected int programCounter = 0;
     
@@ -44,6 +45,11 @@ public abstract class Processor
         }
         
         return cycles * -1;
+    }
+    
+    public void addPeripheral(Peripheral p)
+    {
+        this.peripherals.add(p);
     }
     
     /**

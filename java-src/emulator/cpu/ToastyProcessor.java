@@ -1,6 +1,6 @@
 package emulator.cpu; 
 
-import wp.*; 
+import emulator.wp.*; 
 
 /**
  * Abstract class ToastyProcessor - Runs ToastyAssembly

@@ -6,7 +6,7 @@ package emulator.cpu;
  * @author Jacob Weiss
  * @version 0.0.1
  */
-public class Pin<E> extends Connectable<E>
+public class Pin<E> extends Connector<E>
 {
     public Pin()
     {

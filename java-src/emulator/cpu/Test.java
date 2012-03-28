@@ -1,6 +1,7 @@
 package emulator.cpu; 
 
 import java.util.Date;
+import emulator.wp.IO;
 /**
  * Write a description of class Test here.
  * 
@@ -9,6 +10,49 @@ import java.util.Date;
  */
 public class Test
 {
+    public static void testPeripherals()
+    {
+        AVR cpu = new AVR();
+        
+        Printer p = new Printer();
+        
+        cpu.connectToSerial(p, IO.UDR1);
+        
+        cpu.proc.mem.flash[0] = Integer.parseInt("01000011000000000000000101001000", 2);
+        cpu.proc.mem.flash[1] = Integer.parseInt("01000110000000001001110000000001", 2); 
+        cpu.proc.mem.flash[2] = Integer.parseInt("01000011000000000000000101100101", 2);
+        cpu.proc.mem.flash[3] = Integer.parseInt("01000110000000001001110000000001", 2);
+        cpu.proc.mem.flash[4] = Integer.parseInt("01000011000000000000000101101100", 2);
+        cpu.proc.mem.flash[5] = Integer.parseInt("01000110000000001001110000000001", 2);
+        cpu.proc.mem.flash[6] = Integer.parseInt("01000011000000000000000101101100", 2);
+        cpu.proc.mem.flash[7] = Integer.parseInt("01000110000000001001110000000001", 2);
+        cpu.proc.mem.flash[8] = Integer.parseInt("01000011000000000000000101101111", 2);
+        cpu.proc.mem.flash[9] = Integer.parseInt("01000110000000001001110000000001", 2);
+        cpu.proc.mem.flash[10] = Integer.parseInt("01000011000000000000000100101100", 2);
+        cpu.proc.mem.flash[11] = Integer.parseInt("01000110000000001001110000000001", 2);
+        cpu.proc.mem.flash[12] = Integer.parseInt("01000011000000000000000100100000", 2);
+        cpu.proc.mem.flash[13] = Integer.parseInt("01000110000000001001110000000001", 2);
+        cpu.proc.mem.flash[14] = Integer.parseInt("01000011000000000000000101010111", 2);
+        cpu.proc.mem.flash[15] = Integer.parseInt("01000110000000001001110000000001", 2);
+        cpu.proc.mem.flash[16] = Integer.parseInt("01000011000000000000000101101111", 2);
+        cpu.proc.mem.flash[17] = Integer.parseInt("01000110000000001001110000000001", 2);
+        cpu.proc.mem.flash[18] = Integer.parseInt("01000011000000000000000101110010", 2);
+        cpu.proc.mem.flash[19] = Integer.parseInt("01000110000000001001110000000001", 2);
+        cpu.proc.mem.flash[20] = Integer.parseInt("01000011000000000000000101101100", 2);
+        cpu.proc.mem.flash[21] = Integer.parseInt("01000110000000001001110000000001", 2);
+        cpu.proc.mem.flash[22] = Integer.parseInt("01000011000000000000000101100100", 2);
+        cpu.proc.mem.flash[23] = Integer.parseInt("01000110000000001001110000000001", 2);
+        cpu.proc.mem.flash[24] = Integer.parseInt("01000011000000000000000100001101", 2);
+        cpu.proc.mem.flash[25] = Integer.parseInt("01000110000000001001110000000001", 2);
+        cpu.proc.mem.flash[26] = Integer.parseInt("01000011000000000000000100001101", 2);
+        cpu.proc.mem.flash[27] = Integer.parseInt("01000110000000001001110000000001", 2);
+        cpu.proc.mem.flash[26] = Integer.parseInt("01000011000000000000000100001010", 2);
+        cpu.proc.mem.flash[27] = Integer.parseInt("01000110000000001001110000000001", 2);
+        cpu.proc.mem.flash[28] = Integer.parseInt("01010011000000000000000000000000", 2);      
+        
+        cpu.act(100);
+    }
+
     public static void main()
     {
         FROIDZCPU p = new FROIDZCPU();
@@ -35,9 +79,9 @@ public class Test
         System.out.println((cycles / (t.getTime() - start)) / 1000 + " mHz");
     }
     
-    public static FROIDZCPU helloWorld()
+    public static AVR helloWorld()
     {
-        FROIDZCPU cpu = new FROIDZCPU("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/cpu/helloworld.asm");
+        AVR cpu = new AVR("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/cpu/helloworld.asm");
        
         return cpu;
     }
