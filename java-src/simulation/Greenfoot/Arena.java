@@ -40,7 +40,7 @@ public class Arena extends World
         {
             //adds each robot to a random spawn location and removes that spawn location
             this.add(robot, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
-            robot.setExactRotation(Math.random() * 360);
+            robot.setRotation((int) Math.random() * 360);
             //robot.setExactRotation(robot.getAngleTowards((this.getWidth() / 2), (this.getHeight() / 2)));
         }
         

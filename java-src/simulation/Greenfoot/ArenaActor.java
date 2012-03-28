@@ -16,9 +16,12 @@ abstract public class ArenaActor extends Actor
     //the current speed of this ArenaActor in cells per unit time
     private double speed;
     //the exact rotation of this ArenaActor in degrees
-    private double rotation;
+//private double rotation;
     //the exact location of this ArenaActor
     private Location location;
+    
+    private List<ArenaActor> intersectingArenaActors;
+    private List<Wall> intersectingWalls;
 
     /**
      * Constructor: set speed, rotation to 0
@@ -27,9 +30,10 @@ abstract public class ArenaActor extends Actor
     {
         super();
         this.speed = 0;
-        this.setExactRotation(0);
+        this.setRotation(0); //this.setRotation(0);
         this.location = null;
-       
+        this.intersectingArenaActors = null;
+        this.intersectingWalls = null;
     }
     
     /**
@@ -38,7 +42,7 @@ abstract public class ArenaActor extends Actor
      * @param speed     the given speed
      * @param direction the given direction
      */
-    public ArenaActor(double speed, double direction)
+    public ArenaActor(double speed, int direction)
     {
         super();
         assert(speed >= 0);
@@ -46,8 +50,10 @@ abstract public class ArenaActor extends Actor
         assert(Math.abs(direction) >= 0);
         
         this.speed = speed;
-        this.setExactRotation(direction);
+        this.setRotation(direction); //this.setRotation(direction);
         this.location = null;
+        this.intersectingArenaActors = null;
+        this.intersectingWalls = null;
     }
     
     //other public getter/setter methods and variable modifiers
@@ -103,13 +109,8 @@ abstract public class ArenaActor extends Actor
      */
     public void moveOne()
     {
-        double x = this.getExactX();
-        double y = this.getExactY();
-        
-        double xAdd = Math.cos(Math.toRadians(this.getExactRotation()));
-        double yAdd = Math.sin(Math.toRadians(this.getExactRotation()));
-        
-        this.setExactLocation(x + xAdd, y + yAdd);
+        this.setExactLocation(this.getExactX() + Math.cos(Math.toRadians(this.getRotation())),
+                              this.getExactY() + Math.sin(Math.toRadians(this.getRotation())));
     }
     
     /**
@@ -119,20 +120,18 @@ abstract public class ArenaActor extends Actor
      * @param y     the y coordinate
      * @return      the angle this ArenaActor must have to face two given coordinates
      */
-    public double getAngleTowards(double x, double y)
+    public int getAngleTowards(double x, double y)
     {
         assert(Arena.xIsInBoundaries(x));
         assert(Arena.yIsInBoundaries(y));
         
-        double angle;
-        
         if (x > this.getExactX())
         {
-            angle = Math.toDegrees(Math.atan((y - this.getY()) / (x - this.getX())));
+            return (int) Math.toDegrees(Math.atan((y - this.getY()) / (x - this.getX())));
         }
         else if (x < this.getExactX())
         {
-            angle = Math.toDegrees(Math.atan((y - this.getY()) / (x - this.getX()))) + 180;
+            return (int) Math.toDegrees(Math.atan((y - this.getY()) / (x - this.getX()))) + 180;
         }
         else
         {
@@ -146,14 +145,9 @@ abstract public class ArenaActor extends Actor
             }
             else
             {
-                return this.getExactRotation();
+                return this.getRotation();
             }
         }
-        
-        assert(angle >= 0);
-        assert(angle < 360);
-        
-        return angle;
     }
     
     /**
@@ -161,7 +155,7 @@ abstract public class ArenaActor extends Actor
      * 
      * @param a     the given ArenaActor
      */
-    public double getAngleTowards(ArenaActor a)
+    public int getAngleTowards(ArenaActor a)
     {
         return this.getAngleTowards(a.getExactX(), a.getExactY());
     }
@@ -172,16 +166,17 @@ abstract public class ArenaActor extends Actor
      */
     private void resolveCollisions()
     {
-        List<ArenaActor> arenaActors = this.getIntersectingObjects(ArenaActor.class);
-        List<Wall> walls = this.getIntersectingObjects(Wall.class);
+        this.intersectingWalls = this.getIntersectingObjects(Wall.class);
         
         
-        for (Wall w : walls)
+        for (Wall w : this.intersectingWalls)
         {
             this.deflect(w);
         }
         
-        for (ArenaActor a : arenaActors)
+        this.intersectingArenaActors = this.getIntersectingObjects(ArenaActor.class);
+        
+        for (ArenaActor a : this.intersectingArenaActors)
         {
             this.collideWith(a);
         }
@@ -213,8 +208,8 @@ abstract public class ArenaActor extends Actor
     private void deflect(ArenaActor a)
     {
         assert(a != null);
-        this.setExactRotation(2 * ((this.getAngleTowards(a) + 90) % 180) - this.getExactRotation());
-        a.setExactRotation(2 * ((a.getAngleTowards(this) + 90) % 180) - a.getExactRotation());
+        this.setRotation(2 * ((this.getAngleTowards(a) + 90) % 180) - this.getRotation());
+        a.setRotation(2 * ((a.getAngleTowards(this) + 90) % 180) - a.getRotation());
         
         while (this.getIntersectingObjects(ArenaActor.class).contains(a))
         {
@@ -234,11 +229,11 @@ abstract public class ArenaActor extends Actor
         
         if (this.getIntersectingObjects(Wall.class).size() > 1)
         {
-            this.setExactRotation(this.getExactRotation() - 180);
+            this.setRotation(this.getRotation() - 180);
         }
         else
         {
-            this.setExactRotation(2 * w.getRotation() - this.getExactRotation());
+            this.setRotation(2 * w.getRotation() - this.getRotation());
         }
         
         while (this.getOneIntersectingObject(Wall.class) != null)
@@ -306,14 +301,14 @@ abstract public class ArenaActor extends Actor
      * 
      * @param rotation  the given rotation
      */
-    public void setExactRotation(double rotation)
+/**    public void setRotation(double rotation)
     {
         rotation = (360 + rotation) % 360;
         
         super.setRotation((int) (rotation + .5));
         this.rotation = rotation;
     }
-    
+  */  
     
     //do we need assertions for turn?
     /**
@@ -321,7 +316,7 @@ abstract public class ArenaActor extends Actor
      * 
      * @param angle     the angle to be turned by
      */
-    public void turn(int angle)
+    /*public void turn(int angle)
     {
         assert(rotation >= 0);
         assert(rotation < 360);
@@ -329,7 +324,7 @@ abstract public class ArenaActor extends Actor
         super.turn(angle);
         this.rotation += angle;
         this.rotation %= 360;
-    }
+    }*/
     
     public double getExactX()
     {
@@ -346,8 +341,8 @@ abstract public class ArenaActor extends Actor
         return this.location;
     }
     
-    public double getExactRotation()
+    /*public double getRotation()
     {
         return this.rotation;
-    }
+    }*/
 }
