@@ -48,6 +48,7 @@ public class Robot
     public Robot addPart(Part part)
     {
         this.parts.add(part);
+        this.cpu.connectToSerial(part, part.getSerialPort());
         return this;
     }
 }

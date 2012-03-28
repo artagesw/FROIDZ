@@ -36,7 +36,7 @@ public class AVR extends FROIDZCPU
         PWM pwm5 = new PWM(this.proc.mem, IO.OCR3CL);
         
         Port porta = new Port(this.proc.mem, 8, IO.PORTA, IO.PINA, IO.DDRA);
-        Port portb = new Port(this.proc.mem, 8, IO.PORTB, IO.PINB, IO.PINB);
+        Port portb = new Port(this.proc.mem, 8, IO.PORTB, IO.PINB, IO.DDRB);
         Port portc = new Port(this.proc.mem, 8, IO.PORTC, IO.PINC, IO.DDRC);
         Port portd = new Port(this.proc.mem, 8, IO.PORTD, IO.PIND, IO.DDRD);
         
@@ -64,10 +64,10 @@ public class AVR extends FROIDZCPU
         this.proc.peripherals.add(portc);
         this.proc.peripherals.add(portd);
     }
-    
+
     public void connectToSerial(IUSART usart, int udr)
-    {
-        ((USART)(this.peripheralMap[udr])).connect(usart);
+    {        
+        ((USART)(this.peripheralMap[emulator.wp.IO.UDR1])).connect(usart);
     }
     public void connectToPWM(PinConnector p, int address)
     {
