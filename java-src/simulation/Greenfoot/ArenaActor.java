@@ -8,7 +8,7 @@ import java.util.List;
  * @author Brendan Redmond and Haley B-E
  * @version 0.6.0
  */
-abstract public class ArenaActor extends Actor
+abstract public class ArenaActor extends Actor implements Collidable
 {
     //the number of time units elapsed for each actor's act method
     public static final int ACT_TIME = 10;
@@ -20,8 +20,7 @@ abstract public class ArenaActor extends Actor
     //the exact location of this ArenaActor
     private Location location;
     
-    private List<ArenaActor> intersectingArenaActors;
-    private List<Wall> intersectingWalls;
+    private List<ArenaActor> intersectingActors;
 
     /**
      * Constructor: set speed, rotation to 0
@@ -32,8 +31,7 @@ abstract public class ArenaActor extends Actor
         this.speed = 0;
         this.setRotation(0); //this.setRotation(0);
         this.location = null;
-        this.intersectingArenaActors = null;
-        this.intersectingWalls = null;
+        this.intersectingActors = null;
     }
     
     /**
@@ -52,8 +50,7 @@ abstract public class ArenaActor extends Actor
         this.speed = speed;
         this.setRotation(direction); //this.setRotation(direction);
         this.location = null;
-        this.intersectingArenaActors = null;
-        this.intersectingWalls = null;
+        this.intersectingActors = null;
     }
     
     //other public getter/setter methods and variable modifiers
@@ -166,19 +163,12 @@ abstract public class ArenaActor extends Actor
      */
     private void resolveCollisions()
     {
-        this.intersectingWalls = this.getIntersectingObjects(Wall.class);
+        this.intersectingActors = this.getIntersectingObjects(Collidable.class);
         
         
-        for (Wall w : this.intersectingWalls)
+        for (Collidable actor : this.intersectingActors)
         {
-            this.deflect(w);
-        }
-        
-        this.intersectingArenaActors = this.getIntersectingObjects(ArenaActor.class);
-        
-        for (ArenaActor a : this.intersectingArenaActors)
-        {
-            this.collideWith(a);
+            this.deflect(actor);
         }
     }
     
@@ -205,41 +195,28 @@ abstract public class ArenaActor extends Actor
      * 
      * @param a     the given ArenaActor
      */
-    private void deflect(ArenaActor a)
+    private void deflect(Collidable actor)
     {
-        assert(a != null);
-        this.setRotation(2 * ((this.getAngleTowards(a) + 90) % 180) - this.getRotation());
-        a.setRotation(2 * ((a.getAngleTowards(this) + 90) % 180) - a.getRotation());
+        assert(actor != null);
         
-        while (this.getIntersectingObjects(ArenaActor.class).contains(a))
+        this.setDeflectionRotation(2 * actor.getDeflectionAngle() - this.getRotation());
+        actor.setDeflectionRotation(2 * this.getDeflectionAngle() - actor.getRotation());
+        
+        while (this.getIntersectingObjects(Collidable.class).contains(actor))
         {
             this.moveOne();
-            a.moveOne();
+            actor.moveOne();
         }
     }
     
-    /**
-     * Changes this ArenaActor's direction due to a collision with a given Wall
-     * 
-     * @param a     the given Wall
-     */
-    private void deflect(Wall w)
+    public int getDeflectionAngle()
     {
-        assert(w != null);
-        
-        if (this.getIntersectingObjects(Wall.class).size() > 1)
-        {
-            this.setRotation(this.getRotation() - 180);
-        }
-        else
-        {
-            this.setRotation(2 * w.getRotation() - this.getRotation());
-        }
-        
-        while (this.getOneIntersectingObject(Wall.class) != null)
-        {
-            this.moveOne();
-        }
+        return (this.getRotation() + 90) % 180;
+    }
+    
+    public void setDeflectionRotation(int angle)
+    {
+        this.setRotation(angle);
     }
     
     //abstract methods

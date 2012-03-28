@@ -1,5 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-import robot.Robot;
+//import robot.Robot;
 
 /**
  * A stub class.

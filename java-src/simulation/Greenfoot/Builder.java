@@ -16,7 +16,7 @@ public class Builder
     public ArrayList<RobotActor> getRobots()
     {
         ArrayList<RobotActor> robots = new ArrayList<RobotActor>();
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 2; i++)
         {
             robots.add(new RobotActor());
         }
