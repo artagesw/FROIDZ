@@ -303,6 +303,9 @@ abstract public class ArenaActor extends Actor
      */
     public void turn(int angle)
     {
+        assert(rotation >= 0);
+        assert(rotation < 360);
+        
         super.turn(angle);
         this.rotation += angle;
         this.rotation %= 360;
