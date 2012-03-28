@@ -34,26 +34,19 @@ public class Arena extends World
         super(WIDTH, HEIGHT, 1);
         
         Builder builder = new Builder();
-        ArrayList<Robot> robots = builder.getRobots();
+        ArrayList<RobotActor> robots = builder.getRobots();
         ArrayList<Location> spawnLocations = SpawnMap.getSpawnLocations(robots.size());
         
-        for (Robot robot : robots)
+        for (RobotActor robot : robots)
         {
             //adds each robot to a random spawn location and removes that spawn location
-            //this.add(robot, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
-            
+            this.add(robot, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
+            robot.setExactRotation(Math.random() * 360);
+            //robot.setExactRotation(robot.getAngleTowards((this.getWidth() / 2), (this.getHeight() / 2)));
         }
         
-        Robot robot = new Robot();
-        this.add(robot, 100, 200);
-        robot.setExactRotation(Math.random() * 360);
-        
-        Robot robot2 = new Robot();
-        this.add(robot2, 100, 400);
-        robot2.setExactRotation(Math.random() * 360);
-        
         this.makeWalls();
-        this.setActOrder(Robot.class, Projectile.class);
+        this.setActOrder(RobotActor.class, Projectile.class);
     }
     
     /**
@@ -82,6 +75,26 @@ public class Arena extends World
         wall = new Wall(HEIGHT, Wall.THICKNESS);
         this.addObject(wall, Wall.THICKNESS / 2 - 1, HEIGHT / 2);
         wall.setRotation(90);
+        
+        //right lower diagonal
+        wall = new Wall(70, Wall.THICKNESS);
+        this.addObject(wall, WIDTH - (3 * Wall.THICKNESS), HEIGHT - (3 * Wall.THICKNESS));
+        wall.setRotation(135);
+        
+        //right upper diagonal
+        wall = new Wall(70, Wall.THICKNESS);
+        this.addObject(wall, WIDTH - (3 * Wall.THICKNESS), 3 * Wall.THICKNESS);
+        wall.setRotation(45);
+        
+        //left lower diagonal
+        wall = new Wall(70, Wall.THICKNESS);
+        this.addObject(wall, 3 * Wall.THICKNESS, HEIGHT - (3 * Wall.THICKNESS));
+        wall.setRotation(45);
+        
+        //left upper diagonal
+        wall = new Wall(70, Wall.THICKNESS);
+        this.addObject(wall, 3 * Wall.THICKNESS, 3 * Wall.THICKNESS);
+        wall.setRotation(135);
     }
     
     /**

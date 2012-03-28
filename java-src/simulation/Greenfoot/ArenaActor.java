@@ -196,6 +196,8 @@ abstract public class ArenaActor extends Actor
     {
         assert(a != null);
         this.deflect(a);
+        
+        //will contain method to take damage
     }
     
     
@@ -210,12 +212,10 @@ abstract public class ArenaActor extends Actor
     private void deflect(ArenaActor a)
     {
         assert(a != null);
-//if you have the first ArenaActor in the collision deflect then move out of the way, the other ArenaActor's deflect method
-//is never called, so I think this would fix that. Feel free to change stuff
         this.setExactRotation(2 * ((this.getAngleTowards(a) + 90) % 180) - this.getExactRotation());
         a.setExactRotation(2 * ((a.getAngleTowards(this) + 90) % 180) - a.getExactRotation());
-//this may be the way to go, might be slow though        
-        while (this.getIntersectingObjects(ArenaActor.class).contains(a))//(this.getOneIntersectingObject(ArenaActor.class) != null)
+        
+        while (this.getIntersectingObjects(ArenaActor.class).contains(a))
         {
             this.moveOne();
             a.moveOne();
@@ -231,7 +231,14 @@ abstract public class ArenaActor extends Actor
     {
         assert(w != null);
         
-        this.setExactRotation(2 * w.getRotation() - this.getExactRotation());
+        if (this.getIntersectingObjects(Wall.class).size() > 1)
+        {
+            this.setExactRotation(this.getExactRotation() - 180);
+        }
+        else
+        {
+            this.setExactRotation(2 * w.getRotation() - this.getExactRotation());
+        }
         
         while (this.getOneIntersectingObject(Wall.class) != null)
         {
@@ -308,7 +315,7 @@ abstract public class ArenaActor extends Actor
     }
     
     
-//do we need assertions for turn?
+    //do we need assertions for turn?
     /**
      * Turns this ArenaActor by a given angle
      * 
