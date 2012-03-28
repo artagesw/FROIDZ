@@ -21,24 +21,15 @@ public class FROIDZCPU
     
     public FROIDZCPU()
     {
-        Memory mem = new AVRMemory();
-        this.proc = new ToastyProcessor(mem, 1, new USART(mem));
     }
     
-    public FROIDZCPU(String path)
+    public void connectToSerial(IUSART part, int udrRegister, int ucsrRegister)
     {
-        Memory mem = new AVRMemory();
-        mem.loadBin(path);
-        
-        this.proc = new ToastyProcessor(mem, 1, new USART(mem));
+        USART usart = new USART(this.proc.mem, udrRegister, ucsrRegister);
     }
-    
-    public void connectToSerial(IUSART part)
+    public void connectToPWM(PinConnector part, int clock, int pwmRegister)
     {
-        
-    }
-    public void connectToPin(PinConnector part, int clock, int dataIn, int dataOut)
-    {
+        PWM pwm = new PWM(this.proc.mem, pwmRegister);
         
     }
     

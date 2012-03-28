@@ -1,6 +1,6 @@
 package emulator.cpu;
 
-public class LED extends Connectable<Boolean>
+public class LED extends Connector<Boolean>
 {
     public void act()
     {

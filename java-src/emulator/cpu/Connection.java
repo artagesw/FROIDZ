@@ -11,9 +11,9 @@ public class Connection<E>
 {
     private E link;
     
-    private HashSet<Connectable<E>> connections = new HashSet();
+    private HashSet<Connector<E>> connections = new HashSet();
     
-    public Connection(Connectable<E> c)
+    public Connection(Connector<E> c)
     {
         this.connections.add(c);
     }
@@ -22,9 +22,9 @@ public class Connection<E>
         this.link = initial;
     }
     
-    public void connect(Connectable<E> c)
+    public void connect(Connector<E> c)
     {
-        for (Connectable<E> connection : c.getConnection().connections)
+        for (Connector<E> connection : c.getConnection().connections)
         {
             this.connections.add(connection);
             connection.connect(this);            

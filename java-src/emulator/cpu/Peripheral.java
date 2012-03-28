@@ -6,7 +6,7 @@ package emulator.cpu;
  * @author Jacob Weiss
  * @version 0.0.1
  */
-public abstract class Peripheral
+public abstract class Peripheral// implements Connectable
 {
     // Alias of the cpu's memory
     protected Memory mem;

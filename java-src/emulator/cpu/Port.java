@@ -10,21 +10,45 @@ import java.util.ArrayList;
  */
 public class Port extends Peripheral
 {
-    private Pin[] pins;
-    private String name;
+    private Pin<Boolean>[] pins;
     
-    public Port(String name, int numPins)
+    private int port;
+    private int pin;
+    private int ddr;
+    
+    public Port(Memory mem, int numPins, int portAddress, int pinAddress, int ddrAddress)
     {
+        super(mem);
+        
         this.pins = new Pin[numPins];
-        this.name = name;
+        
+        this.port = portAddress;
+        this.ddr = ddrAddress;
+        this.pin = pinAddress;
         
         for (int i = 0; i < numPins; i++)
         {
-            //this.pins[i] = new Pin<Boolean>(false);
+            this.pins[i] = new Pin<Boolean>(false);
         }
+    }
+    
+    public void connect(Connector<Boolean> c, int pinNum)
+    {
+        this.pins[pinNum].connect(c);
     }
     
     public void clock()
     {
+        for (int i = 0; i < this.pins.length; i++)
+        {
+            if ((this.mem.io[this.ddr] & (1 << i)) != 0)
+            {
+                this.pins[i].setValue((this.mem.io[this.port] & (1 << i)) != 0);
+            }
+            else
+            {
+                // Get input from pin. Needs implementation;.
+            }
+        }
     }
 }
