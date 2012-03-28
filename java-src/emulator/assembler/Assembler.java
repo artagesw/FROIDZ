@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.Arrays; 
-import wp.*;
+import emulator.wp.*;
 
 /**
  * Write a description of class ASMParser here.
@@ -94,7 +94,7 @@ public class Assembler
         }
       
         System.out.println();
-        System.out.println("ASSEMBLY COMPLETE");
+        System.out.println("ASSEMBLY COMPLETE: ");
         
         this.assembled = true;
         return true;
@@ -223,9 +223,9 @@ public class Assembler
     
     public static void test() throws IOException
     {
-        Assembler test = new Assembler("./test.asm");
+        Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.asm");
         
         test.assemble();
-        test.write("./test.bin");
+        test.write("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.tst");
     }
 }
