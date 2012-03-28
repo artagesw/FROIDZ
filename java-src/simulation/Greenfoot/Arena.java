@@ -43,15 +43,15 @@ public class Arena extends World
             //this.add(robot, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
             
         }
+        
         Robot robot = new Robot();
         this.add(robot, 100, 200);
-        robot.setRotation(30);
+        robot.setExactRotation(30);
         
         Robot robot2 = new Robot();
         this.add(robot2, 100, 400);
-        robot2.setRotation(60);
+        robot2.setExactRotation(60);
         
-        //this.addObject(new Obstacle(20, 100, 100), 300, 200);
         this.makeWalls();
         this.setActOrder(Robot.class, Projectile.class);
     }
@@ -118,13 +118,13 @@ public class Arena extends World
     private void add(ArenaActor actor, Location location)
     {
         this.addObject(actor, (int) (location.getX() + .5), (int) (location.getY() + .5));
-        actor.setLocation(location);
+        actor.setExactLocation(location);
     }
     
     public void add(ArenaActor actor, double x, double y)
     {
         this.addObject(actor, (int) (x + .5), (int) (y + .5));
-        actor.setLocation(new Location(x, y));
+        actor.setExactLocation(new Location(x, y));
     }
     
     /**
