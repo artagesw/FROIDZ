@@ -17,14 +17,14 @@ public class MotorPart extends Part
      */
     public MotorPart(int maxSpeed)
     {
-        this.maxSpeed = 0;
+        this.maxSpeed = maxSpeed;
         this.curSpeed = 0;
     }
 
     public byte TxRx(byte data)
     {
-        this.curSpeed = data;
-        this.robot.setSpeed(this.curSpeed/255*this.maxSpeed);
+        this.curSpeed = (int)data;
+        this.robot.setSpeed((this.curSpeed*this.maxSpeed)/255);
         return 0;
     }
 }
