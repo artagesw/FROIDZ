@@ -1,6 +1,11 @@
+package workbench;
+
 import java.util.ArrayList;
 import org.w3c.dom.*;
 import java.io.File;
+import robot.Robot;
+import robot.Part;
+import emulator.cpu.FROIDZCPU;
 
 /**
  * Builds robots from the directory tree "users/" 
@@ -125,7 +130,7 @@ public class Builder
             {
                 Class c = Class.forName(partName);
                 Part p = (Part)c.getConstructor(new Class[]{String.class}).newInstance(partName);
-                p.setPort(portNumber);
+                p.setSerialPort(portNumber);
                 partsList.add(p);
             }
             catch(Exception e){}

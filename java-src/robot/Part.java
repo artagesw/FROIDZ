@@ -18,7 +18,18 @@ public class Part extends PinConnector<Byte> implements IUSART
     {
     }
     
-    public void acct()
+    /**
+     * An example of a method - replace this comment with your own
+     *
+     * @param  portNum  serial port to connect to
+     */
+    public Part setSerialPort(int portNum)
+    {
+        return this;
+    }
+
+    
+    public void act()
     {
         if (this.hasNewData())
         {
