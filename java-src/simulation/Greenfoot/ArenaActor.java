@@ -210,12 +210,15 @@ abstract public class ArenaActor extends Actor
     private void deflect(ArenaActor a)
     {
         assert(a != null);
-        
+//if you have the first ArenaActor in the collision deflect then move out of the way, the other ArenaActor's deflect method
+//is never called, so I think this would fix that. Feel free to change stuff
         this.setExactRotation(2 * ((this.getAngleTowards(a) + 90) % 180) - this.getExactRotation());
-        
-        while (this.getOneIntersectingObject(ArenaActor.class) != null)
+        a.setExactRotation(2 * ((a.getAngleTowards(this) + 90) % 180) - a.getExactRotation());
+//this may be the way to go, might be slow though        
+        while (this.getIntersectingObjects(ArenaActor.class).contains(a))//(this.getOneIntersectingObject(ArenaActor.class) != null)
         {
             this.moveOne();
+            a.moveOne();
         }
     }
     
