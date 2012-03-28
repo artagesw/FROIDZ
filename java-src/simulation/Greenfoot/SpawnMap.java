@@ -12,22 +12,22 @@ public class SpawnMap
     private static Location[] locations = 
     {
         //top left
-        new Location(Arena.MAX_ROBOT_WIDTH / 2 + Wall.THICKNESS / 2, Arena.MAX_ROBOT_HEIGHT / 2 + Wall.THICKNESS / 2),
+        new Location(Arena.MAX_ROBOT_WIDTH + Wall.THICKNESS, Arena.MAX_ROBOT_HEIGHT + Wall.THICKNESS),
         //bottom right
-        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH / 2 - Wall.THICKNESS / 2,
-                     Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT / 2 - Wall.THICKNESS / 2),
+        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH - Wall.THICKNESS,
+                     Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT - Wall.THICKNESS),
         //bottom left
-        new Location(Arena.MAX_ROBOT_WIDTH / 2 + Wall.THICKNESS / 2, Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT / 2 - Wall.THICKNESS / 2),
+        new Location(Arena.MAX_ROBOT_WIDTH + Wall.THICKNESS, Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT - Wall.THICKNESS),
         //top right
-        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH / 2 - Wall.THICKNESS / 2, Arena.MAX_ROBOT_HEIGHT / 2 + Wall.THICKNESS / 2),
+        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH - Wall.THICKNESS, Arena.MAX_ROBOT_HEIGHT + Wall.THICKNESS),
         //top middle
-        new Location(Arena.WIDTH / 2, Arena.MAX_ROBOT_HEIGHT / 2 + Wall.THICKNESS / 2),
+        new Location(Arena.WIDTH, Arena.MAX_ROBOT_HEIGHT + Wall.THICKNESS),
         //left middle
-        new Location(Arena.MAX_ROBOT_WIDTH / 2 + Wall.THICKNESS / 2, Arena.HEIGHT / 2),
+        new Location(Arena.MAX_ROBOT_WIDTH + Wall.THICKNESS, Arena.HEIGHT),
         //right middle
-        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH / 2 - Wall.THICKNESS / 2, Arena.HEIGHT / 2),
+        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH - Wall.THICKNESS, Arena.HEIGHT),
         //bottom middle
-        new Location(Arena.WIDTH / 2, Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT / 2 - Wall.THICKNESS / 2)
+        new Location(Arena.WIDTH, Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT - Wall.THICKNESS)
     };
     
     
