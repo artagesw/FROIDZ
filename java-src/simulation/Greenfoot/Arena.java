@@ -46,11 +46,11 @@ public class Arena extends World
         
         Robot robot = new Robot();
         this.add(robot, 100, 200);
-        robot.setExactRotation(30);
+        robot.setExactRotation(Math.random() * 360);
         
         Robot robot2 = new Robot();
         this.add(robot2, 100, 400);
-        robot2.setExactRotation(60);
+        robot2.setExactRotation(Math.random() * 360);
         
         this.makeWalls();
         this.setActOrder(Robot.class, Projectile.class);

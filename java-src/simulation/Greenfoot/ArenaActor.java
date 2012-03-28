@@ -6,7 +6,7 @@ import java.util.List;
  * 
  * 
  * @author Brendan Redmond and Haley B-E
- * @version 0.5.0
+ * @version 0.6.0
  */
 abstract public class ArenaActor extends Actor
 {
@@ -200,8 +200,8 @@ abstract public class ArenaActor extends Actor
     
     
     
-//we could possibly combine these two deflect methods, getting the exact rotation of the other ArenaActor
-//probably isnt vital and we could just use getRotation()
+    //we could possibly combine these two deflect methods, getting the exact rotation of the other ArenaActor
+    //probably isnt vital and we could just use getRotation()
     /**
      * Changes this ArenaActor's direction due to a collision with a given ArenaActor
      * 
@@ -211,8 +211,12 @@ abstract public class ArenaActor extends Actor
     {
         assert(a != null);
         
-        //this.setExactRotation(2 * ((this.getAngleTowards(a) + 90) % 180) - this.getExactRotation());
-        this.setExactRotation(2 * (this.getAngleTowards(a) + 90) - this.getExactRotation());
+        this.setExactRotation(2 * ((this.getAngleTowards(a) + 90) % 180) - this.getExactRotation());
+        
+        while (this.getOneIntersectingObject(ArenaActor.class) != null)
+        {
+            this.moveOne();
+        }
     }
     
     /**
@@ -225,6 +229,11 @@ abstract public class ArenaActor extends Actor
         assert(w != null);
         
         this.setExactRotation(2 * w.getRotation() - this.getExactRotation());
+        
+        while (this.getOneIntersectingObject(Wall.class) != null)
+        {
+            this.moveOne();
+        }
     }
     
     //abstract methods
