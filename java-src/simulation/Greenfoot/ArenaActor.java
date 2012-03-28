@@ -182,7 +182,6 @@ abstract public class ArenaActor extends Actor
         for (ArenaActor a : arenaActors)
         {
             this.collideWith(a);
-            this.deflect(a);
         }
     }
     
@@ -195,6 +194,7 @@ abstract public class ArenaActor extends Actor
     private void collideWith(ArenaActor a)
     {
         assert(a != null);
+        this.deflect(a);
     }
     
     
@@ -210,7 +210,8 @@ abstract public class ArenaActor extends Actor
     {
         assert(a != null);
         
-        this.setExactRotation(2 * ((this.getAngleTowards(a) + 90) % 180) - this.getExactRotation());
+        //this.setExactRotation(2 * ((this.getAngleTowards(a) + 90) % 180) - this.getExactRotation());
+        this.setExactRotation(2 * (this.getAngleTowards(a) + 90) - this.getExactRotation());
     }
     
     /**
