@@ -8,7 +8,7 @@ package emulator.cpu;
  */
 public abstract class PinConnector<E>
 {
-    private Pin<Boolean> clock = new Pin();
+    protected Pin<Boolean> clock = new Pin();
     private boolean previousState = false;
     private Pin<E> dataIn = new Pin();
     private Pin<E> dataOut = new Pin();

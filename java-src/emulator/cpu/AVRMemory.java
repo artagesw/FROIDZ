@@ -23,7 +23,6 @@ public class AVRMemory extends Memory
     // Override methods ro react to different addresses being written to.
     public void writeIO(int addr, char data)
     {
-        
         switch (addr)
         {
             case IO.UDR1:

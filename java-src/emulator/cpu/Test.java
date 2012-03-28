@@ -12,15 +12,19 @@ public class Test
 {
     public static void testPinConnector()
     {
-        AVR cpu = new AVR();
+        AVR cpu = new AVR("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.tst");
         
         PinPrinter p = new PinPrinter();
         
         cpu.connectToPWM(p, IO.OCR3AH);
         
         cpu.connectToPin(p.clockPin(), IO.PORTB, 0);
-        
-        cpu.act(100);
+       
+        for (int i = 0; i < 100; i++)
+        {
+            cpu.act(1);
+            p.clock();
+        }
     }
     
     public static void testUSART()
@@ -68,7 +72,7 @@ public class Test
 
     public static void main()
     {
-        FROIDZCPU p = new FROIDZCPU();
+        FROIDZCPU p = new AVR();
         
         p.act(3);
         
@@ -78,7 +82,7 @@ public class Test
     
     public static void speedTest()
     {
-        FROIDZCPU cpu = new FROIDZCPU();
+        FROIDZCPU cpu = new AVR();
         cpu.proc.mem.flash[0] = Integer.parseInt("01010011000000000000000000000000", 2);
         long cycles = 0;
         Date t = new Date();
