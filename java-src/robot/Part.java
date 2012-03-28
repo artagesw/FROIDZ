@@ -11,6 +11,7 @@ import emulator.cpu.PinConnector;
  */
 public class Part extends PinConnector<Byte> implements IUSART
 {
+    protected Robot robot;
     private int serialPort;
     
     /**
@@ -18,9 +19,21 @@ public class Part extends PinConnector<Byte> implements IUSART
      */
     public Part()
     {
+        this.robot = null;
         this.serialPort = 0;
     }
     
+    /**
+     * An example of a method - replace this comment with your own
+     *
+     * @param  portNum  serial port to connect to
+     */
+    public Part setRobot(Robot robot)
+    {
+        this.robot = robot;
+        return this;
+    }
+
     /**
      * An example of a method - replace this comment with your own
      *
