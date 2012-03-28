@@ -55,7 +55,7 @@ public class RobotBuilder
     public Robot build(File f)
     {
         Robot tempRobot = new Robot(f.toString());
-        XMLFile robotFile = new XMLFile(f.getPath());
+        XMLFile robotFile = new XMLFile(f);
         NodeList partList = robotFile.getElementsByTagName("Part");
         for (int i = 0; i < partList.getLength(); i++)
         {
