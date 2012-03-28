@@ -1,6 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Common elements of actors that act in the Arena.
@@ -26,6 +25,7 @@ abstract public class ArenaActor extends Actor
      */
     public ArenaActor()
     {
+        super();
         this.speed = 0;
         this.setExactRotation(0);
         this.location = null;
@@ -39,6 +39,7 @@ abstract public class ArenaActor extends Actor
      */
     public ArenaActor(double speed, double direction)
     {
+        super();
         assert(speed >= 0);
         assert(Math.abs(direction) < 360);
         assert(Math.abs(direction) >= 0);
@@ -224,10 +225,6 @@ abstract public class ArenaActor extends Actor
         assert(w != null);
         
         this.setExactRotation(2 * w.getRotation() - this.getExactRotation());
-        while (this.getOneIntersectingObject(Wall.class) != null)
-        {
-            this.moveOne();
-        }
     }
     
     //abstract methods
@@ -291,15 +288,9 @@ abstract public class ArenaActor extends Actor
      */
     public void setExactRotation(double rotation)
     {
-        if (rotation <= 0.0)
-        {
-            rotation = 360 + (rotation % 360);
-        }
-        else if (rotation > 359.0)
-        {
-            rotation %= 360;
-        }
-
+        assert(rotation >= 0);
+        assert(rotation < 360);
+        
         super.setRotation((int) (rotation + .5));
         this.rotation = rotation;
     }
@@ -313,6 +304,9 @@ abstract public class ArenaActor extends Actor
      */
     public void turn(int angle)
     {
+        assert(rotation >= 0);
+        assert(rotation < 360);
+        
         super.turn(angle);
         this.rotation += angle;
         this.rotation %= 360;
