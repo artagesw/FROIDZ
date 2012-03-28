@@ -27,6 +27,18 @@ public class Test
         }
     }
     
+    
+    public static void testUSARTFile()
+    {
+        AVR cpu = new AVR("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.tst");
+        
+        Printer p = new Printer();
+        
+        cpu.connectToSerial(p, IO.UDR1);
+      
+        cpu.act(100);
+    }
+    
     public static void testUSART()
     {
         AVR cpu = new AVR();

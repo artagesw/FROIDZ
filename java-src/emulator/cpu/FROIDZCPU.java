@@ -10,11 +10,9 @@ package emulator.cpu;
  * @author Jacob Weiss, Alex Teiche
  * @version 0.0.2
  */
-<<<<<<< HEAD
+
 public abstract class FROIDZCPU
-=======
-abstract public class FROIDZCPU
->>>>>>> fe4f0c47576f4120e47eddcad43ba0dc1ffbc59f
+
 {
     // This' processor
     public Processor proc;
@@ -31,15 +29,9 @@ abstract public class FROIDZCPU
         this.proc.mem.loadBin(path);        
     }
     
-<<<<<<< HEAD
     abstract public void connectToSerial(IUSART part, int i);
     abstract public void connectToPWM(PinConnector part, int i);
-=======
-    abstract public void connectToSerial(IUSART usart, int udr);
-    abstract public void connectToPWM(PinConnector part, int address);
-    abstract public void connectToPin(Connector<Boolean> c, int address, int bit);
->>>>>>> fe4f0c47576f4120e47eddcad43ba0dc1ffbc59f
-    
+ 
     /**
      * Tell the CPU to do things
      * @param time Milliseconds for the CPU to do things
