@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-//import robot.Robot;
 /**
  * Stub class - placeholder for Charlie and Henry's class
  * 
