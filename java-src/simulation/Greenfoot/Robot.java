@@ -11,7 +11,7 @@ public class Robot extends ArenaActor
     
     public Robot()
     {
-        super(0, (int)(Math.random() * 360));
+        super();
     }
 
     /**
