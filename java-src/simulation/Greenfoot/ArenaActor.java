@@ -1,13 +1,12 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Common elements of actors that act in the Arena.
  * 
  * 
  * @author Brendan Redmond and Haley B-E
- * @version 0.5.0
+ * @version 0.6.0
  */
 abstract public class ArenaActor extends Actor
 {
@@ -26,6 +25,7 @@ abstract public class ArenaActor extends Actor
      */
     public ArenaActor()
     {
+        super();
         this.speed = 0;
         this.setExactRotation(0);
         this.location = null;
@@ -39,6 +39,7 @@ abstract public class ArenaActor extends Actor
      */
     public ArenaActor(double speed, double direction)
     {
+        super();
         assert(speed >= 0);
         assert(Math.abs(direction) < 360);
         assert(Math.abs(direction) >= 0);
@@ -182,7 +183,6 @@ abstract public class ArenaActor extends Actor
         for (ArenaActor a : arenaActors)
         {
             this.collideWith(a);
-            this.deflect(a);
         }
     }
     
@@ -195,12 +195,13 @@ abstract public class ArenaActor extends Actor
     private void collideWith(ArenaActor a)
     {
         assert(a != null);
+        this.deflect(a);
     }
     
     
     
-//we could possibly combine these two deflect methods, getting the exact rotation of the other ArenaActor
-//probably isnt vital and we could just use getRotation()
+    //we could possibly combine these two deflect methods, getting the exact rotation of the other ArenaActor
+    //probably isnt vital and we could just use getRotation()
     /**
      * Changes this ArenaActor's direction due to a collision with a given ArenaActor
      * 
@@ -209,8 +210,16 @@ abstract public class ArenaActor extends Actor
     private void deflect(ArenaActor a)
     {
         assert(a != null);
-        
+//if you have the first ArenaActor in the collision deflect then move out of the way, the other ArenaActor's deflect method
+//is never called, so I think this would fix that. Feel free to change stuff
         this.setExactRotation(2 * ((this.getAngleTowards(a) + 90) % 180) - this.getExactRotation());
+        a.setExactRotation(2 * ((a.getAngleTowards(this) + 90) % 180) - a.getExactRotation());
+//this may be the way to go, might be slow though        
+        while (this.getIntersectingObjects(ArenaActor.class).contains(a))//(this.getOneIntersectingObject(ArenaActor.class) != null)
+        {
+            this.moveOne();
+            a.moveOne();
+        }
     }
     
     /**
@@ -223,6 +232,11 @@ abstract public class ArenaActor extends Actor
         assert(w != null);
         
         this.setExactRotation(2 * w.getRotation() - this.getExactRotation());
+        
+        while (this.getOneIntersectingObject(Wall.class) != null)
+        {
+            this.moveOne();
+        }
     }
     
     //abstract methods
@@ -302,6 +316,9 @@ abstract public class ArenaActor extends Actor
      */
     public void turn(int angle)
     {
+        assert(rotation >= 0);
+        assert(rotation < 360);
+        
         super.turn(angle);
         this.rotation += angle;
         this.rotation %= 360;
