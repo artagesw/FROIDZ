@@ -28,11 +28,24 @@ public class AVR extends FROIDZCPU
         this.proc = new ToastyProcessor(mem, 1);
         this.peripheralMap = new Peripheral[mem.io.length];
         this.initializePeripherals();
+        this.initializeMemory();
     }
     public AVR(String path)
     {
         this();
         this.proc.mem.loadBin(path);        
+    }
+    
+    public void initializeMemory()
+    {
+        this.proc.mem.io[ToastyIO.UCSR0A] |= 32;
+        this.proc.mem.io[ToastyIO.UCSR1A] |= 32;
+        this.proc.mem.io[ToastyIO.UCSR2A] |= 32;
+        this.proc.mem.io[ToastyIO.UCSR3A] |= 32;
+        this.proc.mem.io[ToastyIO.UCSR4A] |= 32;
+        this.proc.mem.io[ToastyIO.UCSR5A] |= 32;
+        this.proc.mem.io[ToastyIO.UCSR6A] |= 32;
+        this.proc.mem.io[ToastyIO.UCSR7A] |= 32;
     }
     
     public void initializePeripherals()
