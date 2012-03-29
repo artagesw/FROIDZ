@@ -25,7 +25,6 @@ public class WPChunk
         
         String[] parts = line.split("\\|");
         this.opName = parts[0];
-        System.out.println(line);
         if (!parts[1].equals(""))
         {
             this.operands = parts[1].split(":");
