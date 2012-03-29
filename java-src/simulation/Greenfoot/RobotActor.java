@@ -1,5 +1,7 @@
+ 
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-//import robot.Robot;
+import robot.Robot;
 
 /**
  * A stub class.
@@ -9,10 +11,13 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class RobotActor extends ArenaActor
 {
-    
-    public RobotActor()
+    private Robot robot;    
+
+    public RobotActor(Robot robot)
     {
         super();
+        
+        this.robot = robot;
     }
 
     /**

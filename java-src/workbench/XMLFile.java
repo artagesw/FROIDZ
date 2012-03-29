@@ -421,6 +421,11 @@ public class XMLFile implements Document //TODO: change to extending DocumentImp
         return this.XMLFile.getName();
     }
     
+    public String toString()
+    {
+        return this.XMLFile.toString();    
+    }
+    
     /**
      * Performs the write to the xml file specified in the filePath instance field. 
      * Writing to the document is slightly inefficient due to the Document Object Model, 
