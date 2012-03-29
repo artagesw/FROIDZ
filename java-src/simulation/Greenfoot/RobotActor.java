@@ -9,10 +9,13 @@ import robot.Robot;
  */
 public class RobotActor extends ArenaActor
 {
-    
-    public RobotActor()
+    private Robot robot;    
+
+    public RobotActor(Robot robot)
     {
         super();
+        
+        this.robot = robot;
     }
 
     /**
