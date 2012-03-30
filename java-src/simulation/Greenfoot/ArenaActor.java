@@ -18,11 +18,11 @@ abstract public class ArenaActor extends Actor implements Collidable
 //the current speed of this ArenaActor in cells per unit time
 //private double speed;
 //the exact rotation of this ArenaActor in degrees
-//private double rotation;
+//private double rotation;¬
     //the exact location of this ArenaActor
     private Location location;
     
-    private List<ArenaActor> intersectingActors;
+    private List<Collidable> intersectingActors;
 
     /**
      * Constructor: set speed, rotation to 0

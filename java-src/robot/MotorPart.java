@@ -20,6 +20,11 @@ public class MotorPart extends Part
         this.curSpeed = 0;
     }
     
+    public int getMaxSpeed()
+    {
+        return this.maxSpeed;
+    }
+
     public MotorPart setMaxSpeed(int maxSpeed)
     {
         this.maxSpeed = maxSpeed;
@@ -28,8 +33,10 @@ public class MotorPart extends Part
     
     public byte TxRx(byte data)
     {
+        System.out.println("data = " + data);
         this.curSpeed = (int)data;
         this.robot.setSpeed((this.curSpeed*this.maxSpeed)/255);
+        System.out.println((this.curSpeed*this.maxSpeed)/255);
         return 0;
     }
 }
