@@ -10,7 +10,7 @@ import emulator.cpu.*;
  * A battle arena.
  * 
  * @author Brendan Redmond and Haley B-E
- * @version 0.3.0
+ * @version 0.2.0
  */
 public class Arena extends World
 {
@@ -54,6 +54,8 @@ public class Arena extends World
         
         this.makeWalls();
         this.setActOrder(RobotActor.class, Projectile.class);
+        
+        this.setBackground("images/cell.jpg");
     }
     
     /**

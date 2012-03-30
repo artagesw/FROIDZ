@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Spawn locations for given numbers of robots
  * 
  * @author Brendan Redmond 
- * @version 0.0.0
+ * @version 0.2.0
  */
 public class SpawnMap  
 {

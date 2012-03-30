@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * A genereric projectile
  * 
  * @author Brendan Redmond
- * @version 0.1.0
+ * @version 0.2.0
  */
 public class Projectile extends ArenaActor
 {

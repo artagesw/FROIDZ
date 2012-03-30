@@ -7,7 +7,7 @@ import robot.Robot;
  * A stub class.
  * 
  * @author Haley B-E and Brendan Redmond
- * @version 0.1.0
+ * @version 0.2.0
  */
 public class RobotActor extends ArenaActor
 {
@@ -29,7 +29,7 @@ public class RobotActor extends ArenaActor
         super.act();
         this.robot.act(ArenaActor.ACT_TIME);
         System.out.println(this.robot.getSpeed());
-        this.move((double) this.robot.getSpeed() * ArenaActor.ACT_TIME);
+        this.bigMove(this.robot.getSpeed() * (ArenaActor.ACT_TIME / 1000.0));
         //this.turn(this.robot.getRotationalVelocity() * ArenaActor.ACT_TIME);
 
     }    
