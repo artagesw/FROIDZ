@@ -4,6 +4,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.ArrayList;
 import workbench.Builder;
 import robot.Robot;
+import emulator.cpu.*;
 
 /**
  * A battle arena.

@@ -99,9 +99,9 @@ public class Builder
      */
     private FROIDZCPU buildCPU(String CPUName, String codePath)
     {
-        try
+        try 
         {
-            Class c = Class.forName("emulator.cpu." + CPUName); //breaks on this line
+            Class c = Class.forName("emulator.cpu." + CPUName); 
             FROIDZCPU cpu = (FROIDZCPU)c.getConstructor(new Class[]{String.class}).newInstance(codePath);
             return cpu;
         }
@@ -125,7 +125,6 @@ public class Builder
         {
             Element partElement = (Element)nl.item(i);
             int portNumber = Integer.valueOf(partElement.getElementsByTagName("Port").item(0).getTextContent());
-            int partVal = 12;
             String partName = partElement.getElementsByTagName("Name").item(0).getTextContent();
             String partClass = partElement.getElementsByTagName("Class").item(0).getTextContent();
             try
@@ -133,6 +132,7 @@ public class Builder
                 Class c = Class.forName("robot." + partClass);
                 Part p = (Part)c.newInstance();
                 p.setSerialPort(portNumber);
+                ((MotorPart)p).setMaxSpeed(12);
                 partsList.add(p);
             }
             catch(Exception e)
