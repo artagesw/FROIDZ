@@ -3,15 +3,14 @@ package workbench;
 import java.util.ArrayList;
 import org.w3c.dom.*;
 import java.io.File;
-import robot.Robot;
-import robot.Part;
-import emulator.cpu.FROIDZCPU;
+import robot.*;
+import emulator.cpu.*;
 
 /**
  * Builds robots from the directory tree "users/" 
  * 
  * @author Henry Millican
- * @version 0.1.0
+ * @version 0.0.3
  */
 public class Builder
 {
@@ -51,7 +50,7 @@ public class Builder
             {
                 for (File userFile : userDirectory.listFiles())
                 {
-                    if (!userFile.getName().equals("user.xml")  && !userFile.getName().contains(".bin") && listOfPlayingRobots.contains(userFile.getName()))
+                    if (!userFile.getName().equals("user.xml")  && !userFile.getName().contains(".tst") && listOfPlayingRobots.contains(userFile.getName()))
                     {
                         robotList.add(buildRobot(new XMLFile(userFile)));
                     }
@@ -76,17 +75,18 @@ public class Builder
         
         //////////////////build/code cpu ////////////////
         String CPUName = robotFile.getDocumentElement().getElementsByTagName("CPU").item(0).getTextContent();
-        String codePath = ((robotFile.getName()).substring(0, robotFile.getName().length()-4)+".bin");//robotFile.getDocumentElement().getElementsByTagName("code").item(0).getTextContent();
+        String codePath = (robotFile.toString().substring(0, (robotFile.toString().length()-4)) + ".tst");
         robot.setCPU(this.buildCPU(CPUName, codePath));
         /////////////////////////////////////////////////   
                         
         /////////////build and add parts/////////////////
-        ArrayList<Part> parts = this.buildParts(robotFile.getDocumentElement().getElementsByTagName("part"));
+        ArrayList<Part> parts = this.buildParts(robotFile.getDocumentElement().getElementsByTagName("Part"));
         for (Part p : parts)
         {
             robot.addPart(p);
         }
         /////////////////////////////////////////////////
+        
         return robot;
     }
     
@@ -101,7 +101,7 @@ public class Builder
     {
         try
         {
-            Class c = Class.forName(CPUName);
+            Class c = Class.forName("emulator.cpu." + CPUName); //breaks on this line
             FROIDZCPU cpu = (FROIDZCPU)c.getConstructor(new Class[]{String.class}).newInstance(codePath);
             return cpu;
         }
@@ -124,16 +124,21 @@ public class Builder
         for (int i = 0; i < nl.getLength(); i++)
         {
             Element partElement = (Element)nl.item(i);
-            int portNumber = Integer.valueOf(partElement.getTextContent());
-            String partName = partElement.getAttribute("id");
+            int portNumber = Integer.valueOf(partElement.getElementsByTagName("Port").item(0).getTextContent());
+            int partVal = 12;
+            String partName = partElement.getElementsByTagName("Name").item(0).getTextContent();
+            String partClass = partElement.getElementsByTagName("Class").item(0).getTextContent();
             try
             {
-                Class c = Class.forName(partName);
-                Part p = (Part)c.getConstructor(new Class[]{String.class}).newInstance(partName);
+                Class c = Class.forName("robot." + partClass);
+                Part p = (Part)c.newInstance();
                 p.setSerialPort(portNumber);
                 partsList.add(p);
             }
-            catch(Exception e){}
+            catch(Exception e)
+            {
+                System.out.println(e.getMessage());
+            }
         }
         return partsList;
     }

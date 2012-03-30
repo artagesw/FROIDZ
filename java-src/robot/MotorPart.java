@@ -15,12 +15,17 @@ public class MotorPart extends Part
     /**
      * Constructor for objects of class MotorPart
      */
-    public MotorPart(int maxSpeed)
+    public MotorPart()
     {
-        this.maxSpeed = maxSpeed;
         this.curSpeed = 0;
     }
-
+    
+    public MotorPart setMaxSpeed(int maxSpeed)
+    {
+        this.maxSpeed = maxSpeed;
+        return this;
+    }
+    
     public byte TxRx(byte data)
     {
         this.curSpeed = (int)data;
