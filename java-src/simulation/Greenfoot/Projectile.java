@@ -20,9 +20,9 @@ public class Projectile extends ArenaActor
      * @param direction the direction of the velocity to be set
      * @param mass      the mass to be set
      */
-    public Projectile(double speed, int direction, int mass)
+    public Projectile(/*double speed,*/ int direction, int mass)
     {
-        super(speed, direction);
+        super(/*speed,*/ direction);
         
         this.mass = mass;
     }

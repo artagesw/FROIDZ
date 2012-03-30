@@ -10,6 +10,6 @@ public interface Collidable
 {
     public int getDeflectionAngle();
     public void setDeflectionRotation(int angle);
-    public void moveOne();
+    public void smallMove(double distance);
     public int getRotation();
 }
