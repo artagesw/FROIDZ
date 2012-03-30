@@ -15,9 +15,9 @@ abstract public class ArenaActor extends Actor implements Collidable
     //the number of time units elapsed for each actor's act method
     public static final int ACT_TIME = 10;
 
-    //the current speed of this ArenaActor in cells per unit time
-    private double speed;
-    //the exact rotation of this ArenaActor in degrees
+//the current speed of this ArenaActor in cells per unit time
+//private double speed;
+//the exact rotation of this ArenaActor in degrees
 //private double rotation;
     //the exact location of this ArenaActor
     private Location location;
@@ -30,8 +30,8 @@ abstract public class ArenaActor extends Actor implements Collidable
     public ArenaActor()
     {
         super();
-        this.speed = 0;
-        this.setRotation(0); //this.setRotation(0);
+        //this.speed = 0;
+        this.setRotation(0);
         this.location = null;
         this.intersectingActors = null;
     }
@@ -42,15 +42,15 @@ abstract public class ArenaActor extends Actor implements Collidable
      * @param speed     the given speed
      * @param direction the given direction
      */
-    public ArenaActor(double speed, int direction)
+    public ArenaActor(/*double speed,*/ int direction)
     {
         super();
-        assert(speed >= 0);
+        //assert(speed >= 0);
         assert(Math.abs(direction) < 360);
         assert(Math.abs(direction) >= 0);
         
-        this.speed = speed;
-        this.setRotation(direction); //this.setRotation(direction);
+        //this.speed = speed;
+        this.setRotation(direction);
         this.location = null;
         this.intersectingActors = null;
     }
@@ -58,7 +58,7 @@ abstract public class ArenaActor extends Actor implements Collidable
     //other public getter/setter methods and variable modifiers
 
     
-    public double getSpeed()
+    /*public double getSpeed()
     {
         return this.speed;
     }
@@ -72,16 +72,16 @@ abstract public class ArenaActor extends Actor implements Collidable
      * Changes the speed of this ArenaActor by a given amount
      * 
      * @param change  the amount by which the speed of this ArenaActor will change (negative number decreases speed, positive increases)
-     */
+     *
     public void changeSpeed(double change)
     {
         this.speed += change;
-    }
+    }*/
     
     
     public void act()
     {
-        this.move(1);
+        //this.move(1);
     }
 
     //methods dealing with movement    
@@ -91,25 +91,29 @@ abstract public class ArenaActor extends Actor implements Collidable
      * 
      * @param distance  the given distance
      */
-    public void move(int distance)
+    public void move(double distance)
     {
         assert(distance >= 0);
         
-        while (distance > 0)
+        
+        while (distance > 1)
         {
-            this.moveOne();
+            this.smallMove(1);
             this.resolveCollisions();
             distance--;
         }
+        
+        this.smallMove(distance);
+        this.resolveCollisions();
     }
     
     /**
      * Moves this ArenaActor one cell width in the direction it is facing
      */
-    public void moveOne()
+    public void smallMove(double distance)
     {
-        this.setExactLocation(this.getExactX() + Math.cos(Math.toRadians(this.getRotation())),
-                              this.getExactY() + Math.sin(Math.toRadians(this.getRotation())));
+        this.setExactLocation(this.getExactX() + distance * Math.cos(Math.toRadians(this.getRotation())),
+                              this.getExactY() + distance * Math.sin(Math.toRadians(this.getRotation())));
     }
     
     /**
