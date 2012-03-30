@@ -21,4 +21,11 @@ public class ToastyIO extends IO
     public static final int UCSR6A = 167;
     public static final int UDR7 = 168;
     public static final int UCSR7A = 169;
+    
+    public static final int PWM0 = IO.OCR3AH;
+    public static final int PWM1 = IO.OCR3AL;
+    public static final int PWM2 = IO.OCR3BH;
+    public static final int PWM3 = IO.OCR3BL;
+    public static final int PWM4 = IO.OCR3CH;
+    public static final int PWM5 = IO.OCR3CL;
 }
