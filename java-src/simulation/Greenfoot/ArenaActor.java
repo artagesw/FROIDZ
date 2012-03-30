@@ -171,7 +171,6 @@ abstract public class ArenaActor extends Actor implements Collidable
     {
         this.intersectingActors = this.getIntersectingObjects(Collidable.class);
         
-        
         for (Collidable actor : this.intersectingActors)
         {
             this.deflect(actor);
@@ -210,8 +209,8 @@ abstract public class ArenaActor extends Actor implements Collidable
         
         while (this.getIntersectingObjects(Collidable.class).contains(actor))
         {
-            this.moveOne();
-            actor.moveOne();
+            this.smallMove(1);
+            actor.smallMove(1);
         }
     }
     

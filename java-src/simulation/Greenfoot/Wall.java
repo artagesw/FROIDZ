@@ -39,7 +39,7 @@ public class Wall extends Actor implements Collidable
     public void setDeflectionRotation(int angle)
     {
     }
-    public void moveOne()
+    public void smallMove(double distance)
     {
         
     }
