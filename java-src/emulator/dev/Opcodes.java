@@ -1,4 +1,4 @@
-package dev;
+package emulator.dev;
 
 
 public class Opcodes

@@ -34,7 +34,8 @@ public class Test
     {
         Robot r = new Robot("Fred");
         
-        MotorPart m = new MotorPart(100);
+        MotorPart m = new MotorPart();
+        m.setMaxSpeed(100); //added by Henry, allows Test to compile with changes to MotorPart
         m.setSerialPort(0);
         
         AVR cpu = new AVR("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.tst");
@@ -48,7 +49,7 @@ public class Test
       
         cpu.act(100);
         
-        r.printSpeed();
+        //r.printSpeed();
     }
     
     public static void testUSART()

@@ -15,6 +15,7 @@ public class Robot
     private FROIDZCPU cpu;
     private ArrayList<Part> parts;
     private int speed;                      // current speed in meters/sec.
+    private int rotationalVelocity;         // current rotational velocity in deg/sec
 
     /**
      * Constructor for objects of class Robot
@@ -58,9 +59,17 @@ public class Robot
     {
         this.speed = curSpeed;
     }
-
     public int getSpeed ()
     {
         return this.speed;
+    }
+    
+    public void setRotationalVelocity(int v)
+    {
+        this.rotationalVelocity = v;
+    }
+    public int getRotationalVelocity()
+    {
+        return this.rotationalVelocity;
     }
 }
