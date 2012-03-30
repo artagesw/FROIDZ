@@ -59,6 +59,7 @@ public class Robot
     {
         this.speed = curSpeed;
     }
+    
     public int getSpeed ()
     {
         return this.speed;
@@ -68,8 +69,18 @@ public class Robot
     {
         this.rotationalVelocity = v;
     }
+    
     public int getRotationalVelocity()
     {
         return this.rotationalVelocity;
+    }
+    
+    public void act(int timeInMS)
+    {
+        this.cpu.act(timeInMS);
+        for (Part part : this.parts)
+        {
+            part.act();
+        }
     }
 }

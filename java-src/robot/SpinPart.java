@@ -1,6 +1,5 @@
 package robot;
 
-
 /**
  * Write a description of class MotorPart2 here.
  * 
