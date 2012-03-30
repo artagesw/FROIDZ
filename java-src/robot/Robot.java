@@ -63,4 +63,13 @@ public class Robot
     {
         return this.speed;
     }
+
+    public void act (int ms)
+    {
+        this.cpu.act(ms);
+        for (Part part : this.parts)
+        {
+            part.act();
+        }
+    }
 }
