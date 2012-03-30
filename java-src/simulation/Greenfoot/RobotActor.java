@@ -27,8 +27,11 @@ public class RobotActor extends ArenaActor
     public void act() 
     {
         super.act();
+<<<<<<< HEAD
         this.move(this.robot.getSpeed() * ArenaActor.ACT_TIME);
         this.turn(this.robot.getRotationalVelocity() * ArenaActor.ACT_TIME);
+=======
+>>>>>>> 7ff97435d97346f59b395c21e1ac9681e6d66a37
     }    
     
     public double getMass()
