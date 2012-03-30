@@ -1,5 +1,10 @@
+
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.ArrayList;
+import workbench.Builder;
+import robot.Robot;
+import emulator.cpu.*;
 
 /**
  * A battle arena.
@@ -18,11 +23,11 @@ public class Arena extends World
     //the maximum height of the robot in pixels
     public static final int MAX_ROBOT_HEIGHT = 50;
     //the maximum width of the robot in pixels
-    public static final int MAX_ROBOT_WIDTH = 50;
-    
+    public static final int MAX_ROBOT_WIDTH = 50;    
     //length of time to be given as a turn
     private static final int TURN_LENGTH = 10;
 
+    
     /**
      * Constructor: creates the arena, then adds the robots to the arena
      * 
@@ -33,14 +38,17 @@ public class Arena extends World
         super(WIDTH, HEIGHT, 1);
         
         Builder builder = new Builder();
-        ArrayList<RobotActor> robots = builder.getRobots();
+        ArrayList<Robot> robots = builder.getRobots();
         ArrayList<Location> spawnLocations = SpawnMap.getSpawnLocations(robots.size());
         
-        for (RobotActor robot : robots)
+        for (Robot robot : robots)
         {
+            RobotActor robotActor = new RobotActor(robot);
+            
             //adds each robot to a random spawn location and removes that spawn location
-            this.add(robot, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
-            robot.setRotation((int) (Math.random() * 360));
+            this.add(robotActor, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
+            robotActor.setRotation((int) (Math.random() * 360));
+            robotActor.setImage("images/TestBot.png");
             //robot.setExactRotation(robot.getAngleTowards((this.getWidth() / 2), (this.getHeight() / 2)));
         }
         

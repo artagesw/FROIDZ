@@ -11,7 +11,7 @@ public class Printer implements IUSART
 {
     public byte TxRx(byte b)
     {
-        System.out.print((char)b);
+        System.out.println("NEW DATA" + (int)b);
         return 0;
     }
 }
