@@ -25,6 +25,10 @@ public class AVRMemory extends Memory
     {
         switch (addr)
         {
+            case IO.UDR0:
+            {
+                this.io[IO.UCSR0A] &= ~32;
+            }
             case IO.UDR1:
             {
                 this.io[IO.UCSR1A] &= ~32;
@@ -36,6 +40,10 @@ public class AVRMemory extends Memory
     {
         switch (addr)
         {
+            case IO.UDR0:
+            {
+                this.io[IO.UCSR0A] |= 32;
+            }
             case IO.UDR1:
             {
                 this.io[IO.UCSR1A] |= 32;
