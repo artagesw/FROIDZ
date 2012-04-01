@@ -9,5 +9,11 @@
 		<Name>Motor</Name>
 		<Port>0</Port>
 	</Part>
+	<Part>
+		<Class>SpinPart</Class>
+		<Name>Spin</Name>
+		<Port>1</Port>
+	</Part>
+	
 	
 </Robot>

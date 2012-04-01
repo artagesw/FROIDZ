@@ -9,7 +9,7 @@ package robot;
  */
 public class MotorPart extends Part
 {
-    private int maxSpeed;   // in meters/sec.
+    private int maxSpeed = 120;   // in meters/sec.
     private int curSpeed;
     
     /**
@@ -33,10 +33,10 @@ public class MotorPart extends Part
     
     public byte TxRx(byte data)
     {
-        System.out.println("data = " + data);
+        //System.out.println("data = " + data);
         this.curSpeed = (int)data;
         this.robot.setSpeed((this.curSpeed*this.maxSpeed)/255);
-        System.out.println((this.curSpeed*this.maxSpeed)/255);
+        //System.out.println((this.curSpeed*this.maxSpeed)/255);
         return 0;
     }
 }
