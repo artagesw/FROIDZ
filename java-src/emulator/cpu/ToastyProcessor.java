@@ -687,6 +687,82 @@ public class ToastyProcessor extends Processor
                 
                 break;
             }
+            case OPCODES.SBIC_b:
+            {
+                char b = (char)(instr & 7);
+                char A = (char)((instr >> 3) & 0x1F);
+                
+                if ((this.mem.readIO(A) & (1 << b)) == 0)
+                {
+                    this.programCounter += 2;
+                    clockCount = 2;
+                }
+                else
+                {
+                    this.programCounter++;
+                    clockCount = 1;
+                }
+                
+                break;
+            }
+            case OPCODES.SBIS_b:
+            {
+                char b = (char)(instr & 0x07);
+                char A = (char)((instr >> 3) & 0x1F);
+                
+                if ((this.mem.readIO(A) & (1 << b)) != 0)
+                {
+                    this.programCounter += 2;
+                    clockCount = 2;
+                }
+                else
+                {
+                    this.programCounter++;
+                    clockCount = 1;
+                }
+                
+                break;
+            }
+            case OPCODES.SBRC_b:
+            {
+                char b = (char)(instr & 0x07);
+                char A = (char)((instr >> 3) & 0x1F);
+                
+                if ((this.mem.registers[A] & (1 << b)) == 0)
+                {
+                    this.programCounter += 2;
+                    clockCount = 2;
+                }
+                else
+                {
+                    this.programCounter++;
+                    clockCount = 1;
+                }
+                
+                break;
+            }
+            case OPCODES.SBRS_b:
+            {
+                char b = (char)(instr & 0x07);
+                char A = (char)((instr >> 3) & 0x1F);
+                
+                if ((this.mem.registers[A] & (1 << b)) != 0)
+                {
+                    this.programCounter += 2;
+                    clockCount = 2;
+                }
+                else
+                {
+                    this.programCounter++;
+                    clockCount = 1;
+                }
+                
+                break;
+            }
+            case OPCODES.SBIC_w:
+            {
+                break;
+            }
             /**
              * NOP
              * 

@@ -23,8 +23,8 @@ public class WPParser
 
     public WPParser()
     {
-        //this("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/dev/TOASTY Asm.wp");
-        this("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/dev/TOASTY Asm.wp");
+        this("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/dev/TOASTY Asm.wp");
+        //this("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/dev/TOASTY Asm.wp");
     }
     
     public WPParser(String path)

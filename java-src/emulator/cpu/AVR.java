@@ -34,11 +34,12 @@ public class AVR extends FROIDZCPU
     
     public AVR()
     {
-        Memory mem = new AVRMemory();
+        AVRMemory mem = new AVRMemory();
         this.proc = new ToastyProcessor(mem, 1);
         this.peripheralMap = new Peripheral[mem.io.length];
         this.initializePeripherals();
         this.initializeMemory();
+        mem.setPeripheralMap(this.peripheralMap);
     }
     public AVR(String path)
     {

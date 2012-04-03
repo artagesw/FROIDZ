@@ -97,5 +97,9 @@ public class OPCODES
     public static final int BRBC_b = 87;
     public static final int NOP = 0;
     public static final int EOF = 255;
-
+    public static final int SBIC_b = 88;
+    public static final int SBIS_b = 89;
+    public static final int SBRC_b = 90;
+    public static final int SBRS_b = 91;
+    public static final int SBIC_w = 216;
 }

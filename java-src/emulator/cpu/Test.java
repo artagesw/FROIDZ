@@ -4,6 +4,7 @@ import java.util.Date;
 import emulator.wp.IO;
 import robot.Robot;
 import robot.MotorPart;
+import emulator.assembler.Assembler;
 /**
  * Write a description of class Test here.
  * 
@@ -12,6 +13,22 @@ import robot.MotorPart;
  */
 public class Test
 {
+    public static void testPrinterInput() throws java.lang.InterruptedException, java.io.IOException
+    {   
+        Assembler a = new Assembler("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/cpu/Print.asm");
+        a.assemble();
+        a.write("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/cpu/Printer.tst");
+        AVR cpu = new AVR("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/cpu/Printer.tst");     
+        
+        Printer p = new Printer();
+        cpu.connectToSerial(p, 0);
+        
+        while (true)
+        {
+            cpu.act(100);
+        }
+    }
+    
     public static void testPinConnector()
     {
         AVR cpu = new AVR("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.tst");

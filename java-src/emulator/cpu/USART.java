@@ -2,6 +2,8 @@ package emulator.cpu;
 
 import emulator.wp.*; 
 import java.util.ArrayList;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * Acts like a USART on an ATMEGA
  * 
@@ -10,10 +12,12 @@ import java.util.ArrayList;
  */
 public class USART extends Peripheral
 {
-    private ArrayList<IUSART> devices = new ArrayList();
+    protected ArrayList<IUSART> devices = new ArrayList();
     
-    private int udr = 0;
-    private int ucsr = 1;
+    protected int udr;
+    protected int ucsr;
+    
+    protected Queue<Character> buffer = new ConcurrentLinkedQueue();
     
     public USART(Memory mem, int udrAddress, int ucsrAddress)
     {
@@ -33,9 +37,21 @@ public class USART extends Peripheral
         {
             for (IUSART d : this.devices)
             {
-                this.mem.io[this.udr] = (char)d.TxRx((byte)this.mem.io[this.udr]);
+                this.buffer.offer((char)d.TxRx((byte)this.mem.io[this.udr]));
+                this.mem.io[this.ucsr] |= 128;
+                this.mem.io[this.ucsr] |= 32;
             }
         }
-        this.mem.io[this.ucsr] |= 32;
+    }
+    
+    public char read()
+    {
+        Character c = this.buffer.poll();
+        if (c == null)
+        {
+            this.mem.io[this.ucsr] &= ~128;
+            return 0;
+        }
+        return c;
     }
 }
