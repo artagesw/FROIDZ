@@ -132,7 +132,6 @@ public class Builder
                 Class c = Class.forName("robot." + partClass);
                 Part p = (Part)c.newInstance();
                 p.setSerialPort(portNumber);
-                ((MotorPart)p).setMaxSpeed(12);
                 partsList.add(p);
             }
             catch(Exception e)

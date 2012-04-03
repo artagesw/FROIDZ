@@ -60,7 +60,7 @@ public class Robot
         this.speed = curSpeed;
     }
     
-    public int getSpeed ()
+    public int getSpeed()
     {
         return this.speed;
     }

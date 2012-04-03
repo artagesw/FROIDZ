@@ -1,12 +1,14 @@
  
 
+ 
+
   
 
 /**
  * A point with double coordinates
  * 
  * @author Brendan Redmond
- * @version 1.0.0
+ * @version 0.2.0
  */
 public class Location
 {

@@ -1,5 +1,9 @@
  
 
+ 
+
+ 
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
 
@@ -8,7 +12,7 @@ import java.util.List;
  * 
  * 
  * @author Brendan Redmond and Haley B-E
- * @version 0.6.0
+ * @version 0.2.0
  */
 abstract public class ArenaActor extends Actor implements Collidable
 {
@@ -91,7 +95,7 @@ abstract public class ArenaActor extends Actor implements Collidable
      * 
      * @param distance  the given distance
      */
-    public void move(double distance)
+    public void bigMove(double distance)
     {
         assert(distance >= 0);
         
