@@ -33,10 +33,8 @@ public class MotorPart extends Part
     
     public byte TxRx(byte data)
     {
-        //System.out.println("data = " + data);
-        this.curSpeed = (int)data;
-        this.robot.setSpeed((this.curSpeed*this.maxSpeed)/255);
-        //System.out.println((this.curSpeed*this.maxSpeed)/255);
+        this.curSpeed = (0x00FF & (int)data);
+        this.robot.setSpeed(this.curSpeed*this.maxSpeed/255);
         return 0;
     }
 }

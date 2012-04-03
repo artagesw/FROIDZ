@@ -1,9 +1,3 @@
- 
-
- 
-
- 
-
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import robot.Robot;
 
@@ -32,7 +26,6 @@ public class RobotActor extends ArenaActor
     {
         super.act();
         this.robot.act(ArenaActor.ACT_TIME);
-        //System.out.println(this.robot.getSpeed());
         this.bigMove(this.robot.getSpeed() * (ArenaActor.ACT_TIME/100.0));
         this.turn(this.robot.getRotationalVelocity() * ArenaActor.ACT_TIME);
 
