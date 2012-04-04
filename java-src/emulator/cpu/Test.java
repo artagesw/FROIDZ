@@ -24,6 +24,8 @@ public class Test
         ConsolePart p = new ConsolePart();
         cpu.connectToSerial(p, 0);
         
+        
+        
         while (true)
         {
             cpu.act(10);
