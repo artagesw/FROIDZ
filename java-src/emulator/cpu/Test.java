@@ -5,6 +5,7 @@ import emulator.wp.IO;
 import robot.Robot;
 import robot.MotorPart;
 import emulator.assembler.Assembler;
+import robot.ConsolePart;
 /**
  * Write a description of class Test here.
  * 
@@ -15,17 +16,18 @@ public class Test
 {
     public static void testPrinterInput() throws java.lang.InterruptedException, java.io.IOException
     {   
-        Assembler a = new Assembler("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/cpu/Print.asm");
-        a.assemble();
-        a.write("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/cpu/Printer.tst");
+        //Assembler a = new Assembler("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/cpu/Print.asm");
+        //a.assemble();
+        //a.write("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/cpu/Printer.tst");
         AVR cpu = new AVR("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/cpu/Printer.tst");     
         
-        Printer p = new Printer();
+        ConsolePart p = new ConsolePart();
         cpu.connectToSerial(p, 0);
         
         while (true)
         {
-            cpu.act(100);
+            cpu.act(10);
+            Thread.sleep(10);
         }
     }
     
@@ -73,7 +75,7 @@ public class Test
     {
         AVR cpu = new AVR();
         
-        Printer p = new Printer();
+        ConsolePart p = new ConsolePart();
         
         cpu.connectToSerial(p, IO.UDR1);
         

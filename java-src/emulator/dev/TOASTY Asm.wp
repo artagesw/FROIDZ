@@ -89,7 +89,7 @@
 	IN.w    | Rd=abcdefgh : A=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1100 0010 abcd efgh ijkl mnop qrst uvwx
 	LDI.w   | Rd=abcdefgh : K=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1100 0011 abcd efgh ijkl mnop qrst uvwx 
 	LD.w    | Rd=abcdefgh : I=ijklmnop                | [0,255]:[0,255]         | 1100 0100 0000 0000 abcd efgh ijkl mnop 
-	LDS.w   | Rd=abcdefgh : k=ijklmnopqrstuvx         | [0,255]:[0,65535]       | 1100 0101 abcd efgh ijkl mnop qrst uvwx 
+	LDS.w   | Rd=abcdefgh : k=ijklmnopqrstuvwx        | [0,255]:[0,65535]       | 1100 0101 abcd efgh ijkl mnop qrst uvwx 
 	STS.w   | k=abcdefghijklmnop : Rr=qrstuvwx        | [0,65535]:[0,255]       | 1100 0110 abcd efgh ijkl mnop qrst uvwx 
 	ST.w    | I=abcefgh : Rr=ijklmnop                 | [0,255]:[0,255]         | 1100 0111 0000 0000 abcd efgh ijkl mnop 
 	MOV.w   | Rd=abcdefgh : Rr=ijklmnop               | [0,255]:[0,255]         | 1100 100 0000 0000 abcd efgh ijkl mnop 
@@ -111,7 +111,7 @@
 	IJMP.w  | Ra=abcdefgh                             | [0,255]                 | 1101 0101 0000 0000 0000 0000 abcd efgh 
 	BRBS.w  | b=abcd : k=efghijklmnopqrstuvwx         | [0,15]:[-524288, 524288]| 1101 0110 abcd efgh ijkl mnop qrst uvwx 
 	BRBC.w  | b=abcd : k=efghijklmnopqrstuvwx         | [0,15]:[-524288, 524288]| 1101 0111 abcd efgh ijkl mnop qrst uvwx 
-	SBIC.w  | A=abcdefgh : b=ijkl : k=mnopqrstuvwx    | [0,255]:[0,15]:[0,4096] | 1101 1000 abcd efgh ijkl mnop qrst uvwx 
+	SBIC.w  | A=abcdefgh : b=ijkl                     | [0,255]:[0,15]          | 1101 1000 abcd efgh ijkl 0000 0000 0000 
 # 8 BIT BRANCH 0101 *************************************************************************************************** 
 	CP.b    | Ra=abcdefgh : Rb=ijklmnop               | [0,255]:[0,255]         | 0101 0001 0000 0000 abcd efgh ijkl mnop 
 	CPI.b   | Ra=abcdefgh : K=ijklmnop                | [0,255]:[0,255]         | 0101 0010 0000 0000 abcd efgh ijkl mnop

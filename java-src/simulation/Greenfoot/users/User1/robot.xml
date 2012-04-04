@@ -7,11 +7,16 @@
 	<Part>
 		<Class>MotorPart</Class>
 		<Name>Motor</Name>
-		<Port>0</Port>
+		<Port>2</Port>
 	</Part>
 	<Part>
 		<Class>SpinPart</Class>
 		<Name>Spin</Name>
 		<Port>1</Port>
+	</Part>
+	<Part>
+		<Class>ConsolePart</Class>
+		<Name>Console</Name>
+		<Port>0</Port>
 	</Part>
 </Robot>

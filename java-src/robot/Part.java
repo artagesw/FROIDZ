@@ -1,18 +1,19 @@
 package robot;
 
-import emulator.cpu.IUSART;
+import emulator.cpu.ISynchronousUSART;
 import emulator.cpu.PinConnector;
-
+import emulator.cpu.IAsynchronousUSART;
 /**
  * Base class representing a single robot part.
  * 
  * @author Sam Weiss 
  * @version 0.1.0
  */
-public class Part extends PinConnector<Byte> implements IUSART
+public class Part extends PinConnector<Byte> implements ISynchronousUSART
 {
     protected Robot robot;
     private int serialPort;
+    protected IAsynchronousUSART device;
     
     /**
      * Constructor for objects of class RobotPart
@@ -44,7 +45,11 @@ public class Part extends PinConnector<Byte> implements IUSART
         this.serialPort = portNum;
         return this;
     }
-
+    
+    public void setDevice(IAsynchronousUSART device)
+    {
+        this.device = device;
+    }
     
      /**
      * An example of a method - replace this comment with your own
@@ -63,7 +68,12 @@ public class Part extends PinConnector<Byte> implements IUSART
             this.setData(this.TxRx(getData()));
         }
     }
-
+    
+    public void Rx(byte data)
+    {
+        this.device.Rx(this.TxRx(data));
+    }
+    
     /**
      * Method TxRx
      * 

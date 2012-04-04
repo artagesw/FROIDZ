@@ -82,8 +82,8 @@ public class AVR extends FROIDZCPU
         Port portc = new Port(this.proc.mem, 8, IO.PORTC, IO.PINC, IO.DDRC);
         Port portd = new Port(this.proc.mem, 8, IO.PORTD, IO.PIND, IO.DDRD);
         
-        this.peripheralMap[IO.UDR1] = u1;
         this.peripheralMap[IO.UDR0] = u0;
+        this.peripheralMap[IO.UDR1] = u1;
         this.peripheralMap[ToastyIO.UDR2] = u2;
         this.peripheralMap[ToastyIO.UDR3] = u3;
         this.peripheralMap[ToastyIO.UDR4] = u4;
@@ -101,8 +101,8 @@ public class AVR extends FROIDZCPU
         this.peripheralMap[IO.PORTC] = portc;
         this.peripheralMap[IO.PORTD] = portd;
         
-        this.proc.peripherals.add(u1);
         this.proc.peripherals.add(u0);
+        this.proc.peripherals.add(u1);
         this.proc.peripherals.add(u2);
         this.proc.peripherals.add(u3);
         this.proc.peripherals.add(u4);
@@ -121,7 +121,7 @@ public class AVR extends FROIDZCPU
         this.proc.peripherals.add(portd);
     }
 
-    public void connectToSerial(IUSART usart, int udr)
+    public void connectToSerial(IAsynchronousUSART usart, int udr)
     {        
         ((USART)(this.peripheralMap[this.usartLookup[udr]])).connect(usart);
     }

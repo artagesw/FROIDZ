@@ -24,7 +24,7 @@ public class ToastyProcessor extends Processor
     {
         // fetch
         int instr = this.mem.flash[this.programCounter];
-        int opCode = (instr & 0xFF000000) >> 24;
+        int opCode = ((instr & 0xFF000000) >> 24);
         int clockCount = 0;
         
 
@@ -541,6 +541,19 @@ public class ToastyProcessor extends Processor
                 
                 break;
             }
+            case OPCODES.LDS_w:
+            {
+                char k = (char)(instr & 0xFFFF);
+                char Rd = (char)((instr >> 16) & 0xFF);
+                
+                this.mem.registers[Rd] = this.mem.read(k);
+                
+                this.programCounter++;
+                
+                clockCount = 2;
+                
+                break;
+            }
             /**
              * STS.b
              * 
@@ -707,10 +720,10 @@ public class ToastyProcessor extends Processor
             }
             case OPCODES.SBIS_b:
             {
-                char b = (char)(instr & 0x07);
+                char b = (char)(instr & 7);
                 char A = (char)((instr >> 3) & 0x1F);
                 
-                if ((this.mem.readIO(A) & (1 << b)) != 0)
+                if ((this.mem.readIO(A) & (0x001 << b)) != 0)
                 {
                     this.programCounter += 2;
                     clockCount = 2;
@@ -725,7 +738,7 @@ public class ToastyProcessor extends Processor
             }
             case OPCODES.SBRC_b:
             {
-                char b = (char)(instr & 0x07);
+                char b = (char)(instr & 7);
                 char A = (char)((instr >> 3) & 0x1F);
                 
                 if ((this.mem.registers[A] & (1 << b)) == 0)
@@ -743,7 +756,7 @@ public class ToastyProcessor extends Processor
             }
             case OPCODES.SBRS_b:
             {
-                char b = (char)(instr & 0x07);
+                char b = (char)(instr & 7);
                 char A = (char)((instr >> 3) & 0x1F);
                 
                 if ((this.mem.registers[A] & (1 << b)) != 0)
@@ -759,8 +772,24 @@ public class ToastyProcessor extends Processor
                 
                 break;
             }
-            case OPCODES.SBIC_w:
+            //case OPCODES.SBIC_w:
+            case -40:
             {
+                char k = (char)(instr & 0xFFF);
+                char b = (char)((instr = (instr >> 12)) & 0xF);
+                char A = (char)((instr >> 4) & 0xFF);
+                
+                if ((this.mem.readIO(A) & (1 << b)) == 0)
+                {
+                    this.programCounter += k;
+                    clockCount = 2;
+                }
+                else
+                {
+                    this.programCounter++;
+                    clockCount = 1;
+                }
+                
                 break;
             }
             /**

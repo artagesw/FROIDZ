@@ -126,7 +126,7 @@ public class Memory
 
             while (scanner.hasNextLine())
             {
-                this.flash[pos] = Integer.parseInt(scanner.nextLine().replace(" ", ""), 2);
+                this.flash[pos] = (int)Long.parseLong(scanner.nextLine().replace(" ", ""), 2);
                 
                 pos++;
                 

@@ -378,6 +378,6 @@ public class Binary
     
     public int getValue()
     {
-        return Integer.parseInt(this.value, 2);
+        return (int)Long.parseLong(this.value, 2);
     }
 }
