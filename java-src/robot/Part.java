@@ -14,6 +14,7 @@ public class Part extends PinConnector<Byte> implements ISynchronousUSART
     protected Robot robot;
     private int serialPort;
     protected IAsynchronousUSART device;
+    protected String name;
     
     /**
      * Constructor for objects of class RobotPart
@@ -61,6 +62,16 @@ public class Part extends PinConnector<Byte> implements ISynchronousUSART
         return this.serialPort;
     }
 
+    public Part setName(String name)
+    {
+        this.name = name;
+        return this;
+    }
+    public String getName()
+    {
+        return this.name;
+    }
+    
     public void act()
     {
         if (this.hasNewData())
