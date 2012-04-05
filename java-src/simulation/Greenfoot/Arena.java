@@ -1,9 +1,3 @@
- 
-
- 
-
-
-
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.ArrayList;
 import workbench.Builder;
@@ -115,6 +109,17 @@ public class Arena extends World
      */
     public void act()
     {
+        synchronized (this)
+        {
+            try
+            {
+                this.wait(10);
+            }
+            catch (java.lang.InterruptedException e)
+            {
+                System.out.println("Something went wrong");
+            }
+        }
     }
     
     //Methods for adding/removing things to the arena

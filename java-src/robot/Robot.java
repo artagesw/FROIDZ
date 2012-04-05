@@ -32,7 +32,7 @@ public class Robot
         this.name = name;
         return this;
     }
-    public String name(String name)
+    public String name()
     {
         return this.name;
     }

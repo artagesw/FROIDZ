@@ -6,6 +6,7 @@ import robot.Robot;
 import robot.MotorPart;
 import emulator.assembler.Assembler;
 import robot.ConsolePart;
+import java.util.Scanner;
 /**
  * Write a description of class Test here.
  * 
@@ -14,22 +15,31 @@ import robot.ConsolePart;
  */
 public class Test
 {
+    public static void testScanner()
+    {
+        Scanner s = new Scanner(System.in);
+        while (true)
+        {
+            if (s.hasNextLine())
+            {
+                System.out.println(s.nextLine());
+            }
+        }
+    }
+    
     public static void testPrinterInput() throws java.lang.InterruptedException, java.io.IOException
     {   
-        //Assembler a = new Assembler("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/cpu/Print.asm");
-        //a.assemble();
-        //a.write("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/cpu/Printer.tst");
+        Assembler a = new Assembler("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/cpu/Print.asm");
+        a.assemble();
+        a.write("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/cpu/Printer.tst");
         AVR cpu = new AVR("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/cpu/Printer.tst");     
         
         ConsolePart p = new ConsolePart();
-        cpu.connectToSerial(p, 0);
-        
-        
+        cpu.connectToSerial(p, 0);       
         
         while (true)
         {
             cpu.act(10);
-            Thread.sleep(10);
         }
     }
     

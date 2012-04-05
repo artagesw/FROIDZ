@@ -27,8 +27,6 @@ public class ToastyProcessor extends Processor
         int opCode = ((instr & 0xFF000000) >> 24);
         int clockCount = 0;
         
-
-        
         // execute
         switch (opCode)
         {

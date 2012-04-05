@@ -37,16 +37,23 @@ public class USART extends Peripheral implements IAsynchronousUSART
         this.device = usart;
     }
     
-    public void clock()
+    public synchronized void clock()
     {
         if ((this.mem.io[this.ucsr] & 32) == 0)
         {
-            this.device.Rx((byte)this.mem.io[this.udr]);
-            this.mem.io[this.ucsr] |= 32;
-        }        
+            if (this.device == null)
+            {
+                return;
+            }
+            synchronized (this.device)
+            {
+                this.device.Rx((byte)this.mem.io[this.udr]);
+                this.mem.io[this.ucsr] |= 32;
+            }
+        }   
     }
     
-    public char read()
+    public synchronized char read()
     {
         Character c = this.buffer.poll();
         if (this.buffer.peek() == null)
@@ -60,7 +67,7 @@ public class USART extends Peripheral implements IAsynchronousUSART
         return c;
     }
     
-    public void Rx(byte data)
+    public synchronized void Rx(byte data)
     {
         this.buffer.offer((char)data);
         this.mem.io[this.ucsr] |= 0x80;
