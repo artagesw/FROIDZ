@@ -19,9 +19,4 @@
 		<Name>MotorConsole</Name>
 		<Port>0</Port>
 	</Part>
-	<Part>
-		<Class>ConsolePart</Class>
-		<Name>SpinConsole</Name>
-		<Port>4</Port>
-	</Part>
 </Robot>
