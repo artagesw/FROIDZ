@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.Arrays; 
+import java.util.Hashtable;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import emulator.wp.*;
 
 /**
@@ -33,13 +36,20 @@ public class Assembler
 
     private boolean assembled;
     
+    private Hashtable<String, String> defs;
+    
+    private Pattern isRegister;
+    
     /**
      * Create an assembly parser given a path to an assembly file
      * @param path The path to the file
      */
     public Assembler(String path)
     {
+        this.defs = new Hashtable();
         this.lines = new LinkedList();
+        
+        this.isRegister = Pattern.compile("R[0-9]*");
         
         try
         {
@@ -134,21 +144,49 @@ public class Assembler
         
     }
     
-    private List<List<String>> preprocess(List<String> lines)
+    /**
+     * Parse all .def directives and generate the hashtable
+     * This does not do the replacing in the actual code
+     */
+    private List<String> hash_defs(List<String> lines)
     {
-        List<List<String>> processed = new ArrayList();
+        // This is the output of this method, it won't contain any recognized preprocessor directives
+        ArrayList<String> pureAsm = new ArrayList();
         
         for (String l : lines)
         {
-            List<String> p = this.parseLine(l);
-            for (int i = 1; i < p.size(); i++)
+            if (l.substring(0, 4).equalsIgnoreCase(".def"))
             {
-                p.set(i, p.get(i).replace("R", "0d"));
+                String[] parts = l.split(" ");
+                String key = parts[1];
+                String value = parts[2];
+                this.defs.put(key, value);
+                System.out.println(".DEF " + key + " AS " + value + " RECOGNIZED.");
             }
-            processed.add(p);
+            else
+            {
+                pureAsm.add(l);
+            }
         }
         
-        return processed;  
+        return pureAsm;
+    }
+    
+    private List<List<String>> preprocess(List<String> lines)
+    {
+        lines = this.hash_defs(lines);
+            
+        // Split a list of strings that are a complete instruction into a list of lists, where each element of each sublist is a string that is one part of an instruction(the op code, argument, etc)
+        // ["SBI 0xFF 0x04"] -> [["SBI", "0xFF", "0x04"]]
+        List<List<String>> processed = new ArrayList();
+        
+        // Parse register addresses
+        for (String l : lines)
+        {
+            processed.add(this.parseLine(l));
+        }
+        
+        return processed;
     }
     
     private List<Binary> generateInstructions(List<List<String>> lines) throws InvalidInputException
@@ -158,6 +196,12 @@ public class Assembler
         for (List<String> parsed : lines)
         {
             WPChunk op = this.parser.getChunk(parsed.get(0));
+            
+            // Try and replace any shortcuts with their actual value (.def)
+            parsed = this.applyDefs(parsed);
+            
+            // Change stuff like R17 into its address
+            parsed = this.parseRegisterAddresses(parsed);
             
             List<Binary> operands = this.makeBinariesFromOperands(parsed.subList(1, parsed.size()));
             
@@ -192,6 +236,47 @@ public class Assembler
         
         return l;
     }
+    
+    private List<String> applyDefs(List<String> instructionParts)
+    {
+        for (int i = 0; i < instructionParts.size(); i++)
+        {
+            String part = instructionParts.get(i);
+                
+            if (this.defs.containsKey(part))
+            {
+                System.out.println(this.defs.get(part) + " -> " + instructionParts.get(i));
+                instructionParts.set(i, this.defs.get(part));
+            }
+        }
+        
+        return instructionParts;
+    }
+    
+    /**
+     * @param instructionParts Just one line, each element is a part of one assembly instruction(the name, or arguments)
+     */
+    private List<String> parseRegisterAddresses(List<String> instructionParts)
+    {
+        List<String> output = new ArrayList();
+        
+        
+        
+        for (String part : instructionParts)
+        {
+            if (this.isRegister.matcher(part).matches())
+            {
+                System.out.println("Register Address Parsed for " + part);
+                output.add(part.replace("R", "0d"));
+            }
+            else
+            {
+                output.add(part);
+            }
+        }
+        
+        return output;  
+    }
  
     public static List<String> parseLine(String line)
     {
@@ -223,7 +308,7 @@ public class Assembler
     
     public static void test() throws IOException
     {
-        Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/touart.asm");
+        Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.asm");
         
         test.assemble();
         test.write("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.tst");
