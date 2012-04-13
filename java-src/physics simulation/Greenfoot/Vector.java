@@ -43,23 +43,30 @@ public class Vector
         this.j = Math.sin(direction * Math.PI / 180);
     }
     
-    public void copy(Vector v)
+    public Vector copy(Vector v)
     {
         this.i = v.i;
         this.j = v.j;
+        return this;
     }
     
     /**
      * add(Vector v)
      * 
-     * Add vector v to this. Return the result.
+     * Add vector v to this.
      * 
      * @param   Vector  the vector to add to this
-     * @return  Vector  the resultant vector
+     * @return  Vector  this
      */
-    public Vector add(Vector v)
+    public Vector addCopy(Vector v)
     {
         return new Vector(this.i + v.i, this.j + v.j);
+    }
+    public Vector add(Vector v)
+    {
+        this.i += v.i;
+        this.j += v.j;
+        return this;
     }
     
     /**
@@ -72,6 +79,11 @@ public class Vector
     public double magnitude()
     {
         return Math.sqrt((this.i * this.i) + (this.j * this.j));
+    }
+    
+    public double direction()
+    {
+        return Math.atan2(this.j, this.i);
     }
     
     /**
@@ -95,9 +107,15 @@ public class Vector
      * @param   double  the scale factor
      * @return  Vector  the result
      */
-    public Vector scale(double scaleFactor)
+    public Vector scaleCopy(double scaleFactor)
     {
         return new Vector(this.i * scaleFactor, this.j * scaleFactor);
+    }
+    public Vector scale(double scaleFactor)
+    {
+        this.i *= scaleFactor;
+        this.j *= scaleFactor;
+        return this;
     }
     
     /**
@@ -107,6 +125,10 @@ public class Vector
      * 
      * @return  Vector  a unit vector in the same direction as this
      */
+    public Vector unitVectorCopy()
+    {
+        return this.scaleCopy(1 / this.magnitude());
+    }
     public Vector unitVector()
     {
         return this.scale(1 / this.magnitude());
@@ -123,7 +145,13 @@ public class Vector
     public Vector componentInDirection(Vector v)
     {
         double m = v.magnitude();
-        return v.scale(this.dot(v) / (m * m));
+        this.copy(v.scaleCopy(this.dot(v) / (m * m)));
+        return this;
+    }
+    public Vector componentInDirectionCopy(Vector v)
+    {
+        double m = v.magnitude();
+        return v.scaleCopy(this.dot(v) / (m * m));
     }
     
     /**
@@ -133,9 +161,16 @@ public class Vector
      * 
      * @return  Vector  a normal vector
      */
-    public Vector normal()
+    public Vector normalCopy()
     {
         return new Vector(-1 * this.j, this.i);
+    }
+    public Vector normal()
+    {
+        double temp = this.i;
+        this.i = -1 * this.j;
+        this.j = temp;
+        return this;
     }
     
     // Public getters
