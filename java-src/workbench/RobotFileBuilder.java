@@ -1,17 +1,24 @@
 package workbench;
+
 import java.io.File;
 import org.w3c.dom.*;
 /**
- * Write a description of class RobotFileBuilder here.
+ * Bunch of methods for adding/removing parts and other robot attributes
+ * to a user's robot's xml file specified in the constructor parameters. 
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Henry Millican
+ * @version 0.0.2
  */
 public class RobotFileBuilder
 {
     private XMLFile robotFile;
+    private Element robotFileRootElement;
     /**
-     * Constructor for objects of class RobotFileBuilder
+     * Creates a RobotFileBuilder, will also create the robot's xml
+     * file is it doesn't exist. 
+     * 
+     * @param userName      username of the player's robot to modify, this is used to find the folder
+     * @param robotName     name of the robot file to ceate/change
      */
     public RobotFileBuilder(String userName, String robotName)
     {
@@ -34,20 +41,27 @@ public class RobotFileBuilder
                 break;
             }
         }
-        
+    
+        this.robotFileRootElement = this.robotFile.getDocumentElement();
         if (!robotFound)
         {   
             Element nameElement = this.robotFile.createElement("Name");
             nameElement.setTextContent(robotName);
-         
-            this.robotFile.appendChild(nameElement);
-            this.robotFile.appendChild(this.robotFile.createElement("CPU"));
-            this.robotFile.appendChild(this.robotFile.createElement("Image"));
-            this.robotFile.appendChild(this.robotFile.createElement("Code"));
+            
+            this.robotFileRootElement.appendChild(nameElement);
+            this.robotFileRootElement.appendChild(this.robotFile.createElement("CPU"));
+            this.robotFileRootElement.appendChild(this.robotFile.createElement("Image"));
+            this.robotFileRootElement.appendChild(this.robotFile.createElement("Code"));
+            this.robotFile.write();
         }
-        
     }
     
+    /**
+     * Creates another element in the document tree for a part, adds part and part properties 
+     * 
+     * @param partClassName     name of the part's class to add
+     * @param port              the port the part will connect to 
+     */
     public void addPart(String partClassName, int port)
     {
         assert partClassName != null && !partClassName.equals("");
@@ -68,10 +82,16 @@ public class RobotFileBuilder
         partElement.appendChild(partNameElement);
         partElement.appendChild(partClassElement);
         
-        this.robotFile.appendChild(partElement);
+        this.robotFileRootElement.appendChild(partElement);
         this.robotFile.write();
     }
     
+    /**
+     * Removes the part (and the element) given by the parameter
+     * 
+     * @param partClassName     name of the part's class you wish to remove
+     * @return                  name of the part removed
+     */
     public String removePart(String partClassName)
     {
         assert partClassName != null && !partClassName.equals("");
@@ -79,16 +99,22 @@ public class RobotFileBuilder
         NodeList parts = this.robotFile.getElementsByTagName("Part");
         for (int i = 0; i < parts.getLength(); i++)
         {
-            if (parts.item(i).getTextContent().equals(partClassName))
+            Element part = (Element)parts.item(i);
+            if (part.getElementsByTagName("Class").item(0).getTextContent().equals(partClassName))
             {
-                this.robotFile.removeChild(parts.item(i));
+                this.robotFileRootElement.removeChild(parts.item(i));
+                this.robotFile.write();
                 return partClassName;
             }
         }
-        this.robotFile.write();
         return null;
     }
     
+    /**
+     * Adds the name of the CPU's class to the CPU element
+     * 
+     * @param CPUClassName      name of the CPU's class (omit .class)
+     */
     public void setCPU(String CPUClassName)
     {
         assert CPUClassName != null && !CPUClassName.equals("");       
@@ -96,6 +122,11 @@ public class RobotFileBuilder
         this.robotFile.write();
     }
     
+    /**
+     * Adds the path to the robot's image into the image element
+     * 
+     * @param imgPath   path to the image
+     */
     public void setImage(String imgPath)
     {
         assert imgPath != null && !imgPath.equals("");
@@ -103,7 +134,13 @@ public class RobotFileBuilder
         this.robotFile.write();
     }
     
-public void setCode(String code)
+    /**
+     * Adds the given compiled robot code to the robot xml file
+     * (later will compile, waiting on a method from alex)
+     * 
+     * @param code      string representation of assembled robot code
+     */
+    public void setCode(String code)
     {
         assert code !=null && !code.equals("");
         this.robotFile.getElementsByTagName("Code").item(0).setTextContent(code);

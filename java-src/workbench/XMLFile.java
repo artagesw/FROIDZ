@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Writing to the XML file is implemented using the xml transform api. 
  * 
  * @author Henry Millican
- * @version 0.1.1
+ * @version 0.1.2
  */
 public class XMLFile implements Document //TODO: change to extending DocumentImplementation
 {
@@ -38,7 +38,7 @@ public class XMLFile implements Document //TODO: change to extending DocumentImp
             if (!this.XMLFile.exists())
             {
                 this.doc = docBuilder.newDocument();
-                //doc.appendChild(doc.createElement());
+                this.doc.appendChild(this.doc.createElement("root"));
                 this.write();
             }
             else
@@ -55,11 +55,6 @@ public class XMLFile implements Document //TODO: change to extending DocumentImp
     public boolean contains(String s)
     {
         return false;    
-    }
-    
-    public void test()
-    {
-        System.out.println(this.doc.getDocumentElement().getElementsByTagName("Name").item(0).getTextContent());
     }
     
     public Node renameNode(Node n, String namespaceURI, String qualifiedName)
@@ -85,7 +80,6 @@ public class XMLFile implements Document //TODO: change to extending DocumentImp
     public void setDocumentURI(String documentURI)
     {
         this.doc.setDocumentURI(documentURI);
-        this.write();
     }
     
     public String getDocumentURI()
@@ -100,15 +94,12 @@ public class XMLFile implements Document //TODO: change to extending DocumentImp
     
     public boolean getStrictErrorChecking()
     {
-        Boolean b = this.doc.getStrictErrorChecking();
-        this.write();
-        return b;
+        return this.doc.getStrictErrorChecking(); 
     }
     
     public void setXmlVersion(String xmlVersion)
     {
         this.doc.setXmlVersion(xmlVersion);
-        this.write();
     }
     
     public String getXmlVersion()
@@ -119,7 +110,6 @@ public class XMLFile implements Document //TODO: change to extending DocumentImp
     public void setXmlStandalone(boolean xmlStandalone)
     {
         this.doc.setXmlStandalone(xmlStandalone);
-        this.write();
     }
     
     public boolean getXmlStandalone()
@@ -334,30 +324,22 @@ public class XMLFile implements Document //TODO: change to extending DocumentImp
     
     public Node appendChild(Node newChild)
     {
-        Node n = this.doc.appendChild(newChild);
-        this.write();
-        return n;
+        return this.doc.appendChild(newChild);
     }
     
     public Node removeChild(Node oldChild)
     {
-        Node n = this.doc.removeChild(oldChild);
-        this.write();
-        return n;
+        return this.doc.removeChild(oldChild);
     }
     
     public Node replaceChild(Node newChild, Node oldChild)
     {
-        Node n = this.doc.replaceChild(newChild, oldChild);
-        this.write();
-        return n;
+        return this.doc.replaceChild(newChild, oldChild);
     }
     
     public Node insertBefore(Node newChild, Node refChild)
     {
-        Node n = this.doc.insertBefore(newChild, refChild);
-        this.write();
-        return n;
+        return this.doc.insertBefore(newChild, refChild);
     }
     
     public Document getOwnerDocument()
@@ -408,7 +390,6 @@ public class XMLFile implements Document //TODO: change to extending DocumentImp
     public void setNodeValue(String nodeValue)
     {
         this.doc.setNodeValue( nodeValue);
-        this.write();
     }
     
     public String getNodeValue()
@@ -435,9 +416,11 @@ public class XMLFile implements Document //TODO: change to extending DocumentImp
     {   try
         {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            transformerFactory.setAttribute("indent-number", new Integer(2));
             Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
             DOMSource source = new DOMSource(doc);
             StreamResult result =  new StreamResult(XMLFile);
             transformer.transform(source, result);
