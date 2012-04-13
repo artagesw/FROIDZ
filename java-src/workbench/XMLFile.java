@@ -431,7 +431,7 @@ public class XMLFile implements Document //TODO: change to extending DocumentImp
      * Writing to the document is slightly inefficient due to the Document Object Model, 
      * but a reasonable trade off for fast reads. 
      */
-    private void write()
+    public void write()
     {   try
         {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -439,7 +439,7 @@ public class XMLFile implements Document //TODO: change to extending DocumentImp
             Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(doc);
-            StreamResult result =  new StreamResult(new File(filePath));
+            StreamResult result =  new StreamResult(XMLFile);
             transformer.transform(source, result);
         }
         catch(Exception e)
