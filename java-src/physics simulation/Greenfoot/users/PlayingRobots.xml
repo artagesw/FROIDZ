@@ -1,9 +1,2 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<robots>robot.xml
-robot2.xml
-robot3.xml
-robot4.xml
-robot5.xml
-robot6.xml
-robot7.xml
-robot8.xml</robots>
+<robots>robot.xml</robots>

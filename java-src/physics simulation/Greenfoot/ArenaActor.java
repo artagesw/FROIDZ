@@ -28,6 +28,12 @@ abstract public class ArenaActor extends Actor implements Collidable
         this.state = new Physics(5, 25, l.getX(), l.getY());
     }
     
+    public ArenaActor(double mass, Location l, double radius)
+    {
+        super();
+        this.state = new Physics(mass, radius, l.getX(), l.getY());
+    }
+    
     public ArenaActor()
     {
         super();
@@ -103,6 +109,12 @@ abstract public class ArenaActor extends Actor implements Collidable
         super.setLocation((int)l.getX(), (int)l.getY());
     }
     
+    public void setLocation(double x, double y)
+    {
+        this.state.setLocation(x, y);
+        super.setLocation((int)x, (int)y);
+    }
+    
     public void setRotation(double r)
     {
         this.state.setOrientation(r);
@@ -113,5 +125,10 @@ abstract public class ArenaActor extends Actor implements Collidable
     {
         this.state.setOrientation(r);
         super.setRotation(r);
+    }
+    
+    public Location getLocation()
+    {
+        return new Location(this.state.getDisplacement().getI(), this.state.getDisplacement().getJ());
     }
 }
