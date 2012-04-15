@@ -48,6 +48,7 @@ public class Builder
         {
             if (!userDirectory.getName().equals("PlayingRobots.xml"))
             {
+                System.out.println(userDirectory);
                 for (File userFile : userDirectory.listFiles())
                 {
                     if (!userFile.getName().equals("user.xml")  && !userFile.getName().contains(".tst") && listOfPlayingRobots.contains(userFile.getName()))

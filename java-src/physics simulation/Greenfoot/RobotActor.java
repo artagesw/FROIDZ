@@ -10,7 +10,7 @@ public class RobotActor extends ArenaActor
 {
     private Robot robot;
     
-    private boolean flag = true;
+    private boolean flag = false;
 
     public RobotActor(Robot robot)
     {
@@ -26,7 +26,7 @@ public class RobotActor extends ArenaActor
     public void act() 
     {
         this.robot.act(ArenaActor.ACT_TIME);
-        this.state.setOrientation(this.robot.getRotationalVelocity() * this.ACT_TIME + this.state.getOrientation());
+        this.state.setOrientation(this.robot.getRotationalVelocity() * (this.ACT_TIME / 1000.0) + this.state.getOrientation());
         double direction = this.state.getOrientation() * Math.PI / 180;
         this.state.applyForce(new Vector(Math.cos(direction) * this.robot.getSpeed(), 
                                          Math.sin(direction) * this.robot.getSpeed()));

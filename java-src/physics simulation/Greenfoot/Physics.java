@@ -107,7 +107,7 @@ public class Physics
     
     private Vector calculateFriction()
     {
-        if (this.velocity.magnitude() < .01)
+        if (this.velocity.magnitude() == 0)
         {
             return new Vector();
         }

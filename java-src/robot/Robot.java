@@ -14,8 +14,8 @@ public class Robot
     private String name;                    // robot's name
     private FROIDZCPU cpu;
     private ArrayList<Part> parts;
-    private int speed;                      // current speed in meters/sec.
-    private int rotationalVelocity;         // current rotational velocity in deg/sec
+    private double speed;                      // current speed in meters/sec.
+    private double rotationalVelocity;         // current rotational velocity in deg/sec
 
     /**
      * Constructor for objects of class Robot
@@ -55,22 +55,22 @@ public class Robot
         return this;
     }
     
-    public void setSpeed (int curSpeed)
+    public void setSpeed (double curSpeed)
     {
         this.speed = curSpeed;
     }
     
-    public int getSpeed()
+    public double getSpeed()
     {
         return this.speed;
     }
     
-    public void setRotationalVelocity(int v)
+    public void setRotationalVelocity(double v)
     {
         this.rotationalVelocity = v;
     }
     
-    public int getRotationalVelocity()
+    public double getRotationalVelocity()
     {
         return this.rotationalVelocity;
     }

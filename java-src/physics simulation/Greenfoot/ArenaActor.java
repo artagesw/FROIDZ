@@ -90,17 +90,25 @@ abstract public class ArenaActor extends Actor implements Collidable
     }
     
     public void recursiveRevert()
-    {
-        if (this.getIntersectingObjects(Wall.class).size() != 0)
+    {      
+        List<Wall> walls = (List<Wall>)this.getIntersectingObjects(Wall.class);
+        if (walls.size() != 0)
         {
-            this.getState().revert();
-            this.update();
+            for (Wall wall : walls)
+            {
+                if (wall.intersects(this) != null)
+                {
+                    this.getState().revert();
+                    this.update();
+                    break;
+                }
+            }
         }
         for (Object o : this.getIntersectingCollidables())
         {
             ArenaActor actor = (ArenaActor)o;
             Vector D = actor.getState().getDisplacement().addCopy(this.getState().getDisplacement().scaleCopy(-1));
-            D.unitVector().scale(55);
+            D.unitVector().scale(this.getState().getRadius() + actor.getState().getRadius() + 1);
             actor.getState().rememberLocation();
             actor.getState().setDisplacement(this.getState().getDisplacement().addCopy(D));
             actor.update();
