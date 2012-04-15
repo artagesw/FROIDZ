@@ -138,19 +138,18 @@ public class Wall extends Actor
             if ((normal = this.intersects(actor)) != null)
             {
                 Physics state = actor.getState();
-                state.revert();
-                ((ArenaActor)actor).update();
                 ((ArenaActor)actor).recursiveRevert();
+                ((ArenaActor)actor).update();
                 
                 // Determine the component of the velocity of the collided object that lies normal
                 // to the tangent of the collision, but opposite the direction that the object currently
                 // moves.
-                Vector normalComp = state.getVelocity().componentInDirectionCopy(normal);
+                Vector normalComp = state.getVelocity().componentInDirectionCopy(normal).scale(-2);                
                 
                 // Multiply this state by 2 and add it to the velocity. This change only modifies the 
                 // component of the velocity normal to the collision plane, causing the object to
                 // "bounce" off the wall at the same angle that it collided at it will.
-                state.getVelocity().add(normalComp.scale(-2));
+                state.getVelocity().add(normalComp);
                 
                 state.act();
             }
@@ -163,7 +162,9 @@ public class Wall extends Actor
      * Determines if the given collidable intersects with this wall.
      * 
      * @param   Collidable  the collidable to test
-     * @return  Vector      the normal vector to the collision plane
+     * @return  Vector      A vector whose...
+     *                          direction is normal to the collision plane
+     *                          magnitude is the distance the object must move in order to no longer be intersecting with this.
      *          null        if the collidable does not intersect this wall
      */
     public Vector intersects(Collidable actor)
@@ -207,7 +208,7 @@ public class Wall extends Actor
                     // Determine the component of the velocity of the collided object that lies normal
                     // to the tangent of the collision, but opposite the direction that the object currently
                     // moves.
-                    return tangent.normal().scale(-1);
+                    return tangent.normal().unitVector().scale(-1 * (state.getRadius() - perpDistance + 1));
                 }    
             }
         }
@@ -215,9 +216,12 @@ public class Wall extends Actor
         {
             double x  = this.points[i][0];
             double y  = this.points[i][1];
-            if (Math.sqrt((x - displacement.getI()) * (x - displacement.getI()) + (y - displacement.getJ()) * (y - displacement.getJ())) < state.getRadius())
-            {                        
-                return new Vector(x - displacement.getI(), y - displacement.getJ());                                              
+            double d;
+            if ((d = Math.sqrt((x - displacement.getI()) * (x - displacement.getI()) + (y - displacement.getJ()) * (y - displacement.getJ()))) < state.getRadius())
+            {               
+                Vector normal = new Vector(x - displacement.getI(), y - displacement.getJ());
+                normal.unitVector().scale(state.getRadius() - d + 1);
+                return normal;                                              
             }
         }
         return null;

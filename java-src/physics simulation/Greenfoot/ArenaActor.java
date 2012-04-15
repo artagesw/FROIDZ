@@ -96,11 +96,11 @@ abstract public class ArenaActor extends Actor implements Collidable
         {
             for (Wall wall : walls)
             {
-                if (wall.intersects(this) != null)
+                Vector n = wall.intersects(this);
+                if (n != null)
                 {
-                    this.getState().revert();
+                    this.getState().getDisplacement().add(n.scale(-1));
                     this.update();
-                    break;
                 }
             }
         }
@@ -109,7 +109,6 @@ abstract public class ArenaActor extends Actor implements Collidable
             ArenaActor actor = (ArenaActor)o;
             Vector D = actor.getState().getDisplacement().addCopy(this.getState().getDisplacement().scaleCopy(-1));
             D.unitVector().scale(this.getState().getRadius() + actor.getState().getRadius() + 1);
-            actor.getState().rememberLocation();
             actor.getState().setDisplacement(this.getState().getDisplacement().addCopy(D));
             actor.update();
             actor.recursiveRevert();

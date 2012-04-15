@@ -16,8 +16,6 @@ public class Physics
     private Vector force; // in newtons
     private double radius; // in meters
     
-    private CircularStack previousDisplacement = new CircularStack(10); // Used after collisions.
-    
     public Physics(double mass, double radius, double x, double y)
     {
         this.mass = mass;
@@ -98,7 +96,6 @@ public class Physics
      */
     public void act()
     {
-        this.rememberLocation();
         this.force.add(this.calculateFriction());
         this.acceleration = this.force.scaleCopy(1 / this.mass);
         this.velocity.add(this.acceleration.scaleCopy(ArenaActor.ACT_TIME / 1000.0));
@@ -115,27 +112,6 @@ public class Physics
         F.copy(this.velocity).unitVector().scale(-.9 * this.mass);
         return F;
     }        
-    
-    public void rememberLocation()
-    {
-        this.previousDisplacement.push(this.displacement);
-    }
-    
-    /**
-     * revert()
-     * 
-     * Revert this to its previous location. This is usefull for avoiding double collisions.
-     */
-    public boolean revert()
-    {
-        Vector v = this.previousDisplacement.pop();
-        if (v == null)
-        {
-            return false;
-        }
-        this.displacement.copy(v);
-        return true;
-    }
     
     /**
      * applyForce(Vector v)

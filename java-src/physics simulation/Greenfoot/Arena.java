@@ -98,6 +98,7 @@ public class Arena extends World
                              
         this.addObject(wall, WIDTH / 2, HEIGHT / 2);
         
+        /*
         Wall blocky = new Wall(new int[]{0,0},
                                new int[]{100,0},
                                new int[]{150,50},
@@ -106,6 +107,20 @@ public class Arena extends World
                                new int[]{50,300},
                                new int[]{0,100});
         this.addObject(blocky, WIDTH / 2, HEIGHT / 2);       
+        */
+        
+        Wall blocky = new Wall(new int[]{50,0},
+                          new int[]{300,0},
+                          new int[]{350,50},
+                          new int[]{350,300},
+                          new int[]{325,300},
+                          new int[]{325,50},
+                          new int[]{25,50},
+                          new int[]{25,300},
+                          new int[]{0,300},
+                          new int[]{0,50},
+                          new int[]{50,0});
+        this.addObject(blocky, WIDTH / 2, HEIGHT / 2);
     }
     
     /**
