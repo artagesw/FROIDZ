@@ -136,7 +136,7 @@ public class Assembler
         while (i.hasNext())
         {
             line = i.next().trim();
-            if (line.length() == 0)
+            if ((line.length() == 0) || (line.substring(0, 1).equals(";")))
             {
                 i.remove();
             }
@@ -311,8 +311,8 @@ public class Assembler
     
     public static void test() throws IOException
     {
-        //Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.asm");
-        Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/cpu/Print.asm");
+        Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.asm");
+        //Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/cpu/Print.asm");
         
         test.assemble();
         test.write("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.tst");
