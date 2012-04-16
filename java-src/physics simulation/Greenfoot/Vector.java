@@ -4,7 +4,7 @@
  * A generic 2d vector. Immutable/
  * 
  * @author Jacob Weiss
- * @version 0.0.1
+ * @version 0.3.0
  */
 public class Vector
 {

@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Iterator;
 /**
- * Common elements of actors that act in the Arena.
+ * ArenaActors are circles that interact with their surroundings.
+ *  examples include...
+ *      Robots
+ *      Bullets
+ *      Etc
  * 
- * 
- * @author Brendan Redmond and Haley B-E
- * @version 0.2.0
+ * @author Brendan Redmond and Haley B-E and Jacob Weiss
+ * @version 0.3.0
  */
 abstract public class ArenaActor extends Actor implements Collidable
 {
@@ -89,9 +92,19 @@ abstract public class ArenaActor extends Actor implements Collidable
         return l;
     }
     
-    public void recursiveRevert()
+    /**
+     * recursiveRevert(Actor... ignore)
+     * 
+     * Move this actor so that it is no longer in contact with any other actor.
+     * POSTCONDITION: this.getIntersectingObjects(Actor) == 0
+     * 
+     * @param   Actor... ignore     any actors that should be ignored can be passed in to
+     *                              increase performance speed
+     */
+    public void recursiveRevert(Actor... ignore)
     {      
         List<Wall> walls = (List<Wall>)this.getIntersectingObjects(Wall.class);
+        walls.remove(ignore);
         if (walls.size() != 0)
         {
             for (Wall wall : walls)
@@ -104,7 +117,9 @@ abstract public class ArenaActor extends Actor implements Collidable
                 }
             }
         }
-        for (Object o : this.getIntersectingCollidables())
+        List<Collidable> collidables = this.getIntersectingCollidables();
+        collidables.remove(ignore);
+        for (Object o : collidables)
         {
             ArenaActor actor = (ArenaActor)o;
             Vector D = actor.getState().getDisplacement().addCopy(this.getState().getDisplacement().scaleCopy(-1));
