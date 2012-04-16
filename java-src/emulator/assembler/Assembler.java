@@ -205,7 +205,8 @@ public class Assembler
             
             List<Binary> operands = this.makeBinariesFromOperands(parsed.subList(1, parsed.size()));
             
-            instructions.add(op.generateInstruction(operands));
+            Binary instr = op.generateInstruction(operands);
+            instructions.add(instr);
         }
         
         return instructions;    
@@ -266,7 +267,6 @@ public class Assembler
         {
             if (this.isRegister.matcher(part).matches())
             {
-                System.out.println("Register Address Parsed for " + part);
                 output.add(part.replace("R", "0d"));
             }
             else
@@ -298,17 +298,21 @@ public class Assembler
     {
         List<Binary> bins = new ArrayList();
         
+        // JACOBERROR, WORKS HERE/BINARY RETURNS CORRECT VALUE
         for (String s : ops)
         {
-            bins.add(new Binary(s));
+            Binary x = new Binary(s);
+            bins.add(x);
         }
+        System.out.println();
         
         return bins;
     }
     
     public static void test() throws IOException
     {
-        Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.asm");
+        //Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.asm");
+        Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/cpu/Print.asm");
         
         test.assemble();
         test.write("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.tst");
