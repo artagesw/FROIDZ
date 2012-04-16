@@ -78,69 +78,49 @@ public class Arena extends World
      */
     private void makeWalls()
     {
-        Wall wall;
-        
-        //top
-        wall = new Wall(WIDTH - Wall.THICKNESS * 2, Wall.THICKNESS);
-        this.addObject(wall, WIDTH / 2, Wall.THICKNESS / 2);
-        wall.setRotation(0);
-        
-        //bottom
-        wall = new Wall(WIDTH - Wall.THICKNESS * 2, Wall.THICKNESS);
-        this.addObject(wall, WIDTH / 2, HEIGHT - Wall.THICKNESS / 2);
-        wall.setRotation(0);
-        
-        //right
-        wall = new Wall(HEIGHT, Wall.THICKNESS);
-        this.addObject(wall, WIDTH - Wall.THICKNESS / 2 - 1, HEIGHT / 2);
-        wall.setRotation(90);
-        
-        //left
-        wall = new Wall(HEIGHT, Wall.THICKNESS);
-        this.addObject(wall, Wall.THICKNESS / 2 - 1, HEIGHT / 2);
-        wall.setRotation(90);
-        
-        
-        //right lower diagonal
-        wall = new Wall(WIDTH, Wall.THICKNESS);
-        this.addObject(wall, WIDTH - (40), HEIGHT - (40));
-        wall.setRotation(135);
-        
-        //right upper diagonal
-        wall = new Wall(WIDTH, Wall.THICKNESS);
-        this.addObject(wall, WIDTH - (40), 40);
-        wall.setRotation(45);
-        
-        //left lower diagonal
-        wall = new Wall(WIDTH, Wall.THICKNESS);
-        this.addObject(wall, 40, HEIGHT - (40));
-        wall.setRotation(45);
-        
-        //left upper diagonal
-        wall = new Wall(WIDTH, Wall.THICKNESS);
-        this.addObject(wall, 40, 40);
-        wall.setRotation(135);
-        
-        
-        //********************************
+        int t = 30;
+        int d = 90;
+        Wall wall = new Wall(new int[]{d,0},
+                             new int[]{WIDTH,0},
+                             new int[]{WIDTH,HEIGHT},
+                             new int[]{0,HEIGHT},
+                             new int[]{0,0},
+                             new int[]{d,0},
+                             new int[]{d,t},
+                             new int[]{t,d},
+                             new int[]{t,HEIGHT - d},
+                             new int[]{d,HEIGHT - t},
+                             new int[]{WIDTH - d,HEIGHT - t},
+                             new int[]{WIDTH - t,HEIGHT - d},
+                             new int[]{WIDTH - t,d},
+                             new int[]{WIDTH - d,t},
+                             new int[]{d,t});
+                             
+        this.addObject(wall, WIDTH / 2, HEIGHT / 2);
         
         /*
-        wall = new Wall(100, 1);
-        this.addObject(wall, WIDTH / 2 - 50, HEIGHT / 2);
-        wall.setRotation(90);
-        
-        wall = new Wall(100, 1);
-        this.addObject(wall, WIDTH / 2 + 50, HEIGHT / 2);
-        wall.setRotation(90);
-        
-        wall = new Wall(100, 1);
-        this.addObject(wall, WIDTH / 2, HEIGHT / 2 + 50);
-        wall.setRotation(0);
-        
-        wall = new Wall(100, 1);
-        this.addObject(wall, WIDTH / 2, HEIGHT / 2 - 50);
-        wall.setRotation(0);
+        Wall blocky = new Wall(new int[]{0,0},
+                               new int[]{100,0},
+                               new int[]{150,50},
+                               new int[]{150,200},
+                               new int[]{100,250},
+                               new int[]{50,300},
+                               new int[]{0,100});
+        this.addObject(blocky, WIDTH / 2, HEIGHT / 2);       
         */
+        
+        Wall blocky = new Wall(new int[]{50,0},
+                          new int[]{300,0},
+                          new int[]{350,50},
+                          new int[]{350,300},
+                          new int[]{325,300},
+                          new int[]{325,50},
+                          new int[]{25,50},
+                          new int[]{25,300},
+                          new int[]{0,300},
+                          new int[]{0,50},
+                          new int[]{50,0});
+        this.addObject(blocky, WIDTH / 2, HEIGHT / 2);
     }
     
     /**
@@ -175,7 +155,7 @@ public class Arena extends World
     {
         this.addObject(actor, (int) (x + .5), (int) (y + .5));
         actor.setLocation(new Location(x, y));
-    }
+    }  
     
     /**
      * Removes given ArenaActor from arena

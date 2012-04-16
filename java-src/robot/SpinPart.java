@@ -9,7 +9,7 @@ package robot;
 public class SpinPart extends Part
 {
     private int maxRotV = 100; // Degrees/sec
-    private int curRotV;
+    private double curRotV;
     
     public SpinPart()
     {

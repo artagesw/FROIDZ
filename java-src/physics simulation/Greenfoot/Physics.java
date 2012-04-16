@@ -16,8 +16,6 @@ public class Physics
     private Vector force; // in newtons
     private double radius; // in meters
     
-    private CircularStack previousDisplacement = new CircularStack(3); // Used after collisions.
-    
     public Physics(double mass, double radius, double x, double y)
     {
         this.mass = mass;
@@ -33,6 +31,16 @@ public class Physics
         this(1, 25, 0, 0);
     }
     
+    public double distanceFrom(Physics p2)
+    {
+        return this.displacement.addCopy(p2.displacement.scaleCopy(-1)).magnitude();
+    }
+    
+    public boolean intersects(Physics p2)
+    {
+        return (this.radius + p2.radius) > this.distanceFrom(p2);
+    }
+    
     /**
      * collide()
      * 
@@ -46,16 +54,13 @@ public class Physics
     {
             Physics p1 = this;
             
-            Vector Dn = p1.displacement.add(p2.displacement.scale(-1));
+            Vector Dn = p1.displacement.addCopy(p2.displacement.scaleCopy(-1));
  
             // The distance between the balls
             double delta = Dn.magnitude();
      
-            // The normal vector of the collision plane
-            Dn = Dn.unitVector();
-     
             // The tangential vector of the collision plane
-            Vector Dt = Dn.normal();
+            Vector Dt = Dn.normalCopy();
             
             //the masses of the two balls
             double m1 = p1.mass;
@@ -65,21 +70,21 @@ public class Physics
             // the velocity vectors of the balls before the collision
             Vector v1 = p1.velocity;
             Vector v2 = p2.velocity;
-     
+            
             // split the velocity vector of the first ball into a normal and a
             // tangential component in respect of the collision plane
-            Vector v1n = v1.componentInDirection(Dn);
-            Vector v1t = v1.componentInDirection(Dt);
+            Vector v1n = v1.componentInDirectionCopy(Dn);
+            v1.componentInDirection(Dt);
             
             // split the velocity vector of the second ball into a normal and a
             // tangential component in respect of the collision plane
-            Vector v2n = v2.componentInDirection(Dn);
-            Vector v2t = v2.componentInDirection(Dt);
+            Vector v2n = v2.componentInDirectionCopy(Dn);
+            v2.componentInDirection(Dt);
      
             // calculate new velocity vectors of the balls, the tangential component
             // stays the same, the normal component changes analog to the 1-Dimensional case            
-            p1.velocity = v1t.add(v1n.scale(m1-m2).add(v2n.scale(2*m2)).scale(1/(m1+m2)));
-            p2.velocity = v2t.add(v2n.scale(m2-m1).add(v1n.scale(2*m1)).scale(1/(m1+m2)));
+            v1.add(v1n.scaleCopy(m1-m2).add(v2n.scaleCopy(2*m2)).scale(1/(m1+m2)));
+            v2.add(v2n.scale(m2-m1).add(v1n.scale(2*m1)).scale(1/(m1+m2)));
     }
     
     /**
@@ -91,27 +96,22 @@ public class Physics
      */
     public void act()
     {
-        this.acceleration = this.force.scale(1 / this.mass);
-        this.velocity = this.velocity.add(this.acceleration.scale(ArenaActor.ACT_TIME / 1000.0));
-        this.displacement = this.displacement.add(this.velocity.scale(ArenaActor.ACT_TIME / 1000.0));
-        this.previousDisplacement.push(this.displacement);
+        this.force.add(this.calculateFriction());
+        this.acceleration = this.force.scaleCopy(1 / this.mass);
+        this.velocity.add(this.acceleration.scaleCopy(ArenaActor.ACT_TIME / 1000.0));
+        this.displacement.add(this.velocity.scaleCopy(ArenaActor.ACT_TIME / 1000.0));
     }
     
-    /**
-     * revert()
-     * 
-     * Revert this to its previous location. This is usefull for avoiding double collisions.
-     */
-    public boolean revert()
+    private Vector calculateFriction()
     {
-        Vector v = this.previousDisplacement.pop();
-        if (v == null)
+        if (this.velocity.magnitude() == 0)
         {
-            return false;
+            return new Vector();
         }
-        this.displacement.copy(v);
-        return true;
-    }
+        Vector F = new Vector();
+        F.copy(this.velocity).unitVector().scale(-.9 * this.mass);
+        return F;
+    }        
     
     /**
      * applyForce(Vector v)
@@ -175,7 +175,10 @@ public class Physics
     {
         this.orientation = angle;
     }
-    
+    public double getRadius()
+    {
+        return this.radius;
+    }
     // toString method provided for debugging.
     public String toString()
     {

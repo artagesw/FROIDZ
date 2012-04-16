@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Robot>
-	<Name>USER2's robot</Name>
+	<Name>USER1's robot</Name>
 	
 	<CPU>AVR</CPU>
 	
@@ -16,7 +16,7 @@
 	</Part>
 	<Part>
 		<Class>ConsolePart</Class>
-		<Name>SpinConsole</Name>
+		<Name>MotorConsole</Name>
 		<Port>0</Port>
 	</Part>
 </Robot>

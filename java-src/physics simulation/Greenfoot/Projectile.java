@@ -1,10 +1,5 @@
- 
-
- 
-
- 
-
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.awt.Color;
 
 /**
  * A genereric projectile
@@ -16,7 +11,22 @@ public class Projectile extends ArenaActor
 {
     //the mass of this projectile in kilograms
     private double mass;
+    
+    private Vector velocity; //meters / second
+    private Vector displacement;   //from (0, 0)
+    
+    //offset from robot image to projectile image for original placement
+    private final int BUFFER = 5;
+    
+    //standard size of projectiles
+    private final int PROJECTILE_WIDTH = 10;
+    private final int PROJECTILE_HEIGHT = 10;
 
+    //stores whether it's the first turn in order to properly set displacement vector and avoid errors
+    private boolean firstTurn;
+    
+    private Location location;
+    
     /**
      * Constructor: sets the velocity and mass to given values
      * 
@@ -24,11 +34,17 @@ public class Projectile extends ArenaActor
      * @param direction the direction of the velocity to be set
      * @param mass      the mass to be set
      */
-    public Projectile(/*double speed,*/ int direction, int mass)
+    public Projectile(double speed, double direction, double mass)
     {
-        //super(/*speed,*/ direction);
-        
         this.mass = mass;
+        this.velocity = new Vector(Math.cos(direction) * speed, Math.sin(direction) * speed);
+        this.displacement = new Vector();
+        this.setRotation(direction);
+        GreenfootImage image = new GreenfootImage(PROJECTILE_WIDTH, PROJECTILE_HEIGHT);
+        image.setColor(Color.GREEN);
+        image.fillOval(0, 0, PROJECTILE_WIDTH, PROJECTILE_HEIGHT);
+        this.setImage(image);
+        this.firstTurn = true;
     }
 
     /**
@@ -36,6 +52,14 @@ public class Projectile extends ArenaActor
      */
     public void act() 
     {
+        if (firstTurn)
+        {
+            this.displacement = new Vector(this.getX(), this.getY());
+            firstTurn = false;
+        }
+        this.displacement = this.displacement.add(this.velocity.scale(ArenaActor.ACT_TIME / 1000.0));
+        this.location.setX(this.displacement.getI());
+        this.location.setY(this.displacement.getJ());
     }    
     
     /**
@@ -64,5 +88,10 @@ public class Projectile extends ArenaActor
     public void takeDamage(double damage)
     {
         ((Arena) this.getWorld()).removeObject(this);
+    }
+    
+    public int getBuffer()
+    {
+        return BUFFER;
     }
 }
