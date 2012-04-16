@@ -4,12 +4,15 @@ import greenfoot.*;
  * The Physics class represents 1 object in 2 dimentional space.
  * 
  * @author Jacob Weiss
- * @version 0.0.1
+ * @version 0.3.0
  */
 public class Physics
 {
     private double mass; // in kilograms
+    
+    private double rotationalVelocity; // in degrees / sec
     private double orientation; // in degrees
+    
     private Vector displacement; // in meters
     private Vector velocity; // in meters / second
     private Vector acceleration; // in meters / second^2
@@ -19,6 +22,7 @@ public class Physics
     public Physics(double mass, double radius, double x, double y)
     {
         this.mass = mass;
+        this.rotationalVelocity = 0;
         this.displacement = new Vector(x, y);
         this.velocity = new Vector();
         this.acceleration = new Vector();
@@ -96,6 +100,8 @@ public class Physics
      */
     public void act()
     {
+        this.orientation = (this.rotationalVelocity * (ArenaActor.ACT_TIME / 1000.0) + this.orientation);
+        
         this.force.add(this.calculateFriction());
         this.acceleration = this.force.scaleCopy(1 / this.mass);
         this.velocity.add(this.acceleration.scaleCopy(ArenaActor.ACT_TIME / 1000.0));
@@ -142,6 +148,10 @@ public class Physics
     public double getMass()
     {
         return this.mass;
+    }
+    public void setRotationalVelocity(double d)
+    {
+        this.rotationalVelocity = d;
     }
     public void setDisplacement(Vector d)
     {

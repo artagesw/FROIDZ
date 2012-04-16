@@ -3,8 +3,8 @@ import robot.Robot;
 /**
  * A stub class.
  * 
- * @author Haley B-E and Brendan Redmond
- * @version 0.2.0
+ * @author Haley B-E and Brendan Redmond and Jacob Weiss
+ * @version 0.3.0
  */
 public class RobotActor extends ArenaActor
 {
@@ -26,7 +26,9 @@ public class RobotActor extends ArenaActor
     public void act() 
     {
         this.robot.act(ArenaActor.ACT_TIME);
-        this.state.setOrientation(this.robot.getRotationalVelocity() * (this.ACT_TIME / 1000.0) + this.state.getOrientation());
+
+        this.state.setRotationalVelocity(this.robot.getRotationalVelocity());
+        
         double direction = this.state.getOrientation() * Math.PI / 180;
         this.state.applyForce(new Vector(Math.cos(direction) * this.robot.getSpeed(), 
                                          Math.sin(direction) * this.robot.getSpeed()));
