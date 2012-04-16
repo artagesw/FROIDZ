@@ -243,12 +243,30 @@ public class Assembler
         for (int i = 0; i < instructionParts.size(); i++)
         {
             String part = instructionParts.get(i);
-                
+            
             if (this.defs.containsKey(part))
             {
                 System.out.println(this.defs.get(part) + " -> " + instructionParts.get(i));
                 instructionParts.set(i, this.defs.get(part));
             }
+            else
+            {
+                // If it wasn't defined in this file, see if it's was defined in the m644def.inc file
+                try 
+                {
+                    String replacement = "0d" + IO.class.getDeclaredField(part).get(int.class).toString();
+                    System.out.println("REPLACE BASED ON def.inc: " + part + " with " + replacement);
+                    
+                    instructionParts.set(i, replacement);
+                }
+                catch (Throwable e)
+                {
+                    //System.out.println(e);
+                }
+            }
+
+
+                    
         }
         
         return instructionParts;
