@@ -66,9 +66,17 @@ public class RobotActor extends ArenaActor
      */
     public void shoot(double speed, double mass, double radius)
     {
-        double x = this.getState().getDisplacement().getI() + ((((this.getImage().getHeight() / 2) + radius) * Math.cos(this.state.getOrientation()) + Projectile.BUFFER));
-        double y = this.getState().getDisplacement().getJ() + ((((this.getImage().getHeight() / 2) + radius) * Math.sin(this.state.getOrientation()) + Projectile.BUFFER));
+        double xChange = (((this.getState().getRadius() + radius) * Math.cos(this.state.getOrientation() * (Math.PI / 180)) + Projectile.BUFFER));
+        double yChange = (((this.getState().getRadius() + radius) * Math.sin(this.state.getOrientation() * (Math.PI / 180)) + Projectile.BUFFER));
         
-        Projectile p = new Projectile(speed, mass, radius, x, y);
+        double x = this.getState().getDisplacement().getI() + xChange;
+        double y = this.getState().getDisplacement().getJ() + yChange;
+        
+        Vector velocity = new Vector(xChange, yChange);
+        velocity.unitVector().scale(speed);
+        
+        Projectile p = new Projectile(velocity, mass, radius, x, y);
+        
+        ((Arena)this.getWorld()).add((ArenaActor)p, x, y);
     }
 }
