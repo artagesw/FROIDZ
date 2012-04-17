@@ -11,6 +11,7 @@ import emulator.cpu.IAsynchronousUSART;
  */
 public class Part extends PinConnector<Byte> implements ISynchronousUSART
 {
+    private int damageWeight;     // weighted (0 to 100) probability that this part takes damage
     private int health;
     private int serialPort;
     protected Robot robot;
@@ -23,6 +24,8 @@ public class Part extends PinConnector<Byte> implements ISynchronousUSART
     public Part()
     {
         this.robot = null;
+        this.damageWeight = 0;
+        this.health = 100;
         this.serialPort = 0;
     }
     
@@ -37,11 +40,28 @@ public class Part extends PinConnector<Byte> implements ISynchronousUSART
         return this;
     }
 
+    public int getDamageWeight()
+    {
+        return this.damageWeight;
+    }
+
+    public Part setDamageWeight(int damageWeight)
+    {
+        this.damageWeight = damageWeight;
+        return this;
+    }
+    
     public int getHealth()
     {
         return this.health;
     }
-    
+
+    public Part setHealth(int health)
+    {
+        this.health = health;
+        return this;
+    }
+ 
     public void inflictDamage(int damage)
     {
         this.health = Math.max(0, this.health - damage);
