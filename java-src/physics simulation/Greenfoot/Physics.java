@@ -115,7 +115,7 @@ public class Physics
             return new Vector();
         }
         Vector F = new Vector();
-        F.copy(this.velocity).unitVector().scale(-.9 * this.mass);
+        F.copy(this.velocity).unitVector().scale(-1 * this.mass);
         return F;
     }        
     

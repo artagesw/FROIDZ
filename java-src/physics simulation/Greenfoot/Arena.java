@@ -26,7 +26,7 @@ public class Arena extends World
     public static final int MAX_ROBOT_WIDTH = 50;    
     //length of time to be given as a turn
     private static final int TURN_LENGTH = 1;
-
+    
     
     /**
      * Constructor: creates the arena, then adds the robots to the arena
@@ -37,7 +37,7 @@ public class Arena extends World
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(WIDTH, HEIGHT, 1);
         
-        this.setActOrder(RobotActor.class, Wall.class, ArenaActor.class);
+        this.setActOrder(RobotActor.class, Obstacle.class, ArenaActor.class);
         
         Builder builder = new Builder();
         ArrayList<Robot> robots = builder.getRobots();
@@ -80,7 +80,7 @@ public class Arena extends World
     {
         int t = 30;
         int d = 90;
-        Wall wall = new Wall(new int[]{d,0},
+        Obstacle border = new Obstacle(new int[]{d,0},
                              new int[]{WIDTH,0},
                              new int[]{WIDTH,HEIGHT},
                              new int[]{0,HEIGHT},
@@ -96,8 +96,49 @@ public class Arena extends World
                              new int[]{WIDTH - d,t},
                              new int[]{d,t});
                              
-        this.addObject(wall, WIDTH / 2, HEIGHT / 2);
+        this.addObject(border, WIDTH / 2, HEIGHT / 2);
         
+        /*
+        MovingObstacle plus = new MovingObstacle(new int[]{200,0},
+                             new int[]{260,0},
+                             new int[]{260,200},
+                             new int[]{460,200},
+                             new int[]{460,260},
+                             new int[]{260,260},
+                             new int[]{260,460},
+                             new int[]{200,460},
+                             new int[]{200,260},
+                             new int[]{0,260},
+                             new int[]{0,200},
+                             new int[]{200,200});
+                             */
+        MovingObstacle plus = new MovingObstacle(new int[]{0,0},
+                                                 new int[]{20,0},
+                                                 new int[]{20,200},
+                                                 new int[]{0,200});
+
+        MovingObstacle plus2 = new MovingObstacle(new int[]{0,0},
+                                                 new int[]{20,0},
+                                                 new int[]{20,200},
+                                                 new int[]{0,200});
+                                                 
+        int offset = 200;                                         
+        this.addObject(plus, WIDTH / 2 - offset / 2, HEIGHT / 2 - offset / 2);
+        plus.setRotationalVelocity(-30);
+        plus.setSpeed(50);
+        plus.setPath(new Vector(offset, 0),
+                     new Vector(0,offset),
+                     new Vector(-1 * offset,0),
+                     new Vector(0,-1 * offset));
+                     
+                     
+        this.addObject(plus2, WIDTH / 2 - offset / 2, HEIGHT / 2 - offset / 2);
+        plus2.setRotationalVelocity(30);
+        plus2.setSpeed(50);
+        plus2.setPath(new Vector(0,offset),
+                     new Vector(offset, 0),
+                     new Vector(0, -1 * offset),
+                     new Vector(-1 * offset, 0));
         /*
         Wall blocky = new Wall(new int[]{0,0},
                                new int[]{100,0},
@@ -108,7 +149,8 @@ public class Arena extends World
                                new int[]{0,100});
         this.addObject(blocky, WIDTH / 2, HEIGHT / 2);       
         */
-        
+       
+        /*
         Wall blocky = new Wall(new int[]{50,0},
                           new int[]{300,0},
                           new int[]{350,50},
@@ -121,6 +163,7 @@ public class Arena extends World
                           new int[]{0,50},
                           new int[]{50,0});
         this.addObject(blocky, WIDTH / 2, HEIGHT / 2);
+        */
     }
     
     /**
