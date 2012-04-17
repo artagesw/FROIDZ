@@ -1,5 +1,3 @@
-package simulation.Greenfoot;
-
  
 
  
@@ -20,22 +18,22 @@ public class SpawnMap
     private static Location[] locations = 
     {
         //top left
-        new Location(Arena.MAX_ROBOT_WIDTH + Wall.THICKNESS, Arena.MAX_ROBOT_HEIGHT + Wall.THICKNESS),
+        new Location(Arena.MAX_ROBOT_WIDTH + Obstacle.THICKNESS, Arena.MAX_ROBOT_HEIGHT + Obstacle.THICKNESS),
         //bottom right
-        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH - Wall.THICKNESS,
-                     Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT - Wall.THICKNESS),
+        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH - Obstacle.THICKNESS,
+                     Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT - Obstacle.THICKNESS),
         //bottom left
-        new Location(Arena.MAX_ROBOT_WIDTH + Wall.THICKNESS, Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT - Wall.THICKNESS),
+        new Location(Arena.MAX_ROBOT_WIDTH + Obstacle.THICKNESS, Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT - Obstacle.THICKNESS),
         //top right
-        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH - Wall.THICKNESS, Arena.MAX_ROBOT_HEIGHT + Wall.THICKNESS),
+        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH - Obstacle.THICKNESS, Arena.MAX_ROBOT_HEIGHT + Obstacle.THICKNESS),
         //top middle
-        new Location(Arena.WIDTH / 2, Arena.MAX_ROBOT_HEIGHT + Wall.THICKNESS),
+        new Location(Arena.WIDTH / 2, Arena.MAX_ROBOT_HEIGHT + Obstacle.THICKNESS),
         //left middle
-        new Location(Arena.MAX_ROBOT_WIDTH + Wall.THICKNESS, Arena.HEIGHT / 2),
+        new Location(Arena.MAX_ROBOT_WIDTH + Obstacle.THICKNESS, Arena.HEIGHT / 2),
         //right middle
-        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH - Wall.THICKNESS, Arena.HEIGHT / 2),
+        new Location(Arena.WIDTH - Arena.MAX_ROBOT_WIDTH - Obstacle.THICKNESS, Arena.HEIGHT / 2),
         //bottom middle
-        new Location(Arena.WIDTH / 2, Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT - Wall.THICKNESS)
+        new Location(Arena.WIDTH / 2, Arena.HEIGHT - Arena.MAX_ROBOT_HEIGHT - Obstacle.THICKNESS)
     };
     
     
