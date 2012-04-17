@@ -1,5 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import robot.Robot;
+import java.util.ArrayList;
+
 /**
  * A stub class.
  * 
@@ -78,5 +80,37 @@ public class RobotActor extends ArenaActor
         Projectile p = new Projectile(velocity, mass, radius, x, y);
         
         ((Arena)this.getWorld()).add((ArenaActor)p, x, y);
+    }
+    
+    public void takeDamage(int damage)
+    {
+        //ArrayList<Integer> weights = robot.getWeights();
+        ArrayList<Integer> weights = new ArrayList();
+        for (int i = 0; i < 5; i++)
+        {
+            weights.add(i);
+        }
+        
+        int totalWeight;
+        for (int i : weights)
+        {
+            totalWeight += i;
+        }
+        
+        double toDamage = (Math.random() * totalWeight);
+        int checked = 0;
+        for (int i = 0; i < weights.size(); i++)
+        {
+            if ((toDamage >= checked) && (toDamage < weights.get(i)))
+            {
+                robot.getParts().get(i).takeDamage();
+                return;
+            }
+            else
+            {
+                checked += weights.get(i);
+            }
+        }
+        
     }
 }

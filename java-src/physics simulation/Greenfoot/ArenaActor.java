@@ -68,7 +68,7 @@ abstract public class ArenaActor extends Actor implements Collidable
     /**
      * Resolves collisions between this ArenaActor and any intersecting ArenaActors
      */
-    private void resolveCollisions()
+    protected void resolveCollisions()
     {
         List<Collidable> c = getIntersectingCollidables();
         c.removeAll(this.hasCollided);
@@ -139,6 +139,7 @@ abstract public class ArenaActor extends Actor implements Collidable
     
     public void takeDamage(int damage)
     {
+        System.out.println("Kaboom!");
     }
     
     

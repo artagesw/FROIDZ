@@ -53,20 +53,26 @@ public class Projectile extends ArenaActor
         
     }
 
+    
     /**
      * Act - do whatever the Projectile wants to do.
      */
+    /*
     public void act() 
     {
-        super.act();
+        this.state.act();
+        this.resolveCollisions();
+        this.update();
     }
+    */
     
     /**
      * Resolves collisions between this Projectile and any intersecting ArenaActors
      */
-    private void resolveCollisions()
+    protected void resolveCollisions()
     {
         List<Collidable> c = getIntersectingCollidables();
+        System.out.println("derp");
                 
         if (c.size() != 0)
         {
