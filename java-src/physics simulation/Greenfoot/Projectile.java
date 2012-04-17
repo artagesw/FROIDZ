@@ -66,7 +66,7 @@ public class Projectile extends ArenaActor
      */
     private void resolveCollisions()
     {
-        List<Collidable> c = getIntersectingCollidables();
+        List<ArenaActor> c = getIntersectingCollidables();
                 
         if (c.size() != 0)
         {
