@@ -11,8 +11,9 @@ import emulator.cpu.IAsynchronousUSART;
  */
 public class Part extends PinConnector<Byte> implements ISynchronousUSART
 {
-    protected Robot robot;
+    private int health;
     private int serialPort;
+    protected Robot robot;
     protected IAsynchronousUSART device;
     protected String name;
     
@@ -36,6 +37,16 @@ public class Part extends PinConnector<Byte> implements ISynchronousUSART
         return this;
     }
 
+    public int getHealth()
+    {
+        return this.health;
+    }
+    
+    public void inflictDamage(int damage)
+    {
+        this.health = Math.max(0, this.health - damage);
+    }
+    
     /**
      * An example of a method - replace this comment with your own
      *

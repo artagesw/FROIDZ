@@ -16,6 +16,7 @@ public class Robot
     private ArrayList<Part> parts;
     private double speed;                      // current speed in meters/sec.
     private double rotationalVelocity;         // current rotational velocity in deg/sec
+    private ArrayList<RobotAction> actionList;
 
     /**
      * Constructor for objects of class Robot
@@ -75,12 +76,23 @@ public class Robot
         return this.rotationalVelocity;
     }
     
-    public void act(int timeInMS)
+    public void launchProjectile(int kind, double radius, double mass, double speed)
     {
+        RobotAction action = new LaunchAction(kind, radius, mass, speed);
+        this.actionList.add(action);
+    }
+    
+    public ArrayList<RobotAction> act(int timeInMS)
+    {
+        this.actionList.clear();
+        
         this.cpu.act(timeInMS);
+        
         for (Part part : this.parts)
         {
             part.act();
         }
+        
+        return this.actionList;
     }
 }
