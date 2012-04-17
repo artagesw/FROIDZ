@@ -28,6 +28,7 @@ public class Robot
         this.setName(name);
         this.parts = new ArrayList<Part>();
         this.health = 100;
+        this.actionList = new ArrayList<RobotAction>();
     }
     
     public Robot setName(String name)
@@ -78,6 +79,16 @@ public class Robot
         return this.rotationalVelocity;
     }
     
+    public void inflictDamage (int damage)
+    {
+        // build list of hit weights for our parts
+        
+
+        for (Part part : this.parts)
+        {
+        }
+    }
+
     public void launchProjectile(int kind, double radius, double mass, double speed)
     {
         RobotAction action = new LaunchAction(kind, radius, mass, speed);
