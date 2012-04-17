@@ -1,7 +1,7 @@
 package robot;
 
 /**
- * Write a description of class MotorPart2 here.
+ * Write a description of class SpinPart here.
  * 
  * @author Jacob Weiss 
  * @version 0.0.1

@@ -38,6 +38,12 @@ abstract public class ArenaActor extends Actor
         this.state = new Physics(mass, radius, l.getX(), l.getY());
     }
     
+    public ArenaActor(double mass, double x, double y, double radius)
+    {
+        super();
+        this.state = new Physics(mass, radius, x, y);
+    }
+    
     public ArenaActor()
     {
         super();
@@ -130,6 +136,11 @@ abstract public class ArenaActor extends Actor
         }
         assert(this.getIntersectingObjects(ArenaActor.class).size() == 0);
     }
+    
+    public void takeDamage(int damage)
+    {
+    }
+    
     
     public boolean intersects(Actor a)
     {
