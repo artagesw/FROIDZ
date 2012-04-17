@@ -19,6 +19,8 @@ public class Physics
     private Vector force; // in newtons
     private double radius; // in meters
     
+    private boolean hasFriction = true;
+    
     public Physics(double mass, double radius, double x, double y)
     {
         this.mass = mass;
@@ -101,8 +103,10 @@ public class Physics
     public void act()
     {
         this.orientation = (this.rotationalVelocity * (ArenaActor.ACT_TIME / 1000.0) + this.orientation);
-        
-        this.force.add(this.calculateFriction());
+        if (hasFriction)
+        {
+            this.force.add(this.calculateFriction());
+        }
         this.acceleration = this.force.scaleCopy(1 / this.mass);
         this.velocity.add(this.acceleration.scaleCopy(ArenaActor.ACT_TIME / 1000.0));
         this.displacement.add(this.velocity.scaleCopy(ArenaActor.ACT_TIME / 1000.0));
@@ -189,6 +193,11 @@ public class Physics
     {
         return this.radius;
     }
+    public void setFriction(boolean friction)
+    {
+        this.hasFriction = friction;
+    }
+    
     // toString method provided for debugging.
     public String toString()
     {

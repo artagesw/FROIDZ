@@ -13,7 +13,7 @@ import java.util.Iterator;
  * @author Brendan Redmond and Haley B-E and Jacob Weiss
  * @version 0.3.0
  */
-abstract public class ArenaActor extends Actor implements Collidable
+abstract public class ArenaActor extends Actor
 {
     // the number of time units elapsed for each actor's act method in MILISECONDS
     public static final int ACT_TIME = 10;
@@ -21,7 +21,7 @@ abstract public class ArenaActor extends Actor implements Collidable
     // the exact physical state of this.
     protected Physics state;
     
-    public List<Collidable> hasCollided = new LinkedList();
+    public List<ArenaActor> hasCollided = new LinkedList();
     
     /**
      * Constructor: set speed, rotation to 0
@@ -36,6 +36,12 @@ abstract public class ArenaActor extends Actor implements Collidable
     {
         super();
         this.state = new Physics(mass, radius, l.getX(), l.getY());
+    }
+    
+    public ArenaActor(double mass, double x, double y, double radius)
+    {
+        super();
+        this.state = new Physics(mass, radius, x, y);
     }
     
     public ArenaActor()
@@ -64,7 +70,7 @@ abstract public class ArenaActor extends Actor implements Collidable
      */
     private void resolveCollisions()
     {
-        List<Collidable> c = getIntersectingCollidables();
+        List<ArenaActor> c = getIntersectingCollidables();
         c.removeAll(this.hasCollided);
         
         if (c.size() != 0)
@@ -78,10 +84,10 @@ abstract public class ArenaActor extends Actor implements Collidable
         return;  
     }
     
-    public List<Collidable> getIntersectingCollidables()
+    public List<ArenaActor> getIntersectingCollidables()
     {
-        List<Collidable> l = (List<Collidable>)this.getIntersectingObjects(Collidable.class);
-        Iterator<Collidable> iterator = l.iterator();
+        List<ArenaActor> l = (List<ArenaActor>)this.getIntersectingObjects(ArenaActor.class);
+        Iterator<ArenaActor> iterator = l.iterator();
         while (iterator.hasNext())
         {
             if (!iterator.next().getState().intersects(this.getState()))
@@ -117,7 +123,7 @@ abstract public class ArenaActor extends Actor implements Collidable
                 }
             }
         }
-        List<Collidable> collidables = this.getIntersectingCollidables();
+        List<ArenaActor> collidables = this.getIntersectingCollidables();
         collidables.remove(ignore);
         for (Object o : collidables)
         {
@@ -128,8 +134,13 @@ abstract public class ArenaActor extends Actor implements Collidable
             actor.update();
             actor.recursiveRevert();
         }
-        assert(this.getIntersectingObjects(Collidable.class).size() == 0);
+        assert(this.getIntersectingObjects(ArenaActor.class).size() == 0);
     }
+    
+    public void takeDamage(int damage)
+    {
+    }
+    
     
     public boolean intersects(Actor a)
     {

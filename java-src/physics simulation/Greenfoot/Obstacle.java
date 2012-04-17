@@ -130,9 +130,9 @@ public class Obstacle extends Actor
      */
     public void act()
     {        
-        List<Collidable> collisions = (List<Collidable>)this.getIntersectingObjects(Collidable.class);
+        List<ArenaActor> collisions = (List<ArenaActor>)this.getIntersectingObjects(ArenaActor.class);
             
-        for (Collidable actor : collisions)
+        for (ArenaActor actor : collisions)
         {
             Vector normal = this.intersects(actor);
             if (normal != null)
@@ -188,7 +188,7 @@ public class Obstacle extends Actor
      *                          magnitude is the distance the object must move in order to no longer be intersecting with this.
      *          null        if the collidable does not intersect this wall
      */
-    public Vector intersects(Collidable actor)
+    public Vector intersects(ArenaActor actor)
     {
         // The state of the actor and its displacement are accessed enough to warrant direct references.
         Physics state = actor.getState();

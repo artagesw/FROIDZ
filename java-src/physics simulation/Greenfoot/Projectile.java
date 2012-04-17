@@ -1,5 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.awt.Color;
+import java.util.List;
 
 /**
  * A genereric projectile
@@ -27,36 +28,28 @@ public class Projectile extends ArenaActor
     
     private Location location;
     
+    private final int DAMAGE_VALUE = 1;
+    
     /**
      * Constructor: sets the velocity and mass to given values
      * 
      * @param speed     the magnitude of the velocity to be set
-     * @param direction the direction of the velocity to be set
      * @param mass      the mass to be set
+     * @param radius    the radius of the projectile
+     * @param x         x-coordinate of the projectile's center
+     * @param y         y-coordinate of the projectile's center
      */
-    public Projectile(double speed, double direction, double mass)
+    public Projectile(Vector velocity, double mass, double radius, double x, double y)
     {
-        this.mass = mass;
-        this.velocity = new Vector(Math.cos(direction) * speed, Math.sin(direction) * speed);
-        this.displacement = new Vector();
-        this.setRotation(direction);
-        GreenfootImage image = new GreenfootImage(PROJECTILE_WIDTH, PROJECTILE_HEIGHT);
-        image.setColor(Color.GREEN);
-        image.fillOval(0, 0, PROJECTILE_WIDTH, PROJECTILE_HEIGHT);
-        this.setImage(image);
-        this.firstTurn = true;
-    }
-    
-    public Projectile(double speed, double mass, double radius, double x, double y)
-    {
-        super(mass, new Location(x, y), radius);
+        super(mass, x, y, radius);
+        
+        this.state.setVelocity(velocity);
+        this.state.setFriction(false);
         
         GreenfootImage image = new GreenfootImage(PROJECTILE_WIDTH, PROJECTILE_HEIGHT);
         image.setColor(Color.GREEN);
         image.fillOval(0, 0, PROJECTILE_WIDTH, PROJECTILE_HEIGHT);
         this.setImage(image);
-        
-        this.firstTurn = true;
         
     }
 
@@ -65,17 +58,26 @@ public class Projectile extends ArenaActor
      */
     public void act() 
     {
-        if (firstTurn)
+        super.act();
+    }
+    
+    /**
+     * Resolves collisions between this Projectile and any intersecting ArenaActors
+     */
+    private void resolveCollisions()
+    {
+        List<Collidable> c = getIntersectingCollidables();
+                
+        if (c.size() != 0)
         {
-            this.displacement = new Vector(this.getX(), this.getY());
-            this.location = new Location(this.getX(), this.getY());
-            firstTurn = false;
+            this.recursiveRevert();
+            ArenaActor other = (ArenaActor)c.get(0);
+            this.getState().collide(other.getState());
+            other.takeDamage(DAMAGE_VALUE);
         }
-        
-        this.displacement = this.displacement.add(this.velocity.scale(ArenaActor.ACT_TIME / 1000.0));
-        this.location.setX(this.displacement.getI());
-        this.location.setY(this.displacement.getJ());
-    }    
+        this.getWorld().removeObject(this);
+        return;  
+    }
     
     /**
      * Returns the current mass of this Projectile
