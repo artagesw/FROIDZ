@@ -148,9 +148,8 @@ public class Arena extends World
                                new int[]{50,300},
                                new int[]{0,100});
         this.addObject(blocky, WIDTH / 2, HEIGHT / 2);       
-        */
-       
-        /*
+        
+        
         Wall blocky = new Wall(new int[]{50,0},
                           new int[]{300,0},
                           new int[]{350,50},

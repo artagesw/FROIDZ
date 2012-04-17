@@ -136,7 +136,7 @@ public class Assembler
         while (i.hasNext())
         {
             line = i.next().trim();
-            if (line.length() == 0)
+            if ((line.length() == 0) || (line.substring(0, 1).equals(";")))
             {
                 i.remove();
             }
@@ -205,7 +205,8 @@ public class Assembler
             
             List<Binary> operands = this.makeBinariesFromOperands(parsed.subList(1, parsed.size()));
             
-            instructions.add(op.generateInstruction(operands));
+            Binary instr = op.generateInstruction(operands);
+            instructions.add(instr);
         }
         
         return instructions;    
@@ -242,12 +243,30 @@ public class Assembler
         for (int i = 0; i < instructionParts.size(); i++)
         {
             String part = instructionParts.get(i);
-                
+            
             if (this.defs.containsKey(part))
             {
                 System.out.println(this.defs.get(part) + " -> " + instructionParts.get(i));
                 instructionParts.set(i, this.defs.get(part));
             }
+            else
+            {
+                // If it wasn't defined in this file, see if it's was defined in the m644def.inc file
+                try 
+                {
+                    String replacement = "0d" + IO.class.getDeclaredField(part).get(int.class).toString();
+                    System.out.println("REPLACE BASED ON def.inc: " + part + " with " + replacement);
+                    
+                    instructionParts.set(i, replacement);
+                }
+                catch (Throwable e)
+                {
+                    //System.out.println(e);
+                }
+            }
+
+
+                    
         }
         
         return instructionParts;
@@ -266,7 +285,6 @@ public class Assembler
         {
             if (this.isRegister.matcher(part).matches())
             {
-                System.out.println("Register Address Parsed for " + part);
                 output.add(part.replace("R", "0d"));
             }
             else
@@ -298,10 +316,13 @@ public class Assembler
     {
         List<Binary> bins = new ArrayList();
         
+        // JACOBERROR, WORKS HERE/BINARY RETURNS CORRECT VALUE
         for (String s : ops)
         {
-            bins.add(new Binary(s));
+            Binary x = new Binary(s);
+            bins.add(x);
         }
+        System.out.println();
         
         return bins;
     }
@@ -309,6 +330,7 @@ public class Assembler
     public static void test() throws IOException
     {
         Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.asm");
+        //Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/cpu/Print.asm");
         
         test.assemble();
         test.write("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.tst");

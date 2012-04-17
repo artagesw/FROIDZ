@@ -10,7 +10,7 @@ public class RobotActor extends ArenaActor
 {
     private Robot robot;
     
-    private boolean flag = false;
+    private boolean flag = true;
 
     public RobotActor(Robot robot)
     {
@@ -33,12 +33,10 @@ public class RobotActor extends ArenaActor
         this.state.applyForce(new Vector(Math.cos(direction) * this.robot.getSpeed(), 
                                          Math.sin(direction) * this.robot.getSpeed()));
         super.act();
-        
+
         if (flag)
         {
-            Projectile p = new Projectile(50, this.getRotation(), 1);
-            ((Arena)this.getWorld()).add(p, 0, 0);
-            this.shoot(p);
+            this.shoot(100, 1, 5);
             flag = false;
         }
     }    
@@ -64,13 +62,13 @@ public class RobotActor extends ArenaActor
     }
     
     /**
-     * Direction of projectile must already be set
+     * 
      */
-    public void shoot(Projectile p)
+    public void shoot(double speed, double mass, double radius)
     {
-        p.setRotation(this.getRotation());
+        double x = this.getState().getDisplacement().getI() + ((((this.getImage().getHeight() / 2) + radius) * Math.cos(this.state.getOrientation()) + Projectile.BUFFER));
+        double y = this.getState().getDisplacement().getJ() + ((((this.getImage().getHeight() / 2) + radius) * Math.sin(this.state.getOrientation()) + Projectile.BUFFER));
         
-        p.setLocation(this.getState().getDisplacement().getI() + ((this.getImage().getHeight() + p.getImage().getHeight()) / 2 * Math.cos(p.getRotation()) + p.getBuffer()), 
-                      this.getState().getDisplacement().getJ() + ((this.getImage().getHeight() + p.getImage().getHeight()) / 2 * Math.sin(p.getRotation()) + p.getBuffer()));
+        Projectile p = new Projectile(speed, mass, radius, x, y);
     }
 }

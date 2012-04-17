@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ArrayList;
 
 /**
  * Parses a wp file.
@@ -23,15 +24,35 @@ public class WPParser
 
     public WPParser()
     {
-        this("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/dev/TOASTY Asm.wp");
-        //this("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/dev/TOASTY Asm.wp");
+        int num = 0;
+        
+        String pathJacob = new String("/Users/jacob/Stacks/Dropbox/12th/APCS/FROIDZ/FROIDZ/java-src/emulator/dev/TOASTY Asm.wp");
+        String pathAlex = new String("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/dev/TOASTY Asm.wp");
+        
+        List<String> lines = new ArrayList();
+        
+        lines = this.getLines(pathJacob);
+        System.out.println("LINES: " + lines);
+        if (lines == null)
+        {
+            System.out.println("Using alex's path");
+            lines = this.getLines(pathAlex);
+        }
+        
+        this.parseLines(lines);  
     }
     
     public WPParser(String path)
     {
+        this.parseLines(this.getLines(path));
+    }
+    
+    private void parseLines(List<String> lines)
+    {
         int num = 0;
-        for (String line : this.removeComments(this.getLines(path)))
+        for (String line : this.removeComments(lines))
         {
+            System.out.println(line);
             WPChunk chunk = new WPChunk(line);
             chunkBag.put(chunk.getOpName(), chunk);
             num++;
@@ -55,6 +76,7 @@ public class WPParser
         catch (Throwable e)
         {
             System.out.println("404 File not found: " + path);
+            return null;
         }
         return lines;
     }

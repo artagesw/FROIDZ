@@ -16,7 +16,7 @@ public class Projectile extends ArenaActor
     private Vector displacement;   //from (0, 0)
     
     //offset from robot image to projectile image for original placement
-    private final int BUFFER = 5;
+    public static final int BUFFER = 5;
     
     //standard size of projectiles
     private final int PROJECTILE_WIDTH = 10;
@@ -46,6 +46,19 @@ public class Projectile extends ArenaActor
         this.setImage(image);
         this.firstTurn = true;
     }
+    
+    public Projectile(double speed, double mass, double radius, double x, double y)
+    {
+        super(mass, new Location(x, y), radius);
+        
+        GreenfootImage image = new GreenfootImage(PROJECTILE_WIDTH, PROJECTILE_HEIGHT);
+        image.setColor(Color.GREEN);
+        image.fillOval(0, 0, PROJECTILE_WIDTH, PROJECTILE_HEIGHT);
+        this.setImage(image);
+        
+        this.firstTurn = true;
+        
+    }
 
     /**
      * Act - do whatever the Projectile wants to do.
@@ -55,8 +68,10 @@ public class Projectile extends ArenaActor
         if (firstTurn)
         {
             this.displacement = new Vector(this.getX(), this.getY());
+            this.location = new Location(this.getX(), this.getY());
             firstTurn = false;
         }
+        
         this.displacement = this.displacement.add(this.velocity.scale(ArenaActor.ACT_TIME / 1000.0));
         this.location.setX(this.displacement.getI());
         this.location.setY(this.displacement.getJ());

@@ -21,7 +21,7 @@ public class WPChunk
     
     public WPChunk(String line)
     {
-        line = line.replace(" ", "");
+        line = line.replace(" ", "").replace("\t", "");
         
         String[] parts = line.split("\\|");
         this.opName = parts[0];
@@ -75,6 +75,7 @@ public class WPChunk
             int operandTemplateLength = operandTemplate.length();
             String asmInput = asm.get(op).toBinaryString();  // Instuction operand
             int asmInputLength = asmInput.length();
+
             for (int i = 0; i < operandTemplate.length(); i++)
             {
                 instruction = instruction.replaceAll(operandTemplate.substring(operandTemplateLength - i - 1, operandTemplateLength - i), 
