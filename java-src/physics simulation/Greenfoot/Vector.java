@@ -68,7 +68,12 @@ public class Vector
         this.j += v.j;
         return this;
     }
-    
+    public Vector add(double x, double y)
+    {
+        this.i += x;
+        this.j += y;
+        return this;
+    }
     /**
      * magnitude()
      * 
@@ -182,7 +187,14 @@ public class Vector
     {
         return this.j;
     }
-    
+    public void setI(double i)
+    {
+        this.i = i;
+    }
+    public void setJ(double j)
+    {
+        this.j = j;
+    }
     /**
      * toString()
      * 
