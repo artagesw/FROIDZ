@@ -14,6 +14,7 @@ public class Robot
     private String name;                    // robot's name
     private FROIDZCPU cpu;
     private ArrayList<Part> parts;
+    private int health;                        // overall robot health
     private double speed;                      // current speed in meters/sec.
     private double rotationalVelocity;         // current rotational velocity in deg/sec
     private ArrayList<RobotAction> actionList;
@@ -26,6 +27,7 @@ public class Robot
     {
         this.setName(name);
         this.parts = new ArrayList<Part>();
+        this.health = 100;
     }
     
     public Robot setName(String name)
@@ -85,12 +87,15 @@ public class Robot
     public ArrayList<RobotAction> act(int timeInMS)
     {
         this.actionList.clear();
-        
-        this.cpu.act(timeInMS);
-        
-        for (Part part : this.parts)
+ 
+        if (this.health > 0)
         {
-            part.act();
+            this.cpu.act(timeInMS);
+        
+            for (Part part : this.parts)
+            {
+                part.act();
+            }
         }
         
         return this.actionList;

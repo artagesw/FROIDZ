@@ -71,8 +71,12 @@ public class Projectile extends ArenaActor
      */
     protected void resolveCollisions()
     {
+<<<<<<< HEAD
         List<Collidable> c = getIntersectingCollidables();
         System.out.println("derp");
+=======
+        List<ArenaActor> c = getIntersectingCollidables();
+>>>>>>> e5448d446a72328bc9e31498c2275fafb431c362
                 
         if (c.size() != 0)
         {

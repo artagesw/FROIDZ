@@ -85,9 +85,12 @@ public class Part extends PinConnector<Byte> implements ISynchronousUSART
     
     public void act()
     {
-        if (this.hasNewData())
+        if (this.health > 0)   // parts stop functioning when health drops to zero
         {
-            this.setData(this.TxRx(getData()));
+            if (this.hasNewData())
+            {
+                this.setData(this.TxRx(getData()));
+            }
         }
     }
     
