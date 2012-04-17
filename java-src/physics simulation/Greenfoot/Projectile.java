@@ -74,7 +74,6 @@ public class Projectile extends ArenaActor
 
         List<ArenaActor> c = getIntersectingCollidables();
         System.out.println("derp");
-        List<ArenaActor> c = getIntersectingCollidables();
                 
         if (c.size() != 0)
         {
