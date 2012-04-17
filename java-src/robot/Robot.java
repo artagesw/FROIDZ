@@ -85,12 +85,15 @@ public class Robot
     public ArrayList<RobotAction> act(int timeInMS)
     {
         this.actionList.clear();
-        
-        this.cpu.act(timeInMS);
-        
-        for (Part part : this.parts)
+ 
+        if (this.health > 0)
         {
-            part.act();
+            this.cpu.act(timeInMS);
+        
+            for (Part part : this.parts)
+            {
+                part.act();
+            }
         }
         
         return this.actionList;
