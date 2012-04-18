@@ -1,334 +1,184 @@
- 
-
- 
-
- 
-
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
-
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Iterator;
 /**
- * Common elements of actors that act in the Arena.
+ * ArenaActors are circles that interact with their surroundings.
+ *  examples include...
+ *      Robots
+ *      Bullets
+ *      Etc
  * 
- * 
- * @author Brendan Redmond and Haley B-E
- * @version 0.2.0
+ * @author Brendan Redmond and Haley B-E and Jacob Weiss
+ * @version 0.3.0
  */
-abstract public class ArenaActor extends Actor implements Collidable
+abstract public class ArenaActor extends Actor
 {
-    //the number of time units elapsed for each actor's act method
+    // the number of time units elapsed for each actor's act method in MILISECONDS
     public static final int ACT_TIME = 10;
 
-//the current speed of this ArenaActor in cells per unit time
-//private double speed;
-//the exact rotation of this ArenaActor in degrees
-//private double rotation;¬
-    //the exact location of this ArenaActor
-    private Location location;
+    // the exact physical state of this.
+    protected Physics state;
     
-    private List<Collidable> intersectingActors;
-
+    public List<ArenaActor> hasCollided = new LinkedList();
+    
     /**
      * Constructor: set speed, rotation to 0
      */
+    public ArenaActor(Location l)
+    {
+        super();
+        this.state = new Physics(5, 25, l.getX(), l.getY());
+    }
+    
+    public ArenaActor(double mass, Location l, double radius)
+    {
+        super();
+        this.state = new Physics(mass, radius, l.getX(), l.getY());
+    }
+    
+    public ArenaActor(double mass, double x, double y, double radius)
+    {
+        super();
+        this.state = new Physics(mass, radius, x, y);
+    }
+    
     public ArenaActor()
     {
         super();
-        //this.speed = 0;
-        this.setRotation(0);
-        this.location = null;
-        this.intersectingActors = null;
+        this.state = new Physics();
     }
     
-    /**
-     * Constructor: set speed, direction to given values
-     * 
-     * @param speed     the given speed
-     * @param direction the given direction
-     */
-    public ArenaActor(/*double speed,*/ int direction)
-    {
-        super();
-        //assert(speed >= 0);
-        assert(Math.abs(direction) < 360);
-        assert(Math.abs(direction) >= 0);
-        
-        //this.speed = speed;
-        this.setRotation(direction);
-        this.location = null;
-        this.intersectingActors = null;
-    }
-    
-    //other public getter/setter methods and variable modifiers
-
-    
-    /*public double getSpeed()
-    {
-        return this.speed;
-    }
-    
-    public void setSpeed(double speed)
-    {
-        this.speed = speed;
-    }
-    
-    /**
-     * Changes the speed of this ArenaActor by a given amount
-     * 
-     * @param change  the amount by which the speed of this ArenaActor will change (negative number decreases speed, positive increases)
-     *
-    public void changeSpeed(double change)
-    {
-        this.speed += change;
-    }*/
-    
+    //other public getter/setter methods and variable modifiers    
     
     public void act()
     {
-        //this.move(1);
-    }
-
-    //methods dealing with movement    
-    
-    /**
-     * Moves this ArenaActor a given distance in the direction it is facing
-     * 
-     * @param distance  the given distance
-     */
-    public void bigMove(double distance)
-    {
-        assert(distance >= 0);
-        
-        
-        while (distance > 1)
-        {
-            this.smallMove(1);
-            this.resolveCollisions();
-            distance--;
-        }
-        
-        this.smallMove(distance);
+        this.state.act();
         this.resolveCollisions();
+        this.update();
     }
     
-    /**
-     * Moves this ArenaActor one cell width in the direction it is facing
-     */
-    public void smallMove(double distance)
-    {
-        this.setExactLocation(this.getExactX() + distance * Math.cos(Math.toRadians(this.getRotation())),
-                              this.getExactY() + distance * Math.sin(Math.toRadians(this.getRotation())));
+    public void update()
+    {        
+        super.setLocation((int)this.state.getDisplacement().getI(), (int)this.state.getDisplacement().getJ());
+        super.setRotation((int)this.state.getOrientation());
     }
-    
-    /**
-     * Returns the angle this ArenaActor must have to face two given coordinates
-     * 
-     * @param x     the x coordinate
-     * @param y     the y coordinate
-     * @return      the angle this ArenaActor must have to face two given coordinates
-     */
-    public int getAngleTowards(double x, double y)
-    {
-        assert(Arena.xIsInBoundaries(x));
-        assert(Arena.yIsInBoundaries(y));
-        
-        if (x > this.getExactX())
-        {
-            return (int) Math.toDegrees(Math.atan((y - this.getY()) / (x - this.getX())));
-        }
-        else if (x < this.getExactX())
-        {
-            return (int) Math.toDegrees(Math.atan((y - this.getY()) / (x - this.getX()))) + 180;
-        }
-        else
-        {
-            if (y > this.getExactY())
-            {
-                return 90;
-            }
-            else if (y < this.getExactY())
-            {
-                return 270;
-            }
-            else
-            {
-                return this.getRotation();
-            }
-        }
-    }
-    
-    /**
-     * Returns the angle this ArenaActor must have to face a given ArenaActor
-     * 
-     * @param a     the given ArenaActor
-     */
-    public int getAngleTowards(ArenaActor a)
-    {
-        return this.getAngleTowards(a.getExactX(), a.getExactY());
-    }
-
     
     /**
      * Resolves collisions between this ArenaActor and any intersecting ArenaActors
      */
-    private void resolveCollisions()
+    protected void resolveCollisions()
     {
-        this.intersectingActors = this.getIntersectingObjects(Collidable.class);
+        List<ArenaActor> c = getIntersectingCollidables();
+        c.removeAll(this.hasCollided);
         
-        for (Collidable actor : this.intersectingActors)
+        if (c.size() != 0)
         {
-            this.deflect(actor);
+            this.recursiveRevert();
+            ArenaActor other = (ArenaActor)c.get(0);
+            this.getState().collide(other.getState());
+            other.hasCollided.add(this);
         }
+        this.hasCollided.clear();
+        return;  
     }
     
-    /**
-     * Deals collision damage to the given intersecting ArenaActor and changes the movement of
-     *  this ArenaActor as a result of the collision
-     *  
-     * @param a     the intersecting ArenaActor
-     */
-    private void collideWith(ArenaActor a)
+    public List<ArenaActor> getIntersectingCollidables()
     {
-        assert(a != null);
-        this.deflect(a);
-        
-        //will contain method to take damage
-    }
-    
-    
-    
-    //we could possibly combine these two deflect methods, getting the exact rotation of the other ArenaActor
-    //probably isnt vital and we could just use getRotation()
-    /**
-     * Changes this ArenaActor's direction due to a collision with a given ArenaActor
-     * 
-     * @param a     the given ArenaActor
-     */
-    private void deflect(Collidable actor)
-    {
-        assert(actor != null);
-        
-        this.setDeflectionRotation(2 * actor.getDeflectionAngle() - this.getRotation());
-        actor.setDeflectionRotation(2 * this.getDeflectionAngle() - actor.getRotation());
-        
-        while (this.getIntersectingObjects(Collidable.class).contains(actor))
+        List<ArenaActor> l = (List<ArenaActor>)this.getIntersectingObjects(ArenaActor.class);
+        Iterator<ArenaActor> iterator = l.iterator();
+        while (iterator.hasNext())
         {
-            this.smallMove(1);
-            actor.smallMove(1);
+            if (!iterator.next().getState().intersects(this.getState()))
+            {
+                iterator.remove();
+            }
         }
+        return l;
     }
-    
-    public int getDeflectionAngle()
-    {
-        return (this.getRotation() + 90) % 180;
-    }
-    
-    public void setDeflectionRotation(int angle)
-    {
-        this.setRotation(angle);
-    }
-    
-    //abstract methods
     
     /**
-     * Returns the mass of this ArenaActor
+     * recursiveRevert(Actor... ignore)
      * 
-     * @return  the mass of this ArenaActor
-     */
-    abstract public double getMass();
-    
-    /**
-     * Has this ArenaActor take a given amount of damage
+     * Move this actor so that it is no longer in contact with any other actor.
+     * POSTCONDITION: this.getIntersectingObjects(Actor) == 0
      * 
-     * @param damage    the damage to be dealt
+     * @param   Actor... ignore     any actors that should be ignored can be passed in to
+     *                              increase performance speed
      */
-    abstract public void takeDamage(double damage);
-    
-    /**
-     * Returns the health of this ArenaActor
-     * 
-     * @return  the health of this ArenaActor
-     */
-    abstract public double getHealth();
-    
-        
-    //wrapper methods that take doubles in order to utilize greenfoot's movement methods that require ints
-    
-    /**
-     * Sets the ArenaActor's location to the nearest integer location to the double coordinates passed
-     * @param x     double x-coordinate of new location
-     * @param y     double y-coordinate of new location
-     */
-    public void setExactLocation(double x, double y)
-    {
-        assert(Arena.xIsInBoundaries(x));
-        assert(Arena.yIsInBoundaries(y));
-        
-        super.setLocation((int) (x + .5), (int) (y + .5));
-        
-        this.location.setX(x);
-        this.location.setY(y);
+    public void recursiveRevert(Actor... ignore)
+    {      
+        List<Obstacle> obstacles = (List<Obstacle>)this.getIntersectingObjects(Obstacle.class);
+        obstacles.remove(ignore);
+        if (obstacles.size() != 0)
+        {
+            for (Obstacle obstacle : obstacles)
+            {
+                Vector n = obstacle.intersects(this);
+                if (n != null)
+                {
+                    this.getState().getDisplacement().add(n.scale(-1));
+                    this.update();
+                }
+            }
+        }
+        List<ArenaActor> collidables = this.getIntersectingCollidables();
+        collidables.remove(ignore);
+        for (Object o : collidables)
+        {
+            ArenaActor actor = (ArenaActor)o;
+            Vector D = actor.getState().getDisplacement().addCopy(this.getState().getDisplacement().scaleCopy(-1));
+            D.unitVector().scale(this.getState().getRadius() + actor.getState().getRadius() + 1);
+            actor.getState().setDisplacement(this.getState().getDisplacement().addCopy(D));
+            actor.update();
+            actor.recursiveRevert();
+        }
+        assert(this.getIntersectingObjects(ArenaActor.class).size() == 0);
     }
     
-    /**
-     * Sets the ArenaActor's location to a given Location
-     * 
-     * @param location      the given location
-     */
-    public void setExactLocation(Location location)
+    public void takeDamage(int damage)
     {
-        assert(location != null);
-        
-        this.location = location;
-    }
-
-    /**
-     * Sets the ArenaActor's rotation to a given rotation
-     * 
-     * @param rotation  the given rotation
-     */
-/**    public void setRotation(double rotation)
-    {
-        rotation = (360 + rotation) % 360;
-        
-        super.setRotation((int) (rotation + .5));
-        this.rotation = rotation;
-    }
-  */  
-    
-    //do we need assertions for turn?
-    /**
-     * Turns this ArenaActor by a given angle
-     * 
-     * @param angle     the angle to be turned by
-     */
-    /*public void turn(int angle)
-    {
-        assert(rotation >= 0);
-        assert(rotation < 360);
-        
-        super.turn(angle);
-        this.rotation += angle;
-        this.rotation %= 360;
-    }*/
-    
-    public double getExactX()
-    {
-        return this.location.getX();
+        System.out.println("Kaboom!");
     }
     
-    public double getExactY()
+    
+    public boolean intersects(Actor a)
     {
-        return this.location.getY();
+        return super.intersects(a);
     }
     
-    public Location getExactLocation()
+    public Physics getState()
     {
-        return this.location;
+        return this.state;
     }
     
-    /*public double getRotation()
+    public void setLocation(Location l)
     {
-        return this.rotation;
-    }*/
+        this.state.setLocation(l.getX(), l.getY());
+        super.setLocation((int)l.getX(), (int)l.getY());
+    }
+    
+    public void setLocation(double x, double y)
+    {
+        this.state.setLocation(x, y);
+        super.setLocation((int)x, (int)y);
+    }
+    
+    public void setRotation(double r)
+    {
+        this.state.setOrientation(r);
+        super.setRotation((int)r);
+    }
+    
+    public void setRotation(int r)
+    {
+        this.state.setOrientation(r);
+        super.setRotation(r);
+    }
+    
+    public Location getLocation()
+    {
+        return new Location(this.state.getDisplacement().getI(), this.state.getDisplacement().getJ());
+    }
 }

@@ -5,7 +5,7 @@
 	<CPU>AVR</CPU>
 	
 	<Part>
-		<Class>MotorPart</Class>
+		<Class>LauncherPart</Class>
 		<Name>Motor</Name>
 		<Port>1</Port>
 	</Part>
@@ -18,10 +18,5 @@
 		<Class>ConsolePart</Class>
 		<Name>MotorConsole</Name>
 		<Port>0</Port>
-	</Part>
-	<Part>
-		<Class>ConsolePart</Class>
-		<Name>SpinConsole</Name>
-		<Port>4</Port>
 	</Part>
 </Robot>

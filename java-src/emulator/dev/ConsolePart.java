@@ -1,10 +1,11 @@
-package robot;
+package emulator.dev;
 
 import java.util.Scanner;
 import emulator.cpu.IAsynchronousUSART;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.Runnable;
+import robot.*;
 /**
  * Write a description of class Printer here.
  * 

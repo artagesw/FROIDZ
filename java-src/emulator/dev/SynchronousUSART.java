@@ -1,6 +1,7 @@
-package emulator.cpu;
+package emulator.dev;
 
 import java.util.ArrayList;
+import emulator.cpu.*;
 /**
  * Write a description of class SynchronousUSART here.
  * 

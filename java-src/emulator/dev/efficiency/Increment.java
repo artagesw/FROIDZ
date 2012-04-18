@@ -1,3 +1,5 @@
+package emulator.dev.efficiency;
+
 public class Increment extends Instruction
 {
     public Increment(MethodProc proc)
