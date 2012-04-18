@@ -1,4 +1,4 @@
-package src.mainmenu;
+package workbench.MainMenu.src.mainmenu;
 
 import java.util.ArrayList;
 /*

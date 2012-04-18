@@ -3,7 +3,9 @@ import java.util.ArrayList;
 import workbench.Builder;
 import robot.Robot;
 import emulator.cpu.*;
-
+import java.awt.Color;
+import java.awt.geom.Ellipse2D.Double;
+import java.awt.geom.Ellipse2D;
 /**
  * A battle arena.
  * 
@@ -23,8 +25,8 @@ public class Arena extends World
     //the maximum width of the robot in pixels
     public static final int MAX_ROBOT_WIDTH = 50;    
     //length of time to be given as a turn
-    private static final int TURN_LENGTH = 10;
-
+    private static final int TURN_LENGTH = 1;
+    
     
     /**
      * Constructor: creates the arena, then adds the robots to the arena
@@ -35,25 +37,40 @@ public class Arena extends World
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(WIDTH, HEIGHT, 1);
         
+        this.setActOrder(RobotActor.class, Obstacle.class, ArenaActor.class);
+        
         Builder builder = new Builder();
         ArrayList<Robot> robots = builder.getRobots();
         ArrayList<Location> spawnLocations = SpawnMap.getSpawnLocations(robots.size());
         
         for (Robot robot : robots)
         {
+            Location startLocation = spawnLocations.remove((int) (Math.random() * spawnLocations.size()));
             RobotActor robotActor = new RobotActor(robot);
             
             //adds each robot to a random spawn location and removes that spawn location
-            this.add(robotActor, spawnLocations.remove((int) (Math.random() * spawnLocations.size())));
+            this.add(robotActor, startLocation);
+            
             robotActor.setRotation((int) (Math.random() * 360));
             robotActor.setImage("images/TestBot.png");
             //robot.setExactRotation(robot.getAngleTowards((this.getWidth() / 2), (this.getHeight() / 2)));
         }
         
         this.makeWalls();
-        this.setActOrder(RobotActor.class, Projectile.class);
         
         this.setBackground("images/cell.jpg");
+    }
+    
+    private GreenfootImage makeRobotImage()
+    {
+        GreenfootImage pic = new GreenfootImage(MAX_ROBOT_WIDTH, MAX_ROBOT_HEIGHT);
+        
+        pic.setColor(Color.BLACK);
+        pic.fillShape(new Ellipse2D.Double(20, 20, MAX_ROBOT_WIDTH - 20, MAX_ROBOT_HEIGHT - 20));
+        pic.setColor(Color.RED);
+        pic.fillOval(((MAX_ROBOT_WIDTH * 7) / 8) - 5, ((MAX_ROBOT_HEIGHT * 1) / 2) - 5, 10, 10);
+        
+        return pic;
     }
     
     /**
@@ -61,47 +78,91 @@ public class Arena extends World
      */
     private void makeWalls()
     {
-        Wall wall;
+        int t = 30;
+        int d = 90;
+        Obstacle border = new Obstacle(new int[]{d,0},
+                             new int[]{WIDTH,0},
+                             new int[]{WIDTH,HEIGHT},
+                             new int[]{0,HEIGHT},
+                             new int[]{0,0},
+                             new int[]{d,0},
+                             new int[]{d,t},
+                             new int[]{t,d},
+                             new int[]{t,HEIGHT - d},
+                             new int[]{d,HEIGHT - t},
+                             new int[]{WIDTH - d,HEIGHT - t},
+                             new int[]{WIDTH - t,HEIGHT - d},
+                             new int[]{WIDTH - t,d},
+                             new int[]{WIDTH - d,t},
+                             new int[]{d,t});
+                             
+        this.addObject(border, WIDTH / 2, HEIGHT / 2);
         
-        //top
-        wall = new Wall(WIDTH - Wall.THICKNESS * 2, Wall.THICKNESS);
-        this.addObject(wall, WIDTH / 2, Wall.THICKNESS / 2);
-        wall.setRotation(0);
+        /*
+        MovingObstacle plus = new MovingObstacle(new int[]{200,0},
+                             new int[]{260,0},
+                             new int[]{260,200},
+                             new int[]{460,200},
+                             new int[]{460,260},
+                             new int[]{260,260},
+                             new int[]{260,460},
+                             new int[]{200,460},
+                             new int[]{200,260},
+                             new int[]{0,260},
+                             new int[]{0,200},
+                             new int[]{200,200});
+                             */
+        MovingObstacle plus = new MovingObstacle(new int[]{0,0},
+                                                 new int[]{20,0},
+                                                 new int[]{20,200},
+                                                 new int[]{0,200});
+
+        MovingObstacle plus2 = new MovingObstacle(new int[]{0,0},
+                                                 new int[]{20,0},
+                                                 new int[]{20,200},
+                                                 new int[]{0,200});
+                                                 
+        int offset = 200;                                         
+        this.addObject(plus, WIDTH / 2 - offset / 2, HEIGHT / 2 - offset / 2);
+        plus.setRotationalVelocity(-30);
+        plus.setSpeed(50);
+        plus.setPath(new Vector(offset, 0),
+                     new Vector(0,offset),
+                     new Vector(-1 * offset,0),
+                     new Vector(0,-1 * offset));
+                     
+                     
+        this.addObject(plus2, WIDTH / 2 - offset / 2, HEIGHT / 2 - offset / 2);
+        plus2.setRotationalVelocity(30);
+        plus2.setSpeed(50);
+        plus2.setPath(new Vector(0,offset),
+                     new Vector(offset, 0),
+                     new Vector(0, -1 * offset),
+                     new Vector(-1 * offset, 0));
+        /*
+        Wall blocky = new Wall(new int[]{0,0},
+                               new int[]{100,0},
+                               new int[]{150,50},
+                               new int[]{150,200},
+                               new int[]{100,250},
+                               new int[]{50,300},
+                               new int[]{0,100});
+        this.addObject(blocky, WIDTH / 2, HEIGHT / 2);       
         
-        //bottom
-        wall = new Wall(WIDTH - Wall.THICKNESS * 2, Wall.THICKNESS);
-        this.addObject(wall, WIDTH / 2, HEIGHT - Wall.THICKNESS / 2);
-        wall.setRotation(0);
         
-        //right
-        wall = new Wall(HEIGHT, Wall.THICKNESS);
-        this.addObject(wall, WIDTH - Wall.THICKNESS / 2 - 1, HEIGHT / 2);
-        wall.setRotation(90);
-        
-        //left
-        wall = new Wall(HEIGHT, Wall.THICKNESS);
-        this.addObject(wall, Wall.THICKNESS / 2 - 1, HEIGHT / 2);
-        wall.setRotation(90);
-        
-        //right lower diagonal
-        wall = new Wall(70, Wall.THICKNESS);
-        this.addObject(wall, WIDTH - (3 * Wall.THICKNESS), HEIGHT - (3 * Wall.THICKNESS));
-        wall.setRotation(135);
-        
-        //right upper diagonal
-        wall = new Wall(70, Wall.THICKNESS);
-        this.addObject(wall, WIDTH - (3 * Wall.THICKNESS), 3 * Wall.THICKNESS);
-        wall.setRotation(45);
-        
-        //left lower diagonal
-        wall = new Wall(70, Wall.THICKNESS);
-        this.addObject(wall, 3 * Wall.THICKNESS, HEIGHT - (3 * Wall.THICKNESS));
-        wall.setRotation(45);
-        
-        //left upper diagonal
-        wall = new Wall(70, Wall.THICKNESS);
-        this.addObject(wall, 3 * Wall.THICKNESS, 3 * Wall.THICKNESS);
-        wall.setRotation(135);
+        Wall blocky = new Wall(new int[]{50,0},
+                          new int[]{300,0},
+                          new int[]{350,50},
+                          new int[]{350,300},
+                          new int[]{325,300},
+                          new int[]{325,50},
+                          new int[]{25,50},
+                          new int[]{25,300},
+                          new int[]{0,300},
+                          new int[]{0,50},
+                          new int[]{50,0});
+        this.addObject(blocky, WIDTH / 2, HEIGHT / 2);
+        */
     }
     
     /**
@@ -109,17 +170,6 @@ public class Arena extends World
      */
     public void act()
     {
-        synchronized (this)
-        {
-            try
-            {
-                this.wait(10);
-            }
-            catch (java.lang.InterruptedException e)
-            {
-                System.out.println("Something went wrong");
-            }
-        }
     }
     
     //Methods for adding/removing things to the arena
@@ -133,7 +183,7 @@ public class Arena extends World
     private void add(ArenaActor actor, Location location)
     {
         this.addObject(actor, (int) (location.getX() + .5), (int) (location.getY() + .5));
-        actor.setExactLocation(location);
+        actor.setLocation(location);
     }
     
     /**
@@ -146,8 +196,8 @@ public class Arena extends World
     public void add(ArenaActor actor, double x, double y)
     {
         this.addObject(actor, (int) (x + .5), (int) (y + .5));
-        actor.setExactLocation(new Location(x, y));
-    }
+        actor.setLocation(new Location(x, y));
+    }  
     
     /**
      * Removes given ArenaActor from arena

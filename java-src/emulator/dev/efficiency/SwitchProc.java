@@ -1,3 +1,5 @@
+package emulator.dev.efficiency;
+
 public class SwitchProc extends Processor
 {
     public int instr = 5;

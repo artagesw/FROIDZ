@@ -1,3 +1,5 @@
+package emulator.dev.efficiency;
+
 public abstract class Instruction
 {
     protected Processor proc;

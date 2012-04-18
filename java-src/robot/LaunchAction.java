@@ -24,4 +24,22 @@ public class LaunchAction extends RobotAction
         this.mass = mass;
         this.speed = speed;
     }
+    
+    public int getKind()
+    {
+        return this.kind;
+    }
+    
+    public double getRadius()
+    {
+        return this.radius;
+    }
+    public double getMass()
+    {
+        return this.mass;
+    }
+    public double getSpeed()
+    {
+        return this.speed;
+    }
 }
