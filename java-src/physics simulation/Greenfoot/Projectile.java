@@ -17,7 +17,7 @@ public class Projectile extends ArenaActor
     private Vector displacement;   //from (0, 0)
     
     //offset from robot image to projectile image for original placement
-    public static final int BUFFER = 5;
+    public static final int BUFFER = 10;
     
     //standard size of projectiles
     private final int PROJECTILE_WIDTH = 10;
@@ -74,7 +74,6 @@ public class Projectile extends ArenaActor
 
         List<ArenaActor> c = getIntersectingCollidables();
         System.out.println("derp");
-        List<ArenaActor> c = getIntersectingCollidables();
                 
         if (c.size() != 0)
         {
