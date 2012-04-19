@@ -321,7 +321,7 @@ public class Assembler
                 // If it wasn't defined in this file, see if it's was defined in the m644def.inc file
                 try 
                 {
-                    String replacement = "0d" + IO.class.getDeclaredField(part).get(int.class).toString();
+                    String replacement = "0d" + ToastyIO.class.getDeclaredField(part).get(int.class).toString();
                     System.out.println("REPLACE BASED ON def.inc: " + part + " with " + replacement);
                     
                     instructionParts.set(i, replacement);
