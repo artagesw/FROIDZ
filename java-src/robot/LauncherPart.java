@@ -33,28 +33,50 @@ public class LauncherPart extends Part
         return this;
     }
     
-    public double getRadius()
+    public void setKind(int kind)
     {
-        return this.radius;
+        this.kind = kind;
     }
     
-    public double getMass()
+    public void setRounds(int rounds)
     {
-        return this.mass;
+        this.rounds = rounds;
     }
     
-    public double getSpeed()
+    public void setRadius(double radius)
+    {
+        this.radius = radius;
+    }
+    
+    public void setMass(double mass)
+    {
+        this.mass = mass;
+    }
+    
+    public void setSpeed(double speed)
+    {
+        this.speed = speed;
+    }
+    
+    public double  getSpeed()
     {
         return this.speed;
     }
     
+    public double getMass()
+    {
+        return this.mass;    
+    }
+    
+    public double radius()
+    {
+        return this.radius;
+    }
+    
     public byte TxRx(byte data)
     {
-        System.out.println("TxRx LauncherPart Data: " + data);
-        System.out.println("ROUNDS: " + this.rounds);
         if (this.rounds > 0 && data != 0)
         {
-            System.out.println("LaunchProjectile");
             --this.rounds;
             this.robot.launchProjectile(this.kind, this.radius, this.mass, this.speed);
         }

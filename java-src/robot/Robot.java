@@ -104,8 +104,10 @@ public class Robot
 
     public void launchProjectile(int kind, double radius, double mass, double speed)
     {
+        System.out.println("Launching projectile!");
 
         System.out.println("LAUNCH PROJECTILE kind(" + kind  + ") radius(" + ") mass(" + ") speed(" + speed + ")");
+
         RobotAction action = new LaunchAction(kind, radius, mass, speed);
         this.actionList.add(action);
     }
