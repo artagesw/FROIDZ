@@ -328,7 +328,17 @@ public class Assembler
                 }
                 catch (Throwable e)
                 {
-                    //System.out.println(e);
+                    try 
+                    {
+                        String replacement = "0d" + IO.class.getDeclaredField(part).get(int.class).toString();
+                        System.out.println("REPLACE BASED ON def.inc: " + part + " with " + replacement);
+                    
+                        instructionParts.set(i, replacement);
+                    }
+                    catch (Throwable l)
+                    {
+                        //System.out.println(e);
+                    }
                 }
             }
 
