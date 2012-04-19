@@ -1,5 +1,7 @@
  
 
+ 
+
 /**
  * A generic 2d vector. Immutable/
  * 
