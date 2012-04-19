@@ -14,8 +14,10 @@ public class Robot
     private String name;                    // robot's name
     private FROIDZCPU cpu;
     private ArrayList<Part> parts;
+    private int health;                        // overall robot health
     private double speed;                      // current speed in meters/sec.
     private double rotationalVelocity;         // current rotational velocity in deg/sec
+    private ArrayList<RobotAction> actionList;
 
     /**
      * Constructor for objects of class Robot
@@ -25,6 +27,8 @@ public class Robot
     {
         this.setName(name);
         this.parts = new ArrayList<Part>();
+        this.health = 100;
+        this.actionList = new ArrayList<RobotAction>();
     }
     
     public Robot setName(String name)
@@ -75,12 +79,36 @@ public class Robot
         return this.rotationalVelocity;
     }
     
-    public void act(int timeInMS)
+    public void inflictDamage (int damage)
     {
-        this.cpu.act(timeInMS);
+        // build list of hit weights for our parts
+        
+
         for (Part part : this.parts)
         {
-            part.act();
         }
+    }
+
+    public void launchProjectile(int kind, double radius, double mass, double speed)
+    {
+        RobotAction action = new LaunchAction(kind, radius, mass, speed);
+        this.actionList.add(action);
+    }
+    
+    public ArrayList<RobotAction> act(int timeInMS)
+    {
+        this.actionList.clear();
+ 
+        if (this.health > 0)
+        {
+            this.cpu.act(timeInMS);
+        
+            for (Part part : this.parts)
+            {
+                part.act();
+            }
+        }
+        
+        return this.actionList;
     }
 }

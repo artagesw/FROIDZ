@@ -1,5 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import robot.Robot;
+import java.util.ArrayList;
+
 /**
  * A stub class.
  * 
@@ -10,7 +12,7 @@ public class RobotActor extends ArenaActor
 {
     private Robot robot;
     
-    private boolean flag = false;
+    private boolean flag = true;
 
     public RobotActor(Robot robot)
     {
@@ -33,12 +35,10 @@ public class RobotActor extends ArenaActor
         this.state.applyForce(new Vector(Math.cos(direction) * this.robot.getSpeed(), 
                                          Math.sin(direction) * this.robot.getSpeed()));
         super.act();
-        
+
         if (flag)
         {
-            Projectile p = new Projectile(50, this.getRotation(), 1);
-            ((Arena)this.getWorld()).add(p, 0, 0);
-            this.shoot(p);
+            this.shoot(100, 1, 5);
             flag = false;
         }
     }    
@@ -64,13 +64,21 @@ public class RobotActor extends ArenaActor
     }
     
     /**
-     * Direction of projectile must already be set
+     * 
      */
-    public void shoot(Projectile p)
+    public void shoot(double speed, double mass, double radius)
     {
-        p.setRotation(this.getRotation());
+        double xChange = (((this.getState().getRadius() + radius) * Math.cos(this.state.getOrientation() * (Math.PI / 180)) + Projectile.BUFFER));
+        double yChange = (((this.getState().getRadius() + radius) * Math.sin(this.state.getOrientation() * (Math.PI / 180)) + Projectile.BUFFER));
         
-        p.setLocation(this.getState().getDisplacement().getI() + ((this.getImage().getHeight() + p.getImage().getHeight()) / 2 * Math.cos(p.getRotation()) + p.getBuffer()), 
-                      this.getState().getDisplacement().getJ() + ((this.getImage().getHeight() + p.getImage().getHeight()) / 2 * Math.sin(p.getRotation()) + p.getBuffer()));
+        double x = this.getState().getDisplacement().getI() + xChange;
+        double y = this.getState().getDisplacement().getJ() + yChange;
+        
+        Vector velocity = new Vector(xChange, yChange);
+        velocity.unitVector().scale(speed);
+        
+        Projectile p = new Projectile(velocity, mass, radius, x, y);
+        
+        ((Arena)this.getWorld()).add((ArenaActor)p, x, y);
     }
 }

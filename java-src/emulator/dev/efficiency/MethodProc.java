@@ -1,3 +1,5 @@
+package emulator.dev.efficiency;
+
 public class MethodProc extends Processor
 {
     public Instruction instr = new Increment(this);
