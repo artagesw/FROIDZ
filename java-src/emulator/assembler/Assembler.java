@@ -185,7 +185,7 @@ public class Assembler
         {
             if (l.substring(0, 4).equalsIgnoreCase(".def"))
             {
-                String[] parts = l.split(" ");
+                String[] parts = l.split("[ ,]");
                 String key = parts[1];
                 String value = parts[2];
                 this.defs.put(key, value);
@@ -396,11 +396,11 @@ public class Assembler
     
     public static void test() throws IOException
     {
-        Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.asm");
+        Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/thursday.asm");
         //Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/cpu/Print.asm");
         
         test.assemble();
-        test.write("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.tst");
+        test.write("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/thursday.tst");
         //return test.generateString();
     }
 }

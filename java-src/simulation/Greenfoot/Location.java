@@ -1,3 +1,5 @@
+package simulation.Greenfoot;
+
 /**
  * A point with double coordinates
  * 

@@ -1,3 +1,7 @@
+package Greenfoot;
+
+package simulation.Greenfoot;
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
