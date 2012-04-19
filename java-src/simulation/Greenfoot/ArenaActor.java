@@ -139,7 +139,6 @@ abstract public class ArenaActor extends Actor
     
     public void takeDamage(int damage)
     {
-        System.out.println("Kaboom!");
     }
     
     

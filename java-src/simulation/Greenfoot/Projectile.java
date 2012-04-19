@@ -73,7 +73,6 @@ public class Projectile extends ArenaActor
     {
 
         List<ArenaActor> c = getIntersectingCollidables();
-        System.out.println("derp");
                 
         if (c.size() != 0)
         {
@@ -81,9 +80,8 @@ public class Projectile extends ArenaActor
             ArenaActor other = (ArenaActor)c.get(0);
             this.getState().collide(other.getState());
             other.takeDamage(DAMAGE_VALUE);
+            ((Arena) this.getWorld()).removeObject(this);
         }
-        this.getWorld().removeObject(this);
-        return;  
     }
     
     /**

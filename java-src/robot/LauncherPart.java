@@ -33,6 +33,21 @@ public class LauncherPart extends Part
         return this;
     }
     
+    public double getRadius()
+    {
+        return this.radius;
+    }
+    
+    public double getMass()
+    {
+        return this.mass;
+    }
+    
+    public double getSpeed()
+    {
+        return this.speed;
+    }
+    
     public byte TxRx(byte data)
     {
         if (this.rounds > 0 && data != 0)
