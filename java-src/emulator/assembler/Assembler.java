@@ -410,7 +410,8 @@ public class Assembler
         //Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/cpu/Print.asm");
         
         test.assemble();
-        test.write("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/thursday.tst");
+        //test.write("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/thursday.tst");
+        test.write("/Users/alexteiche/Desktop/FROIDZ/java-src/simulation/Greenfoot/users/User1/thursday.tst");
         //return test.generateString();
     }
 }

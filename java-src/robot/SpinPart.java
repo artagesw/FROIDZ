@@ -14,6 +14,7 @@ public class SpinPart extends Part
     public SpinPart()
     {
         this.curRotV = 0;
+        System.out.println("CREATE SPINPART");
     }
     
     public SpinPart setMaxRotationalVelocity(int max)
@@ -24,6 +25,7 @@ public class SpinPart extends Part
     
     public byte TxRx(byte data)
     {
+        System.out.println("SPIN " + data);
         this.curRotV = (0x00FF & (int)data);
         this.robot.setRotationalVelocity(this.curRotV*this.maxRotV/255);
         return 0;
