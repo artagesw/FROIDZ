@@ -41,6 +41,7 @@ public class AVR extends FROIDZCPU
         this.initializeMemory();
         mem.setPeripheralMap(this.peripheralMap);
     }
+    
     public AVR(String path)
     {
         this();

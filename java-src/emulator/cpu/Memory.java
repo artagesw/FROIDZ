@@ -1,6 +1,8 @@
 package emulator.cpu; 
 
 import java.util.Scanner;
+import java.util.Iterator;
+import java.util.Arrays;
 import java.io.File;
  
 /**
@@ -112,34 +114,51 @@ public class Memory
     }
     
     /**
-     * loadBin(String path)
+     * loadBin(String path) - Load an assembled binary program from a file
      * 
      * 
      */
     public boolean loadBin(String path)
-    {
-        int pos = 0;
-        
+    {   
         try
         {
             Scanner scanner = new Scanner(new File(path));
+            scanner.useDelimiter("\n");
 
-            while (scanner.hasNextLine())
-            {
-                this.flash[pos] = (int)Long.parseLong(scanner.nextLine().replace(" ", ""), 2);
-                
-                pos++;
-                
-                if (pos >= this.flash.length)
-                {
-                    return false;
-                }
-            }
+            return this.loadInstructions(scanner);
         }
         catch (Throwable e)
         {
             System.out.println("404 File Not Found: " + path);
             System.out.println(e.getMessage());
+        }
+        return true;
+    }
+    
+    public boolean loadString(String code)
+    {
+        return this.loadInstructions(Arrays.asList(code.split("\n")).iterator());
+    }
+    
+    /**
+     * Loads an iterable of instructions that are strings(with or without spaces), one string per instruction
+     * @param instructions The list of instructions to load
+     * @returns true -> It succeeded
+     */
+    public boolean loadInstructions(Iterator<String> instructions)
+    {
+        int pos = 0;
+        
+        while (instructions.hasNext())
+        {
+            this.flash[pos] = (int)Long.parseLong(instructions.next().replace(" ", ""), 2);
+                
+            pos++;
+                
+            if (pos >= this.flash.length)
+            {
+                return false;
+            }
         }
         
         System.out.println(pos + " instructions loaded.");
