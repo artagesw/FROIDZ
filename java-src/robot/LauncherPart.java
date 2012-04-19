@@ -50,8 +50,11 @@ public class LauncherPart extends Part
     
     public byte TxRx(byte data)
     {
+        System.out.println("TxRx LauncherPart Data: " + data);
+        System.out.println("ROUNDS: " + this.rounds);
         if (this.rounds > 0 && data != 0)
         {
+            System.out.println("LaunchProjectile");
             --this.rounds;
             this.robot.launchProjectile(this.kind, this.radius, this.mass, this.speed);
         }

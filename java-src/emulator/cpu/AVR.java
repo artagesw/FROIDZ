@@ -13,7 +13,7 @@ public class AVR extends FROIDZCPU
     private Peripheral[] peripheralMap;
     private static final int[] usartLookup = 
                                       {
-                                       ToastyIO.UDR0, 
+                                       IO.UDR0, 
                                        ToastyIO.UDR1, 
                                        ToastyIO.UDR2,
                                        ToastyIO.UDR3,
