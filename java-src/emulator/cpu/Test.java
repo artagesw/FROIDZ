@@ -65,14 +65,14 @@ public class Test
     {
         Robot r = new Robot("Fred");
         
-        MotorPart m = new MotorPart();
-        m.setMaxSpeed(100); //added by Henry, allows Test to compile with changes to MotorPart
-        m.setSerialPort(0);
+        //MotorPart m = new MotorPart();
+        //m.setMaxSpeed(100); //added by Henry, allows Test to compile with changes to MotorPart
+        //m.setSerialPort(0);
         
-        AVR cpu = new AVR("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.tst");
-        
+        AVR cpu = new AVR();
+        cpu.loadString("010 00011000 00000000000 0101001000\n01000110000000001001110000000001\n01000011000000000000000101100101");
         r.setCPU(cpu);
-        r.addPart(m);
+        //r.addPart(m);
         
         //Printer p = new Printer();
         

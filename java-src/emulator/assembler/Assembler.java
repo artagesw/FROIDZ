@@ -1,3 +1,14 @@
+/*
+ * FOR TODAY:
+ *  WP FILE AS A JAVA STRING
+ *  LABEL
+ *  RJMP
+ */
+
+/*
+ * Missile on 3
+ */
+
 package emulator.assembler;
 
 import java.util.Scanner;
@@ -104,7 +115,7 @@ public class Assembler
         }
       
         System.out.println();
-        System.out.println("ASSEMBLY COMPLETE: ");
+        System.out.println("ASSEMBLY COMPLETE");
         
         this.assembled = true;
         return true;
@@ -124,6 +135,20 @@ public class Assembler
         
         out.close();
     }
+    
+    public String generateString()
+    {
+        assert this.assembled;
+        
+        StringBuilder output = new StringBuilder();
+        
+        for (String s : this.binary)
+        {
+            output.append(s + "\n");
+        }
+        
+        return output.toString();
+    }    
         
     /**
      * Remove all newlines
@@ -147,6 +172,9 @@ public class Assembler
     /**
      * Parse all .def directives and generate the hashtable
      * This does not do the replacing in the actual code
+     * THIS CODE DOES THE FOLLOWING THINGS:
+     *  SIDE EFFECT: Modifies this.defs to reflect the defined things
+     *  RETURNS: The list of lines, with every .def line removed
      */
     private List<String> hash_defs(List<String> lines)
     {
@@ -157,7 +185,7 @@ public class Assembler
         {
             if (l.substring(0, 4).equalsIgnoreCase(".def"))
             {
-                String[] parts = l.split(" ");
+                String[] parts = l.split("[ ,]");
                 String key = parts[1];
                 String value = parts[2];
                 this.defs.put(key, value);
@@ -172,9 +200,48 @@ public class Assembler
         return pureAsm;
     }
     
+    /**
+     * Parse all labels and place them in the same HashMap as .def directives
+     * This must be the last preprocessor method called
+     * Precondition: There can be nothing in the input other than instructions and labels
+     *      Everything is either an instruction or a label
+     */
+    private List<String> hash_labels(List<String> lines)
+    {
+        // This is the output of this method with labels stripped out(lines that contain them are removed, they are still present in instructions)
+        ArrayList<String> pureAsm = new ArrayList();
+        
+        // This points to the predicted location for an instruction when it is loaded into memory
+        // It's functionally a line count, excluding lines that are just a label(and .def and newlines but those are stripped out earlier)
+        int instructionPointer = 0;
+        
+        for (String l : lines)
+        {
+            // We know it's a label if the last character is :
+            if (l.substring(l.length() - 1).equals(":"))
+            {
+                String label = l.substring(0, l.length() - 1);
+                String addr = "0d" + Integer.toString(instructionPointer);
+                this.defs.put(label, addr);
+                System.out.println("Label: " + label + " calculated to be memory address " + addr);
+            }
+            else
+            {
+                //It wasn't a label, so it was an instruction(see precondition), so increment the instruction pointer
+                instructionPointer++;
+                pureAsm.add(l);
+            }
+        }
+        
+        return pureAsm;
+    }
+            
+            
+        
+    
     private List<List<String>> preprocess(List<String> lines)
     {
-        lines = this.hash_defs(lines);
+        lines = this.hash_labels(this.hash_defs(lines));
             
         // Split a list of strings that are a complete instruction into a list of lists, where each element of each sublist is a string that is one part of an instruction(the op code, argument, etc)
         // ["SBI 0xFF 0x04"] -> [["SBI", "0xFF", "0x04"]]
@@ -254,14 +321,24 @@ public class Assembler
                 // If it wasn't defined in this file, see if it's was defined in the m644def.inc file
                 try 
                 {
-                    String replacement = "0d" + IO.class.getDeclaredField(part).get(int.class).toString();
+                    String replacement = "0d" + ToastyIO.class.getDeclaredField(part).get(int.class).toString();
                     System.out.println("REPLACE BASED ON def.inc: " + part + " with " + replacement);
                     
                     instructionParts.set(i, replacement);
                 }
                 catch (Throwable e)
                 {
-                    //System.out.println(e);
+                    try 
+                    {
+                        String replacement = "0d" + IO.class.getDeclaredField(part).get(int.class).toString();
+                        System.out.println("REPLACE BASED ON def.inc: " + part + " with " + replacement);
+                    
+                        instructionParts.set(i, replacement);
+                    }
+                    catch (Throwable l)
+                    {
+                        //System.out.println(e);
+                    }
                 }
             }
 
@@ -329,10 +406,12 @@ public class Assembler
     
     public static void test() throws IOException
     {
-        Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.asm");
+        Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/thursday.asm");
         //Assembler test = new Assembler("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/cpu/Print.asm");
         
         test.assemble();
-        test.write("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/go.tst");
+        //test.write("/Users/alexteiche/Desktop/FROIDZ/java-src/emulator/assembler/thursday.tst");
+        test.write("/Users/alexteiche/Desktop/FROIDZ/java-src/simulation/Greenfoot/users/User1/thursday.tst");
+        //return test.generateString();
     }
 }

@@ -18,6 +18,9 @@ public class WPParser
 {
     private HashMap<String, WPChunk> chunkBag = new HashMap();
 
+    private String WPFile;
+    
+    
     //Public methods
     // get_opcode - Used by assember
     // get_pattern - Used by simulator
@@ -32,7 +35,7 @@ public class WPParser
         List<String> lines = new ArrayList();
         
         lines = this.getLines(pathJacob);
-        System.out.println("LINES: " + lines);
+
         if (lines == null)
         {
             System.out.println("Using alex's path");
@@ -52,7 +55,6 @@ public class WPParser
         int num = 0;
         for (String line : this.removeComments(lines))
         {
-            System.out.println(line);
             WPChunk chunk = new WPChunk(line);
             chunkBag.put(chunk.getOpName(), chunk);
             num++;

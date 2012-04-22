@@ -33,6 +33,46 @@ public class LauncherPart extends Part
         return this;
     }
     
+    public void setKind(int kind)
+    {
+        this.kind = kind;
+    }
+    
+    public void setRounds(int rounds)
+    {
+        this.rounds = rounds;
+    }
+    
+    public void setRadius(double radius)
+    {
+        this.radius = radius;
+    }
+    
+    public void setMass(double mass)
+    {
+        this.mass = mass;
+    }
+    
+    public void setSpeed(double speed)
+    {
+        this.speed = speed;
+    }
+    
+    public double  getSpeed()
+    {
+        return this.speed;
+    }
+    
+    public double getMass()
+    {
+        return this.mass;    
+    }
+    
+    public double radius()
+    {
+        return this.radius;
+    }
+    
     public byte TxRx(byte data)
     {
         if (this.rounds > 0 && data != 0)

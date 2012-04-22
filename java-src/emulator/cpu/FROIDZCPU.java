@@ -29,6 +29,11 @@ public abstract class FROIDZCPU
         this.proc.mem.loadBin(path);        
     }
     
+    public boolean loadString(String code)
+    {
+        return this.proc.mem.loadString(code);
+    }
+    
     public void connectToSerial(ISynchronousUSART part, int i)
     {
         this.connectToSerial((IAsynchronousUSART)part, i);

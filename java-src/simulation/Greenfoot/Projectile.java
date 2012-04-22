@@ -1,3 +1,5 @@
+ 
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.awt.Color;
 import java.util.List;
@@ -17,7 +19,7 @@ public class Projectile extends ArenaActor
     private Vector displacement;   //from (0, 0)
     
     //offset from robot image to projectile image for original placement
-    public static final int BUFFER = 5;
+    public static final int BUFFER = 10;
     
     //standard size of projectiles
     private final int PROJECTILE_WIDTH = 10;
@@ -73,7 +75,6 @@ public class Projectile extends ArenaActor
     {
 
         List<ArenaActor> c = getIntersectingCollidables();
-        System.out.println("derp");
                 
         if (c.size() != 0)
         {
@@ -81,9 +82,8 @@ public class Projectile extends ArenaActor
             ArenaActor other = (ArenaActor)c.get(0);
             this.getState().collide(other.getState());
             other.takeDamage(DAMAGE_VALUE);
+            ((Arena) this.getWorld()).removeObject(this);
         }
-        this.getWorld().removeObject(this);
-        return;  
     }
     
     /**

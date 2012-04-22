@@ -1,3 +1,5 @@
+ 
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import robot.*;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 public class RobotActor extends ArenaActor
 {
     private Robot robot;
+    
 
     public RobotActor(Robot robot)
     {
@@ -33,14 +36,13 @@ public class RobotActor extends ArenaActor
         this.state.applyForce(new Vector(Math.cos(direction) * this.robot.getSpeed(), 
                                          Math.sin(direction) * this.robot.getSpeed()));
         super.act();
-
+        
         for (RobotAction action : actions)
         {
             if (action instanceof LaunchAction)
             {
-                this.shoot(((LaunchAction) action).getSpeed(),
-                            ((LaunchAction) action).getMass(),
-                            ((LaunchAction) action).getRadius());
+                this.shoot(((LaunchAction) action).getSpeed(), 
+                ((LaunchAction) action).getMass(), ((LaunchAction) action).getRadius());
             }
         }
     }    

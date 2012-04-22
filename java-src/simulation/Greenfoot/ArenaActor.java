@@ -1,3 +1,5 @@
+ 
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.List;
 import java.util.ArrayList;
@@ -139,7 +141,6 @@ abstract public class ArenaActor extends Actor
     
     public void takeDamage(int damage)
     {
-        System.out.println("Kaboom!");
     }
     
     

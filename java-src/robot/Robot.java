@@ -11,9 +11,11 @@ import emulator.cpu.FROIDZCPU;
  */
 public class Robot
 {
-    private String name;                    // robot's name
+    private String name;                       // robot's name
     private FROIDZCPU cpu;
     private ArrayList<Part> parts;
+    private int maxDamageAllocationRange;
+    private ArrayList<Integer> damageAllocationRanges;  // array of ranges of damage weights
     private int health;                        // overall robot health
     private double speed;                      // current speed in meters/sec.
     private double rotationalVelocity;         // current rotational velocity in deg/sec
@@ -27,6 +29,8 @@ public class Robot
     {
         this.setName(name);
         this.parts = new ArrayList<Part>();
+        this.damageAllocationRanges = new ArrayList<Integer>();
+        this.maxDamageAllocationRange = 0;
         this.health = 100;
         this.actionList = new ArrayList<RobotAction>();
     }
@@ -55,6 +59,9 @@ public class Robot
     {
         part.setRobot(this);
         this.parts.add(part);
+        this.maxDamageAllocationRange += part.getDamageWeight();
+        this.damageAllocationRanges.add(this.maxDamageAllocationRange);
+        System.out.println("Connecting part to port #" + part.getSerialPort());
         this.cpu.connectToSerial(part, part.getSerialPort());
         return this;
     }
@@ -81,16 +88,26 @@ public class Robot
     
     public void inflictDamage (int damage)
     {
-        // build list of hit weights for our parts
+        // find the part onto which to inflict damage
         
-
-        for (Part part : this.parts)
+        int probability = (int)(Math.random() * this.maxDamageAllocationRange);
+        
+        for (int i = 0; i < this.damageAllocationRanges.size(); ++i)
         {
+            if (probability < this.damageAllocationRanges.get(i))
+            {
+                this.parts.get(i).inflictDamage(damage);
+                break;
+            }
         }
     }
 
     public void launchProjectile(int kind, double radius, double mass, double speed)
     {
+        System.out.println("Launching projectile!");
+
+        System.out.println("LAUNCH PROJECTILE kind(" + kind  + ") radius(" + ") mass(" + ") speed(" + speed + ")");
+
         RobotAction action = new LaunchAction(kind, radius, mass, speed);
         this.actionList.add(action);
     }
