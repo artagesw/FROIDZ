@@ -24,9 +24,6 @@ public class Projectile extends ArenaActor
     //standard size of projectiles
     private final int PROJECTILE_WIDTH = 10;
     private final int PROJECTILE_HEIGHT = 10;
-
-    //stores whether it's the first turn in order to properly set displacement vector and avoid errors
-    private boolean firstTurn;
     
     private Location location;
     
