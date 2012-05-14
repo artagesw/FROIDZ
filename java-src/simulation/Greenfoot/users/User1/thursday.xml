@@ -29,7 +29,7 @@
 		<Port>1</Port>
 		<Kind>1</Kind>
 		<Rounds>100</Rounds>
-		<Radius>.01</Radius>
+		<Radius>3</Radius>
 		<Mass>.001</Mass>
 		<Speed>100.0</Speed>
 		<DamageWeight>50</DamageWeight> 

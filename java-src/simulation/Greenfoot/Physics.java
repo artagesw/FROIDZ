@@ -15,11 +15,11 @@ public class Physics
     private double rotationalVelocity; // in degrees / sec
     private double orientation; // in degrees
     
-    private Vector displacement; // in meters
-    private Vector velocity; // in meters / second
-    private Vector acceleration; // in meters / second^2
+    private Vector displacement; // in pixles (1/10 ths of a meter)
+    private Vector velocity; // in pixles (1/10 ths of a meter) / second
+    private Vector acceleration; // in pixles (1/10 ths of a meter) / second^2
     private Vector force; // in newtons
-    private double radius; // in meters
+    private double radius; // in pixles (1/10 ths of a meter)
     
     private boolean hasFriction = true;
     
