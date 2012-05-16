@@ -55,22 +55,11 @@ public class Projectile extends ArenaActor
     /**
      * Resolves collisions between this Projectile and any intersecting ArenaActors
      */
-    /*
-    protected void resolveCollisions()
+    public void processCollision(ArenaActor other)
     {
-
-        List<ArenaActor> c = getIntersectingCollidables();
-                
-        if (c.size() != 0)
-        {
-            this.recursiveRevert();
-            ArenaActor other = (ArenaActor)c.get(0);
-            this.getState().collide(other.getState());
-            other.takeDamage(DAMAGE_VALUE);
-            ((Arena) this.getWorld()).removeObject(this);
-        }
+        other.takeDamage(DAMAGE_VALUE);
+        ((Arena) this.getWorld()).removeObject(this);
     }
-    */
     
     /**
      * Returns the current mass of this Projectile
