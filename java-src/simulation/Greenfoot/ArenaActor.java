@@ -80,10 +80,16 @@ abstract public class ArenaActor extends Actor
             this.recursiveRevert();
             ArenaActor other = (ArenaActor)c.get(0);
             this.getState().collide(other.getState());
+            this.processCollision(other);
             other.hasCollided.add(this);
         }
         this.hasCollided.clear();
         return;  
+    }
+    
+    public void processCollision(ArenaActor other)
+    {
+        
     }
     
     public List<ArenaActor> getIntersectingCollidables()
