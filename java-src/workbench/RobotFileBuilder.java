@@ -142,7 +142,7 @@ public class RobotFileBuilder
      */
     public void setCode(String code)
     {
-        assert code !=null && !code.equals("");
+        assert code != null && !code.equals("");
         this.robotFile.getElementsByTagName("Code").item(0).setTextContent(code);
         this.robotFile.write();
     }

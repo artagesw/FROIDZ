@@ -54,7 +54,7 @@ public class XMLFile implements Document //TODO: change to extending DocumentImp
     
     public boolean contains(String s)
     {
-        return false;    
+        return (this.getDocumentElement().getTextContent().contains(s));
     }
     
     public Node renameNode(Node n, String namespaceURI, String qualifiedName)
