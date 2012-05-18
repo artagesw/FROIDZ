@@ -20,7 +20,7 @@ public class BulletProjectile extends Projectile
      */
     public void processCollision(Actor other)
     {
-        if (other instanceof ArenaActor)
+        if (other instanceof RobotActor)
         {
             super.processCollision((ArenaActor)other);
         }

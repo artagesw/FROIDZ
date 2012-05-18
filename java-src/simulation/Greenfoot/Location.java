@@ -34,6 +34,19 @@ public class Location
         this.y = y;
     }
     
+    public double getAngleTowards(Location loc)
+    {
+        return this.getAngleTowards(loc.getX(), loc.getY());
+    }
+    
+    public double getAngleTowards(double x, double y)
+    {
+        double changeX = x - this.getX();
+        double changeY = y - this.getY();
+        
+        return (Math.atan(changeX / changeY) * (180 / Math.PI));
+    }
+    
     public double getX()
     {
         return this.x;

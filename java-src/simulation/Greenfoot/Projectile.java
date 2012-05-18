@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.util.List;
 
 /**
- * A genereric projectile
+ * A generic projectile - bounces off everything except Robots
  * 
  * @author Brendan Redmond
  * @version 0.2.0
@@ -58,7 +58,10 @@ public class Projectile extends ArenaActor
     public void processCollision(ArenaActor other)
     {
         other.takeDamage(DAMAGE_VALUE);
-        ((Arena) this.getWorld()).removeObject(this);
+        if (other instanceof RobotActor)
+        {
+            ((Arena) this.getWorld()).removeObject(this);
+        }
     }
     
     /**
