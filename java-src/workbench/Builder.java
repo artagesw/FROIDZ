@@ -13,9 +13,8 @@ import emulator.cpu.*;
  */
 public class Builder
 {
-    XMLFile playingRobots; //xml file containing the names of all playing robots
-    File usersDirectory; //our root directory, "users/"
-    File wallsDirectory;
+    private File usersDirectory; //our root directory, "users/"
+    private File wallsDirectory;
     /**
      * Constructor for the builder class, 
      * sets up root file directory, 
@@ -25,13 +24,6 @@ public class Builder
     {
         this.usersDirectory = new File("users");        
         this.wallsDirectory = new File("walls");
-        for (File f : this.usersDirectory.listFiles())
-        {
-            if (f.getName().equals("PlayingRobots.xml"))
-            {
-                this.playingRobots = new XMLFile(f);
-            }           
-        }
     }
     /*
     public ArrayList<Obstacle> getStationaryObstacles()
@@ -132,10 +124,11 @@ public class Builder
             int rotationalVelocity = Integer.valueOf(((Element)file).getElementsByTagName("RotationalVelocity").item(0).getTextContent());
             int speed = Integer.valueOf(((Element)file).getElementsByTagName("Speed").item(0).getTextContent());
             int rotation = Integer.valueOf(((Element)file).getElementsByTagName("Rotation").item(0).getTextContent());
-            obstacles.get(i).setRotationalVelocity(rotationalVelocity);
-            obstacles.get(i).setSpeed(speed);
-            obstacles.get(i).setRotation(rotation);
-            obstacles.get(i).setPath(vectorList);
+            MovingObstacle movO = obstacles.get(i);
+            movO.setRotationalVelocity(rotationalVelocity);
+            movO.setSpeed(speed);
+            movO.setRotation(rotation);
+            movO.setPath(vectorList);
         }
 
     }
@@ -149,18 +142,13 @@ public class Builder
     public ArrayList<Robot> getRobots()
     {
         ArrayList<Robot> robotList = new ArrayList<Robot>();
-        String listOfPlayingRobots  = this.playingRobots.getDocumentElement().getTextContent();
         for (File userDirectory : usersDirectory.listFiles(new FolderOnlyFilter()))
         {           
             System.out.println(userDirectory);
-            for (File userFile : userDirectory.listFiles())
-            {
-                if (!userFile.getName().equals("user.xml")  && !userFile.getName().contains(".tst") && listOfPlayingRobots.contains(userFile.getName()))
-                {
-                    robotList.add(buildRobot(new XMLFile(userFile)));
-                }
-            }
-            
+            for (File userFile : userDirectory.listFiles(new RobotFileFilter(new File(this.usersDirectory, "PlayingRobots.xml"))))
+            {          
+                robotList.add(buildRobot(new XMLFile(userFile)));                  
+            }            
         }
         return robotList;
     }
@@ -180,8 +168,8 @@ public class Builder
         
         //////////////////build/code cpu ////////////////
         String CPUName = robotFile.getDocumentElement().getElementsByTagName("CPU").item(0).getTextContent();
-        String codePath = (robotFile.toString().substring(0, (robotFile.toString().length()-4)) + ".tst");
-        robot.setCPU(this.buildCPU(CPUName, codePath));
+        String code = robotFile.getDocumentElement().getElementsByTagName("Code").item(0).getTextContent();
+        robot.setCPU(this.buildCPU(CPUName, code));
         /////////////////////////////////////////////////   
                         
         /////////////build and add parts/////////////////
@@ -202,12 +190,14 @@ public class Builder
      * @param codePath      path to assembled robot code
      * @return              completed CPU
      */
-    private FROIDZCPU buildCPU(String CPUName, String codePath)
+    private FROIDZCPU buildCPU(String CPUName, String code)
     {
         try 
         {
             Class c = Class.forName("emulator.cpu." + CPUName); 
-            FROIDZCPU cpu = (FROIDZCPU)c.getConstructor(new Class[]{String.class}).newInstance(codePath);
+           
+            FROIDZCPU cpu = (FROIDZCPU)c.newInstance();
+            cpu.loadString(code); //catch errors?
             return cpu;
         }
         catch(Exception e)
@@ -260,7 +250,6 @@ public class Builder
                     p.setDamageWeight(damageWeight);
                     partsList.add(p);
                 }
-
             }
             catch(Exception e)
             {

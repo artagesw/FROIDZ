@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.util.List;
 
 /**
- * A genereric projectile
+ * A generic projectile - bounces off everything except Robots
  * 
  * @author Brendan Redmond
  * @version 0.2.0
@@ -24,9 +24,6 @@ public class Projectile extends ArenaActor
     //standard size of projectiles
     private final int PROJECTILE_WIDTH = 10;
     private final int PROJECTILE_HEIGHT = 10;
-
-    //stores whether it's the first turn in order to properly set displacement vector and avoid errors
-    private boolean firstTurn;
     
     private Location location;
     
@@ -58,22 +55,14 @@ public class Projectile extends ArenaActor
     /**
      * Resolves collisions between this Projectile and any intersecting ArenaActors
      */
-    /*
-    protected void resolveCollisions()
+    public void processCollision(ArenaActor other)
     {
-
-        List<ArenaActor> c = getIntersectingCollidables();
-                
-        if (c.size() != 0)
+        other.takeDamage(DAMAGE_VALUE);
+        if (other instanceof RobotActor)
         {
-            this.recursiveRevert();
-            ArenaActor other = (ArenaActor)c.get(0);
-            this.getState().collide(other.getState());
-            other.takeDamage(DAMAGE_VALUE);
             ((Arena) this.getWorld()).removeObject(this);
         }
     }
-    */
     
     /**
      * Returns the current mass of this Projectile

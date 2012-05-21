@@ -1,4 +1,4 @@
- 
+
 
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.ArrayList;
@@ -53,7 +53,8 @@ public class Arena extends World
             //adds each robot to a random spawn location and removes that spawn location
             this.add(robotActor, startLocation);
             
-            robotActor.setRotation((int) (Math.random() * 360));
+            double startRotation = startLocation.getAngleTowards(WIDTH / 2, HEIGHT / 2);
+            robotActor.setRotation(startRotation + (Math.random() * 61 - 30));
             robotActor.setImage("images/TestBot.png");
             //robot.setExactRotation(robot.getAngleTowards((this.getWidth() / 2), (this.getHeight() / 2)));
         }
