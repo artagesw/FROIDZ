@@ -27,6 +27,7 @@ public class Part extends PinConnector<Byte> implements ISynchronousUSART
         this.damageWeight = 0;
         this.health = 100;
         this.serialPort = 0;
+        this.name = "Part";
     }
     
     /**
@@ -38,6 +39,11 @@ public class Part extends PinConnector<Byte> implements ISynchronousUSART
     {
         this.robot = robot;
         return this;
+    }
+    
+    public Robot getRobot()
+    {
+        return this.robot;
     }
 
     public int getDamageWeight()

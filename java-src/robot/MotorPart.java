@@ -18,6 +18,7 @@ public class MotorPart extends Part
     public MotorPart()
     {
         this.curSpeed = 0;
+        this.name = "MotorPart";
     }
     
     public int getMaxSpeed()

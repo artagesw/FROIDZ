@@ -16,10 +16,11 @@ public class Robot
     private ArrayList<Part> parts;
     private int maxDamageAllocationRange;
     private ArrayList<Integer> damageAllocationRanges;  // array of ranges of damage weights
-    private int health;                        // overall robot health
+    private int maxHealth;                        // sum of the starting health of all Parts
     private double speed;                      // current speed in meters/sec.
     private double rotationalVelocity;         // current rotational velocity in deg/sec
     private ArrayList<RobotAction> actionList;
+    private boolean cpuDead = false;    
 
     /**
      * Constructor for objects of class Robot
@@ -31,7 +32,6 @@ public class Robot
         this.parts = new ArrayList<Part>();
         this.damageAllocationRanges = new ArrayList<Integer>();
         this.maxDamageAllocationRange = 0;
-        this.health = 100;
         this.actionList = new ArrayList<RobotAction>();
     }
     
@@ -48,11 +48,23 @@ public class Robot
     public Robot setCPU(FROIDZCPU cpu)
     {
         this.cpu = cpu;
+        this.addPart(new CPUPart());
         return this;
     }
-    public FROIDZCPU cpu()
+ 
+    public FROIDZCPU getCPU()
     {
         return this.cpu;
+    }
+    
+    public void killCPU()
+    {
+        this.cpuDead = true;
+    }
+    
+    public void pokeCPU()
+    {
+        this.cpuDead = false;
     }
     
     public Robot addPart(Part part)
@@ -61,6 +73,7 @@ public class Robot
         this.parts.add(part);
         this.maxDamageAllocationRange += part.getDamageWeight();
         this.damageAllocationRanges.add(this.maxDamageAllocationRange);
+        this.maxHealth += part.getHealth();
         System.out.println("Connecting part to port #" + part.getSerialPort());
         this.cpu.connectToSerial(part, part.getSerialPort());
         return this;
@@ -86,6 +99,16 @@ public class Robot
         return this.rotationalVelocity;
     }
     
+    public double getHealth()
+    {
+        int currentHealth = 0;
+        for (Part p : parts)
+        {
+            currentHealth += p.getHealth();
+        }
+        return ((currentHealth / this.maxHealth) * 100);
+    }
+    
     public void inflictDamage (int damage)
     {
         // find the part onto which to inflict damage
@@ -97,6 +120,7 @@ public class Robot
             if (probability < this.damageAllocationRanges.get(i))
             {
                 this.parts.get(i).inflictDamage(damage);
+                System.out.println("Damage to " + this.parts.get(i).getName() + "Health remaining: " + this.parts.get(i).getHealth());
                 break;
             }
         }
@@ -116,7 +140,7 @@ public class Robot
     {
         this.actionList.clear();
  
-        if (this.health > 0)
+        if (!cpuDead)
         {
             this.cpu.act(timeInMS);
         

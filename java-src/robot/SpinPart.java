@@ -14,6 +14,7 @@ public class SpinPart extends Part
     public SpinPart()
     {
         this.curRotV = 0;
+        this.name = "SpinPart";
         System.out.println("CREATE SPINPART");
     }
     
