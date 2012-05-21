@@ -8,7 +8,7 @@
 	<Part>
 		<Class>MotorPart</Class>
 		<Name>Motor</Name>
-		<Port>3</Port>
+		<Port>1</Port>
 		<DamageWeight>30</DamageWeight> 
 	</Part>
 	<Part>
@@ -18,15 +18,9 @@
 		<DamageWeight>20</DamageWeight> 
 	</Part>
 	<Part>
-		<Class>ConsolePart</Class>
-		<Name>MotorConsole</Name>
-		<Port>0</Port>
-		<DamageWeight>0</DamageWeight> 
-	</Part>
-	<Part>
 		<Class>LauncherPart</Class>
 		<Name>Launcher</Name>
-		<Port>1</Port>
+		<Port>0</Port>
 		<Kind>1</Kind>
 		<Rounds>100</Rounds>
 		<Radius>3</Radius>
