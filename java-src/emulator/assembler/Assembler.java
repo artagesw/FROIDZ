@@ -57,10 +57,7 @@ public class Assembler
      */
     public Assembler(String path)
     {
-        this.defs = new Hashtable();
-        this.lines = new LinkedList();
-        
-        this.isRegister = Pattern.compile("R[0-9]*");
+        super();
         
         try
         {
@@ -75,6 +72,23 @@ public class Assembler
         {
             System.out.println("404 File Not Found: " + path);
         }
+    }
+        
+    /**
+     * Create an assembly parser given a path to an assembly file
+     * @param path The path to the file
+     */
+    public Assembler()
+    {
+        this.defs = new Hashtable();
+        this.lines = new LinkedList();
+        
+        this.isRegister = Pattern.compile("R[0-9]*");
+    }
+    
+    public void feedLines(List<String> lines)
+    {
+       this.lines = lines;
     }
 
     /**

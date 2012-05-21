@@ -29,6 +29,7 @@ public class AVRMemory extends Memory
     // Override methods ro react to different addresses being written to.
     public void writeIO(int addr, char data)
     {
+        System.out.println((int)addr);
         switch (addr)
         {
             case ToastyIO.UDR0:

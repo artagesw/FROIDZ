@@ -74,6 +74,7 @@ public class Memory
      */
     public void write(int addr, char data)
     {
+        System.out.println(addr);
         if (addr < this.registers.length)
         {
             this.registers[addr] = data;
